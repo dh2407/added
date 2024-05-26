@@ -1,9 +1,9 @@
 import 'package:added/app/data/models/models.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
 class SubjectService {
-  static Future<Subject?> fetchSubjectById(String id) async {
-    var box = await Hive.openBox<Subject>('subjects');
-    return box.values.firstWhere((subject) => subject.id == id);
+  Future<List<Subject>> getSubjects() async {
+    var subjectBox = await Hive.openBox<Subject>('subjects');
+    return subjectBox.values.toList();
   }
 }

@@ -1,18 +1,20 @@
 import 'package:get/get.dart';
 
-import '../modules/flash_card/bindings/flash_card_binding.dart';
-import '../modules/flash_card/views/flash_card_view.dart';
+import '../modules/flashcards/bindings/flashcards_binding.dart';
+import '../modules/flashcards/views/flashcards_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/sub_subject/bindings/sub_subject_binding.dart';
-import '../modules/sub_subject/views/sub_subject_view.dart';
+import '../modules/subSubjects/bindings/sub_subjects_binding.dart';
+import '../modules/subSubjects/views/sub_subjects_view.dart';
+import '../modules/subjects/bindings/subjects_binding.dart';
+import '../modules/subjects/views/subjects_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SUB_SUBJECT;
+  static const INITIAL = Routes.SUBJECTS;
 
   static final routes = [
     GetPage(
@@ -21,14 +23,19 @@ class AppPages {
       binding: HomeBinding(),
     ),
     GetPage(
-      name: _Paths.SUB_SUBJECT,
-      page: () => const SubSubjectView(),
-      binding: SubSubjectBinding(),
+      name: _Paths.SUBJECTS,
+      page: () => const SubjectsView(),
+      binding: SubjectsBinding(),
     ),
     GetPage(
-      name: _Paths.FLASH_CARD,
-      page: () => const FlashCardView(),
-      binding: FlashCardBinding(),
+      name: _Paths.SUB_SUBJECTS,
+      page: () => const SubSubjectsView(),
+      binding: SubSubjectsBinding(),
+    ),
+    GetPage(
+      name: _Paths.FLASHCARDS,
+      page: () => const FlashcardsView(),
+      binding: FlashcardsBinding(),
     ),
   ];
 }

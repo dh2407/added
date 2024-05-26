@@ -13,20 +13,47 @@ void main() async {
 
   await Hive.initFlutter();
 
+  // Register the Hive adapters
   Hive.registerAdapter(SubjectAdapter());
   Hive.registerAdapter(SubSubjectAdapter());
   Hive.registerAdapter(FlashCardAdapter());
 
-  bool isFirstOpen = await checkFirstOpen();
+  // Open the boxes
+  var subjectBox = await Hive.openBox<Subject>('subjects');
+  var subSubjectBox = await Hive.openBox<SubSubject>('subsubjects');
+  var flashCardBox = await Hive.openBox<FlashCard>('flashcards');
 
-  if (isFirstOpen) {
-    print('here');
-    await initHiveData();
-    await markFirstOpen();
+  // Seed the database if the boxes are empty
+  if (subjectBox.isEmpty) {
+    List<Subject> subjects = createInitialSubjects();
+
+    for (Subject subject in subjects) {
+      // Add subjects to the Hive box
+      await subjectBox.put(subject.uname, subject);
+
+      // Create subsubjects for each subject
+      List<SubSubject> subSubjects = createSubSubjects(subject);
+      for (SubSubject subSubject in subSubjects) {
+        // Add subsubjects to the Hive box
+        await subSubjectBox.put(subSubject.uname, subSubject);
+
+        // Create flashcards for each subsubject
+        List<FlashCard> flashCards = createFlashCards(subSubject);
+        for (FlashCard flashCard in flashCards) {
+          // Add flashcards to the Hive box
+          await flashCardBox.put(flashCard.uname, flashCard);
+        }
+      }
+    }
   }
 
-  runApp(
-    GetMaterialApp(
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
       title: "عداد",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
@@ -40,16 +67,6 @@ void main() async {
         Locale("ar", "AE"),
       ],
       locale: const Locale("ar", "AE"),
-    ),
-  );
-}
-
-Future<bool> checkFirstOpen() async {
-  var box = await Hive.openBox('settings');
-  return !box.containsKey('firstOpen');
-}
-
-Future<void> markFirstOpen() async {
-  var box = await Hive.openBox('settings');
-  await box.put('firstOpen', true);
+    );
+  }
 }

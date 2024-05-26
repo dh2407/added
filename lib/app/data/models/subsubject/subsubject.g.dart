@@ -1,35 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'subject_model.dart';
+part of 'subsubject.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SubjectAdapter extends TypeAdapter<Subject> {
+class SubSubjectAdapter extends TypeAdapter<SubSubject> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  Subject read(BinaryReader reader) {
+  SubSubject read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Subject(
-      id: fields[0] as String,
+    return SubSubject(
+      uname: fields[0] as String,
       title: fields[1] as String,
+      subject: fields[2] as Subject,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Subject obj) {
+  void write(BinaryWriter writer, SubSubject obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.id)
+      ..write(obj.uname)
       ..writeByte(1)
-      ..write(obj.title);
+      ..write(obj.title)
+      ..writeByte(2)
+      ..write(obj.subject);
   }
 
   @override
@@ -38,7 +41,7 @@ class SubjectAdapter extends TypeAdapter<Subject> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SubjectAdapter &&
+      other is SubSubjectAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

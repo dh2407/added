@@ -1,23 +1,35 @@
+import 'package:added/app/services/services.dart';
 import 'package:get/get.dart';
+import 'package:added/app/data/models/models.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  var subjects = <Subject>[].obs;
+  var subSubjects = <SubSubject>[].obs;
+  var flashCards = <FlashCard>[].obs;
 
-  final count = 0.obs;
+  final SubjectService _subjectService = SubjectService();
+  final SubSubjectService _subSubjectService = SubSubjectService();
+  final FlashCardService _flashCardService = FlashCardService();
+
   @override
   void onInit() {
     super.onInit();
+    fetchSubjects();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void fetchSubjects() async {
+    subjects.value = await _subjectService.getSubjects();
+    await fetchSubSubjectsAndFlashCards();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  Future<void> fetchSubSubjectsAndFlashCards() async {
+    for (Subject subject in subjects) {
+      var fetchedSubSubjects = await _subSubjectService.getSubSubjects(subject.uname);
+      subSubjects.addAll(fetchedSubSubjects);
+      for (SubSubject subSubject in fetchedSubSubjects) {
+        var fetchedFlashCards = await _flashCardService.getFlashCards(subSubject.uname);
+        flashCards.addAll(fetchedFlashCards);
+      }
+    }
   }
-
-  void increment() => count.value++;
 }

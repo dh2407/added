@@ -1,3 +1,3 @@
-export 'flash_card_service.dart';
+export 'flashcard_service.dart';
 export 'subject_service.dart';
-export 'sub_subject_service.dart';
+export 'subSubject_service.dart';
