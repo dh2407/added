@@ -17,6 +17,8 @@ class FlashcardsController extends GetxController {
   Rx<int> timerValue = 0.obs;
 
   Timer? _timer;
+  int get timeoutValue => 10;
+  Duration get resultDuration => const Duration(seconds: 1);
 
   @override
   void onInit() {
@@ -41,7 +43,7 @@ class FlashcardsController extends GetxController {
 
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (timerValue.value < 5) {
+      if (timerValue.value < timeoutValue) {
         timerValue.value++;
       } else {
         flashCardLost.value = true;
@@ -56,7 +58,7 @@ class FlashcardsController extends GetxController {
   }
 
   void getNextFlashCard() {
-    Timer(const Duration(seconds: 2), () {
+    Timer(this.resultDuration, () {
       if (flashcards.isNotEmpty) {
         flashCardLost.value = false;
         flashCardWon.value = false;
@@ -64,7 +66,7 @@ class FlashcardsController extends GetxController {
         currentAttempt.value = "";
         flashcards.removeAt(0);
         currentFlashcard.value =
-        flashcards.isNotEmpty ? flashcards.first : null;
+            flashcards.isNotEmpty ? flashcards.first : null;
         timerValue.value = 0;
         startTimer();
       }

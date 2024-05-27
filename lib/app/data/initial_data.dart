@@ -39,17 +39,18 @@ List<FlashCard> createFlashCards(SubSubject subSubject) {
         response = (int.parse(subSubject.uname.split('_')[0]) + i).toString();
         break;
       case 'minus':
-        question = '${subSubject.uname.split('_')[0]} - $i =';
-        response = (int.parse(subSubject.uname.split('_')[0]) - i).toString();
+        question =
+            '${(int.parse(subSubject.uname.split('_')[0]) + i)} - ${subSubject.uname.split('_')[0]} =';
+        response = (i).toString();
         break;
       case 'multiply':
         question = '${subSubject.uname.split('_')[0]} × $i =';
         response = (int.parse(subSubject.uname.split('_')[0]) * i).toString();
         break;
       case 'divide':
-        question = '${subSubject.uname.split('_')[0]} ÷ $i =';
-        response =
-            (int.parse(subSubject.uname.split('_')[0]) / i).toStringAsFixed(2);
+        question =
+            '${(int.parse(subSubject.uname.split('_')[0]) * i)} ÷ ${subSubject.uname.split('_')[0]} =';
+        response = (i).toString();
         break;
       default:
         question = '';

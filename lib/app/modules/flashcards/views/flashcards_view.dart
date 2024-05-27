@@ -330,7 +330,7 @@ class TimerSection extends StatelessWidget {
         child: Column(
           children: [
             LinearProgressIndicator(
-              value: controller.timerValue.value / 5,
+              value: controller.timerValue.value / controller.timeoutValue,
               minHeight: 20,
               borderRadius: const BorderRadius.all(Radius.circular(5)),
               backgroundColor: Colors.grey,

@@ -24,25 +24,27 @@ void main() async {
   var flashCardBox = await Hive.openBox<FlashCard>('flashcards');
 
   // Seed the database if the boxes are empty
-  if (subjectBox.isEmpty) {
-    List<Subject> subjects = createInitialSubjects();
+  await subjectBox.clear();
+  await subSubjectBox.clear();
+  await flashCardBox.clear();
 
-    for (Subject subject in subjects) {
-      // Add subjects to the Hive box
-      await subjectBox.put(subject.uname, subject);
+  List<Subject> subjects = createInitialSubjects();
 
-      // Create subsubjects for each subject
-      List<SubSubject> subSubjects = createSubSubjects(subject);
-      for (SubSubject subSubject in subSubjects) {
-        // Add subsubjects to the Hive box
-        await subSubjectBox.put(subSubject.uname, subSubject);
+  for (Subject subject in subjects) {
+    // Add subjects to the Hive box
+    await subjectBox.put(subject.uname, subject);
 
-        // Create flashcards for each subsubject
-        List<FlashCard> flashCards = createFlashCards(subSubject);
-        for (FlashCard flashCard in flashCards) {
-          // Add flashcards to the Hive box
-          await flashCardBox.put(flashCard.uname, flashCard);
-        }
+    // Create subsubjects for each subject
+    List<SubSubject> subSubjects = createSubSubjects(subject);
+    for (SubSubject subSubject in subSubjects) {
+      // Add subsubjects to the Hive box
+      await subSubjectBox.put(subSubject.uname, subSubject);
+
+      // Create flashcards for each subsubject
+      List<FlashCard> flashCards = createFlashCards(subSubject);
+      for (FlashCard flashCard in flashCards) {
+        // Add flashcards to the Hive box
+        await flashCardBox.put(flashCard.uname, flashCard);
       }
     }
   }
