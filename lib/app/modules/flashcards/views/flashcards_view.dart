@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -69,131 +68,131 @@ class KeyboardSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 80.0,
-                height: 80.0,
-                child: ElevatedButton(
-                  onPressed: () => onKeyPressed('0'),
-                  child: const Text('0'),
-                ),
-              ),
-              SizedBox(
-                width: 80.0,
-                height: 80.0,
-                child: ElevatedButton(
-                  onPressed: () => onKeyPressed('validate'),
-                  child: const Icon(Icons.check),
-                ),
-              ),
-              SizedBox(
-                width: 80.0,
-                height: 80.0,
-                child: ElevatedButton(
-                  onPressed: () => onKeyPressed('clear'),
-                  child: const Icon(Icons.close),
-                ),
-              )
-            ].reversed.toList(),
-          ),
-          const SizedBox(height: 10),
           Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('3'),
                       child: const Text('3'),
                     ),
                   ),
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('2'),
                       child: const Text('2'),
                     ),
                   ),
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('1'),
                       child: const Text('1'),
                     ),
                   ),
-                ].reversed.toList(),
+                ].toList(),
               ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('6'),
                       child: const Text('6'),
                     ),
                   ),
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('5'),
                       child: const Text('5'),
                     ),
                   ),
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('4'),
                       child: const Text('4'),
                     ),
                   ),
-                ].reversed.toList(),
+                ].toList(),
               ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('9'),
                       child: const Text('9'),
                     ),
                   ),
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('8'),
                       child: const Text('8'),
                     ),
                   ),
                   SizedBox(
-                    width: 80.0,
-                    height: 80.0,
+                    width: 70.0,
+                    height: 70.0,
                     child: ElevatedButton(
                       onPressed: () => onKeyPressed('7'),
                       child: const Text('7'),
                     ),
                   ),
-                ].reversed.toList(),
+                ].toList(),
               ),
             ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 70.0,
+                height: 70.0,
+                child: ElevatedButton(
+                  onPressed: () => onKeyPressed('validate'),
+                  child: const Icon(Icons.check),
+                ),
+              ),
+              SizedBox(
+                width: 70.0,
+                height: 70.0,
+                child: ElevatedButton(
+                  onPressed: () => onKeyPressed('0'),
+                  child: const Text('0'),
+                ),
+              ),
+              SizedBox(
+                width: 70.0,
+                height: 70.0,
+                child: ElevatedButton(
+                  onPressed: () => onKeyPressed('clear'),
+                  child: const Icon(Icons.close),
+                ),
+              )
+            ].toList(),
           ),
         ],
       ),
@@ -275,7 +274,7 @@ class QuestionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(color: Colors.grey),
@@ -285,24 +284,24 @@ class QuestionSection extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 1.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              height: 100,
+              height: 64,
               child: Center(
                 child: Text(
                   question,
                   style: const TextStyle(
-                      fontSize: 64.0, fontWeight: FontWeight.bold),
+                      fontSize: 32.0, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
           ),
           const SizedBox(width: 10),
           Container(
-            width: 100,
-            height: 100,
+            width: 64,
+            height: 64,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 border: Border.all(color: Colors.grey),
@@ -311,7 +310,7 @@ class QuestionSection extends StatelessWidget {
                 child: Text(
               showResponse ? response : "",
               style:
-                  const TextStyle(fontSize: 52.0, fontWeight: FontWeight.bold),
+                  const TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
             )),
           ),
         ],

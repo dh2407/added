@@ -1,5 +1,3 @@
-
-
 // Function to create initial subjects
 import 'package:added/app/data/models/models.dart';
 
@@ -7,8 +5,8 @@ List<Subject> createInitialSubjects() {
   return [
     Subject(uname: 'plus', title: '+'),
     Subject(uname: 'minus', title: '-'),
-    Subject(uname: 'multiply', title: '*'),
-    Subject(uname: 'divide', title: '/'),
+    Subject(uname: 'multiply', title: 'x'),
+    Subject(uname: 'divide', title: '÷'),
   ];
 }
 
@@ -19,7 +17,8 @@ List<SubSubject> createSubSubjects(Subject subject) {
     subSubjects.add(
       SubSubject(
         uname: '${i}_${subject.uname}',
-        title: '$i${subject.uname == 'plus' ? '+' : subject.uname == 'minus' ? '-' : subject.uname == 'multiply' ? '×' : '÷'}',
+        title:
+            '$i${subject.uname == 'plus' ? '+' : subject.uname == 'minus' ? '-' : subject.uname == 'multiply' ? '×' : '÷'}',
         subject: subject,
       ),
     );
@@ -36,20 +35,21 @@ List<FlashCard> createFlashCards(SubSubject subSubject) {
 
     switch (subSubject.subject.uname) {
       case 'plus':
-        question = '= ${subSubject.uname.split('_')[0]} + $i';
+        question = '${subSubject.uname.split('_')[0]} + $i =';
         response = (int.parse(subSubject.uname.split('_')[0]) + i).toString();
         break;
       case 'minus':
-        question = '= ${subSubject.uname.split('_')[0]} - $i';
+        question = '${subSubject.uname.split('_')[0]} - $i =';
         response = (int.parse(subSubject.uname.split('_')[0]) - i).toString();
         break;
       case 'multiply':
-        question = '= ${subSubject.uname.split('_')[0]} × $i';
+        question = '${subSubject.uname.split('_')[0]} × $i =';
         response = (int.parse(subSubject.uname.split('_')[0]) * i).toString();
         break;
       case 'divide':
-        question = '= ${subSubject.uname.split('_')[0]} ÷ $i';
-        response = (int.parse(subSubject.uname.split('_')[0]) / i).toStringAsFixed(2);
+        question = '${subSubject.uname.split('_')[0]} ÷ $i =';
+        response =
+            (int.parse(subSubject.uname.split('_')[0]) / i).toStringAsFixed(2);
         break;
       default:
         question = '';
@@ -80,7 +80,8 @@ void main() {
 
       // Print flashcards for demonstration purposes
       for (FlashCard flashCard in flashCards) {
-        print('FlashCard Uname: ${flashCard.uname}, Question: ${flashCard.question}, Response: ${flashCard.response}');
+        print(
+            'FlashCard Uname: ${flashCard.uname}, Question: ${flashCard.question}, Response: ${flashCard.response}');
       }
     }
   }
