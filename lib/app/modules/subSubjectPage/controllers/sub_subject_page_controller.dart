@@ -1,12 +1,25 @@
+import 'package:added/app/data/models/models.dart';
+import 'package:added/app/services/services.dart';
 import 'package:get/get.dart';
 
 class SubSubjectPageController extends GetxController {
-  //TODO: Implement SubSubjectPageController
+  late Subject subject;
+  RxList<SubSubject> subSubjects = <SubSubject>[].obs;
+  final SubSubjectService _subSubjectService = SubSubjectService();
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    subject = Get.arguments as Subject;
+    fetchSubSubjects();
+  }
+
+  void fetchSubSubjects() async {
+    try {
+      subSubjects.value = await _subSubjectService.getSubSubjects(subject.uname);
+    } catch (e) {
+      print('Error fetching subsubjects: $e');
+    }
   }
 
   @override
@@ -19,5 +32,4 @@ class SubSubjectPageController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
 }

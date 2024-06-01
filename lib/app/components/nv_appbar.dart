@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class NvAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showCloseBtn;
@@ -16,6 +17,7 @@ class NvAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: 92,
       backgroundColor: const Color(0xFFF5F6FB),
+      automaticallyImplyLeading: false,
       actions: [
         if (showCloseBtn)
           Container(
@@ -42,7 +44,9 @@ class NvAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Icons.close,
                 color: Color(0xFF676CAC),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Get.back();
+              },
             ),
           ),
       ],

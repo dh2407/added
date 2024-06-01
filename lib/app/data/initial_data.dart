@@ -18,12 +18,28 @@ List<SubSubject> createSubSubjects(Subject subject) {
       SubSubject(
         uname: '${i}_${subject.uname}',
         title:
-            '$i${subject.uname == 'plus' ? '+' : subject.uname == 'minus' ? '-' : subject.uname == 'multiply' ? '×' : '÷'}',
+            getSubSubjectTitle(i, subject),
         subject: subject,
       ),
     );
   }
   return subSubjects;
+}
+
+String getSubSubjectTitle(int i, Subject subject) {
+  if (subject.uname == 'minus') {
+    return '- $i';
+  }
+  if (subject.uname == 'divide') {
+    return '÷ $i';
+  }
+  if (subject.uname == 'plus') {
+    return '$i +';
+  }
+  if (subject.uname == 'multiply') {
+    return '$i ×';
+  }
+  return "";
 }
 
 // Function to create flashcards for a given subsubject
