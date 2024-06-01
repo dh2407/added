@@ -3,10 +3,10 @@ import 'package:added/app/data/models/models.dart';
 
 List<Subject> createInitialSubjects() {
   return [
-    Subject(uname: 'plus', title: '+'),
-    Subject(uname: 'minus', title: '-'),
-    Subject(uname: 'multiply', title: 'x'),
-    Subject(uname: 'divide', title: '÷'),
+    Subject(uname: 'plus', title: 'الجمع +'),
+    Subject(uname: 'minus', title: 'الطرح -'),
+    Subject(uname: 'multiply', title: 'الضرب ×'),
+    Subject(uname: 'divide', title: 'القسمة ÷'),
   ];
 }
 

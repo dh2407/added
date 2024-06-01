@@ -4,9 +4,12 @@ import '../modules/flashcards/bindings/flashcards_binding.dart';
 import '../modules/flashcards/views/flashcards_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/nv/main.dart';
+import '../modules/subSubjectPage/bindings/sub_subject_page_binding.dart';
+import '../modules/subSubjectPage/views/sub_subject_page_view.dart';
 import '../modules/subSubjects/bindings/sub_subjects_binding.dart';
 import '../modules/subSubjects/views/sub_subjects_view.dart';
+import '../modules/subjectPage/bindings/subject_page_binding.dart';
+import '../modules/subjectPage/views/subject_page_view.dart';
 import '../modules/subjects/bindings/subjects_binding.dart';
 import '../modules/subjects/views/subjects_view.dart';
 
@@ -15,7 +18,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SUBJECTS;
+  static const INITIAL = Routes.SUBJECT_PAGE;
 
   static final routes = [
     GetPage(
@@ -39,8 +42,14 @@ class AppPages {
       binding: FlashcardsBinding(),
     ),
     GetPage(
-      name: _Paths.FC_MULTIPLAY,
-      page: () => const FCMultiplay(),
+      name: _Paths.SUBJECT_PAGE,
+      page: () => const SubjectPageView(),
+      binding: SubjectPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.SUB_SUBJECT_PAGE,
+      page: () => const SubSubjectPageView(),
+      binding: SubSubjectPageBinding(),
     ),
   ];
 }
