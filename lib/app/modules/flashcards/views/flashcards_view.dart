@@ -1,3 +1,4 @@
+import 'package:added/app/services/sounds_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ class FlashcardsView extends GetView<FlashcardsController> {
 
   @override
   Widget build(BuildContext context) {
+    final SoundService soundService = SoundService();
     return Scaffold(
       appBar: AppBar(
         title: const Text('ورقة اللعب'),
@@ -40,12 +42,15 @@ class FlashcardsView extends GetView<FlashcardsController> {
                     onKeyPressed: (key) {
                       if (!controller.flashCardWon.value &&
                           !controller.flashCardLost.value) {
-                        if (key == 'clear')
+                        if (key == 'clear') {
+                          soundService.playKsek();
                           controller.onKeyboardClearClicked();
-                        else if (key == 'validate')
+                        } else if (key == 'validate') {
                           controller.onKeyboardValidateClicked();
-                        else
+                        } else {
+                          soundService.playBlo9();
                           controller.onKeyboardButtonClicked(key);
+                        }
                       }
                     },
                   ),

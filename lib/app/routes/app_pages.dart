@@ -4,6 +4,7 @@ import '../modules/flashcards/bindings/flashcards_binding.dart';
 import '../modules/flashcards/views/flashcards_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/nv/main.dart';
 import '../modules/subSubjects/bindings/sub_subjects_binding.dart';
 import '../modules/subSubjects/views/sub_subjects_view.dart';
 import '../modules/subjects/bindings/subjects_binding.dart';
@@ -36,6 +37,10 @@ class AppPages {
       name: _Paths.FLASHCARDS,
       page: () => const FlashcardsView(),
       binding: FlashcardsBinding(),
+    ),
+    GetPage(
+      name: _Paths.FC_MULTIPLAY,
+      page: () => const FCMultiplay(),
     ),
   ];
 }

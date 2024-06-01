@@ -7,6 +7,7 @@ abstract class Routes {
   static const SUBJECTS = _Paths.SUBJECTS;
   static const SUB_SUBJECTS = _Paths.SUB_SUBJECTS;
   static const FLASHCARDS = _Paths.FLASHCARDS;
+  static const FC_MULTIPLAY = _Paths.FC_MULTIPLAY;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const SUBJECTS = '/subjects';
   static const SUB_SUBJECTS = '/sub-subjects';
   static const FLASHCARDS = '/flashcards';
+  static const FC_MULTIPLAY = '/fc-multiplay';
 }

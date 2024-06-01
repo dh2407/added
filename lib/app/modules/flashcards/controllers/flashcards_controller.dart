@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:added/app/data/models/models.dart';
 import 'package:added/app/services/services.dart';
-import 'package:flutter/material.dart';
+import 'package:added/app/services/sounds_service.dart';
 import 'package:get/get.dart';
 
 class FlashcardsController extends GetxController {
@@ -15,6 +15,7 @@ class FlashcardsController extends GetxController {
   RxBool flashCardWon = false.obs;
   RxBool flashCardLost = false.obs;
   Rx<int> timerValue = 0.obs;
+  final SoundService soundService = SoundService();
 
   Timer? _timer;
   int get timeoutValue => 10;
@@ -88,8 +89,10 @@ class FlashcardsController extends GetxController {
       if (currentAttempt.value == correctAnswer) {
         flashCardWon.value = true;
         stopTimer();
+        soundService.playTess();
         getNextFlashCard();
       } else {
+        soundService.playDodov();
         wrongAttempts.add(currentAttempt.value);
         if (wrongAttempts.length >= 3) {
           flashCardLost.value = true;
