@@ -20,9 +20,9 @@ class SubSubjectPageView extends GetView<SubSubjectPageController> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SubjectSummary(
-              title: 'العمليات الحسابيّة',
-              description: 'إختر نوع العملية الحسابية التي تود التدرب عليها'),
+          SubjectSummary(
+              title: 'جــدول ${controller.subject.title.substring(0, controller.subject.title.length - 1)}',
+              description: 'اختر المستوى لتبدأ في حل 9 عمليّات. لديك 10 ثوانٍ لكل عملية لتجيب بشكل صحيح.'),
           Expanded(
             child: Obx(() {
               return GridView.count(
@@ -38,7 +38,7 @@ class SubSubjectPageView extends GetView<SubSubjectPageController> {
                     return NvSubSubjectButton(
                       text: subSubject.title,
                       onTap: () {
-                        Get.toNamed(Routes.FLASHCARDS, arguments: subSubject);
+                        Get.toNamed(Routes.QUESTION_PAGE, arguments: subSubject);
                       },
                     );
                   },

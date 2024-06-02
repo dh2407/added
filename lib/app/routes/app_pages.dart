@@ -4,6 +4,8 @@ import '../modules/flashcards/bindings/flashcards_binding.dart';
 import '../modules/flashcards/views/flashcards_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/questionPage/bindings/question_page_binding.dart';
+import '../modules/questionPage/views/question_page_view.dart';
 import '../modules/subSubjectPage/bindings/sub_subject_page_binding.dart';
 import '../modules/subSubjectPage/views/sub_subject_page_view.dart';
 import '../modules/subSubjects/bindings/sub_subjects_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.SUB_SUBJECT_PAGE,
       page: () => const SubSubjectPageView(),
       binding: SubSubjectPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.QUESTION_PAGE,
+      page: () => const QuestionPageView(),
+      binding: QuestionPageBinding(),
     ),
   ];
 }

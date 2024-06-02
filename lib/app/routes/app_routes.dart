@@ -10,6 +10,8 @@ abstract class Routes {
   static const FC_MULTIPLAY = _Paths.FC_MULTIPLAY;
   static const SUBJECT_PAGE = _Paths.SUBJECT_PAGE;
   static const SUB_SUBJECT_PAGE = _Paths.SUB_SUBJECT_PAGE;
+  static const FLASHCARD_PAGE = _Paths.FLASHCARD_PAGE;
+  static const QUESTION_PAGE = _Paths.QUESTION_PAGE;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const FC_MULTIPLAY = '/fc-multiplay';
   static const SUBJECT_PAGE = '/subject-page';
   static const SUB_SUBJECT_PAGE = '/sub-subject-page';
+  static const FLASHCARD_PAGE = '/flashcard-page';
+  static const QUESTION_PAGE = '/question-page';
 }

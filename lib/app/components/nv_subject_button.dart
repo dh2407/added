@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class NvSubSubjectButton extends StatefulWidget {
   final String text;
   final VoidCallback onTap;
+  final Color textColor;
 
-  const NvSubSubjectButton({required this.text, Key? key, required this.onTap}) : super(key: key);
+  const NvSubSubjectButton({
+    required this.text,
+    Key? key,
+    required this.onTap,
+    this.textColor = const Color(0xFF676CAC),
+  }) : super(key: key);
 
   @override
   _NvSubSubjectButtonState createState() => _NvSubSubjectButtonState();
@@ -52,8 +58,8 @@ class _NvSubSubjectButtonState extends State<NvSubSubjectButton> {
             padding: const EdgeInsets.symmetric(vertical: 14.0),
             child: Text(
               widget.text,
-              style: const TextStyle(
-                color: Color(0xFF676CAC),
+              style: TextStyle(
+                color: widget.textColor,
                 fontSize: 28,
               ),
             ),

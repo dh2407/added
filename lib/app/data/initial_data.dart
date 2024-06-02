@@ -51,21 +51,21 @@ List<FlashCard> createFlashCards(SubSubject subSubject) {
 
     switch (subSubject.subject.uname) {
       case 'plus':
-        question = '${subSubject.uname.split('_')[0]} + $i =';
+        question = '${subSubject.uname.split('_')[0]} + $i';
         response = (int.parse(subSubject.uname.split('_')[0]) + i).toString();
         break;
       case 'minus':
         question =
-            '${(int.parse(subSubject.uname.split('_')[0]) + i)} - ${subSubject.uname.split('_')[0]} =';
+            '${(int.parse(subSubject.uname.split('_')[0]) + i)} - ${subSubject.uname.split('_')[0]}';
         response = (i).toString();
         break;
       case 'multiply':
-        question = '${subSubject.uname.split('_')[0]} × $i =';
+        question = '${subSubject.uname.split('_')[0]} × $i';
         response = (int.parse(subSubject.uname.split('_')[0]) * i).toString();
         break;
       case 'divide':
         question =
-            '${(int.parse(subSubject.uname.split('_')[0]) * i)} ÷ ${subSubject.uname.split('_')[0]} =';
+            '${(int.parse(subSubject.uname.split('_')[0]) * i)} ÷ ${subSubject.uname.split('_')[0]}';
         response = (i).toString();
         break;
       default:

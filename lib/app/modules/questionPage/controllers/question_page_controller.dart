@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:added/app/data/models/models.dart';
+import 'package:added/app/data/models/flashcard/flashcard.dart';
+import 'package:added/app/data/models/subsubject/subsubject.dart';
 import 'package:added/app/services/services.dart';
 import 'package:added/app/services/sounds_service.dart';
 import 'package:get/get.dart';
 
-class FlashcardsController extends GetxController {
+class QuestionPageController extends GetxController {
   late SubSubject subSubject;
   RxList<FlashCard> flashcards = <FlashCard>[].obs;
   late Rx<FlashCard?> currentFlashcard;
@@ -16,6 +17,8 @@ class FlashcardsController extends GetxController {
   RxBool flashCardLost = false.obs;
   Rx<int> timerValue = 0.obs;
   final SoundService soundService = SoundService();
+  RxBool currentAttemptWrong = false.obs;
+  RxBool completedAllFlashCards = false.obs;
 
   Timer? _timer;
   int get timeoutValue => 10;
@@ -49,6 +52,7 @@ class FlashcardsController extends GetxController {
       } else {
         flashCardLost.value = true;
         getNextFlashCard();
+        soundService.playDodov();
         _timer?.cancel();
       }
     });
@@ -61,6 +65,7 @@ class FlashcardsController extends GetxController {
   void getNextFlashCard() {
     Timer(this.resultDuration, () {
       if (flashcards.isNotEmpty) {
+        currentAttemptWrong.value = false;
         flashCardLost.value = false;
         flashCardWon.value = false;
         wrongAttempts.value = [];
@@ -68,17 +73,32 @@ class FlashcardsController extends GetxController {
         flashcards.removeAt(0);
         currentFlashcard.value =
             flashcards.isNotEmpty ? flashcards.first : null;
-        timerValue.value = 0;
-        startTimer();
+        if (flashcards.isEmpty) {
+          completedAllFlashCards.value = true;
+          timerValue.value = 0;
+          stopTimer();
+        } else {
+          timerValue.value = 0;
+          startTimer();
+        }
       }
     });
   }
 
   void onKeyboardButtonClicked(String value) {
-    if (!flashCardWon.value &&
-        !flashCardLost.value &&
-        currentAttempt.value.length < 3) {
+    if (!flashCardWon.value && !flashCardLost.value) {
       currentAttempt.value += value;
+    }
+    if (currentAttempt.value == currentFlashcard.value?.response) {
+      flashCardWon.value = true;
+      stopTimer();
+      soundService.playCoin();
+      getNextFlashCard();
+      return;
+    }
+    if (currentFlashcard.value != null &&
+        !currentFlashcard.value!.response.startsWith(currentAttempt.value)) {
+      currentAttemptWrong.value = true;
     }
   }
 
@@ -107,6 +127,7 @@ class FlashcardsController extends GetxController {
   void onKeyboardClearClicked() {
     if (!flashCardWon.value && !flashCardLost.value) {
       currentAttempt.value = '';
+      currentAttemptWrong.value = false;
     }
   }
 

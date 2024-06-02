@@ -20,9 +20,9 @@ class SoundService {
     await _audioPlayer.play(AssetSource('ksek.wav'));
   }
 
-  Future<void> playTess() async {
+  Future<void> playCoin() async {
     await _audioPlayer.stop();
-    await _audioPlayer.play(AssetSource('tess.wav'));
+    await _audioPlayer.play(AssetSource('coin.wav'));
   }
 
   void dispose() {
