@@ -10,19 +10,19 @@ class NvAppBar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => const Size.fromHeight(92);
+  Size get preferredSize => const Size.fromHeight(60);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 92,
+      toolbarHeight: 60,
       backgroundColor: const Color(0xFFF5F6FB),
       automaticallyImplyLeading: false,
       actions: [
         if (showCloseBtn)
           Container(
-            width: 48,
-            height: 48,
+            width: 40,
+            height: 40,
             margin: const EdgeInsets.only(left: 16),
             clipBehavior: Clip.antiAlias,
             decoration: ShapeDecoration(

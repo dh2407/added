@@ -18,7 +18,9 @@ class SubjectPageView extends GetView<SubjectPageController> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SubjectSummary(title: 'العمليات الحسابيّة', description: 'إختر نوع العملية الحسابية التي تود التدرب عليها'),
+          const SubjectSummary(
+              title: 'العمليات الحسابيّة',
+              description: 'إختر نوع العملية الحسابية التي تود التدرب عليها'),
           Expanded(
             child: Obx(
               () {
@@ -28,7 +30,7 @@ class SubjectPageView extends GetView<SubjectPageController> {
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: controller.subjects.map((subject) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: NvSubSubjectButton(
                           text: subject.title,
                           onTap: () {

@@ -43,9 +43,9 @@ class QuestionPageView extends GetView<QuestionPageController> {
                 children: [
                   Obx(() {
                     if (controller.completedAllFlashCards.value == true) {
-                      return Column(
+                      return const Column(
                         children: [
-                          const Text(
+                          Text(
                             "عمل رائع \n أحسنت ",
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -56,27 +56,27 @@ class QuestionPageView extends GetView<QuestionPageController> {
                               height: 0,
                             ),
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Color(0xFF676CAD),
-                                    width: 1.0,
-                                  ),
-                                ),
-                              ),
-                              child: const Text(
-                                'إضغط هنا للعودة إلى الجدول',
-                                style: TextStyle(
-                                  color: Color(0xFF676CAD),
-                                ),
-                              ),
-                            ),
-                          )
+                          // TextButton(
+                          //   onPressed: () {
+                          //     Get.back();
+                          //   },
+                          //   child: Container(
+                          //     decoration: const BoxDecoration(
+                          //       border: Border(
+                          //         bottom: BorderSide(
+                          //           color: Color(0xFF676CAD),
+                          //           width: 1.0,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     child: const Text(
+                          //       'إضغط هنا للعودة إلى الجدول',
+                          //       style: TextStyle(
+                          //         color: Color(0xFF676CAD),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       );
                     } else if (controller.flashcards.isEmpty) {
@@ -139,8 +139,8 @@ class QuestionPageView extends GetView<QuestionPageController> {
             padding: const EdgeInsets.all(24),
             childAspectRatio: 1.5,
             crossAxisCount: 3,
-            mainAxisSpacing: 20.0,
-            crossAxisSpacing: 20.0,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 15.0,
             children: List.generate(
               12,
               (index) {
