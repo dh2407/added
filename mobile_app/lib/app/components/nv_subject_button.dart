@@ -41,7 +41,7 @@ class _NvSubSubjectButtonState extends State<NvSubSubjectButton> {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(64),
           boxShadow: _isPressed
               ? null
               : [
@@ -60,7 +60,7 @@ class _NvSubSubjectButtonState extends State<NvSubSubjectButton> {
               widget.text,
               style: TextStyle(
                 color: widget.textColor,
-                fontSize: 28,
+                fontSize: 24,
               ),
             ),
           ),

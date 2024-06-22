@@ -46,6 +46,7 @@ class QuestionPageController extends GetxController {
   }
 
   void startTimer() {
+    stopTimer();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (timerValue.value < timeoutValue) {
         timerValue.value++;
