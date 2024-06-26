@@ -1,6 +1,7 @@
 tasks:
     - name: edge_functions
       init: |
-          brew install supabase/tap/supabase
+        cd edge_functions
       command: |
-          supabase start
+        brew install supabase/tap/supabase
+        supabase start
