@@ -4,3 +4,4 @@ tasks:
         cd edge_functions
         brew install supabase/tap/supabase
         supabase start
+        supabase functions serve
