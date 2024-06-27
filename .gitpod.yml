@@ -1,7 +1,15 @@
 tasks:
-    - name: edge_functions
-      command: |
-        cd edge_functions
-        brew install supabase/tap/supabase
-        supabase start
-        supabase functions serve
+  - name: edge_functions
+    command: |
+      cd edge_functions
+      brew install supabase/tap/supabase
+      supabase start
+      supabase functions serve
+
+ports:
+  - name: edge_functions_url
+    port: 54321
+    visibility: public
+  - name: supabase_studio
+    port: 54322
+    onOpen: open-preview
