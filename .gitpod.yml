@@ -1,5 +1,10 @@
 tasks:
-  - name: edge_functions
+  - name: web-app-dev
+    command: |
+      cd web-app
+      npm install
+      npm run serve
+  - name: edge-functions-dev
     command: |
       cd edge_functions
       brew install supabase/tap/supabase
@@ -7,9 +12,11 @@ tasks:
       supabase functions serve
 
 ports:
-  - name: edge_functions_url
+  - name: edge-functions-url
     port: 54321
     visibility: public
-  - name: supabase_studio
+  - name: supabase-studio
     port: 54322
+  - name: web-app
+    port: 3000
     onOpen: open-preview
