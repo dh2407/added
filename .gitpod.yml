@@ -19,4 +19,3 @@ ports:
     port: 54322
   - name: web-app
     port: 3000
-    onOpen: open-preview
