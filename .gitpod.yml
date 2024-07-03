@@ -3,7 +3,7 @@ tasks:
     command: |
       cd web-app
       npm install
-      npm run serve
+      npm run dev
   - name: edge-functions-dev
     command: |
       cd edge_functions
@@ -19,3 +19,4 @@ ports:
     port: 54322
   - name: web-app
     port: 3000
+    onOpen: open-browser
