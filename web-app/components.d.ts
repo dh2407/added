@@ -7,8 +7,14 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ForwardButton: typeof import('./src/components/Buttons/ForwardButton.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    MultipleChoiceQuestion: typeof import('./src/components/Questions/MultipleChoiceQuestion.vue')['default']
+    RadioButton: typeof import('./src/components/Buttons/RadioButton.vue')['default']
+    RadioResponse: typeof import('./src/components/Responses/RadioResponse.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SubjectCard: typeof import('./src/components/Cards/SubjectCard.vue')['default']
+    SubSubjectCard: typeof import('./src/components/Cards/SubSubjectCard.vue')['default']
   }
 }
