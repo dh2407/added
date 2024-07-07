@@ -1,0 +1,4 @@
+export enum QuestionTypeEnum {
+    MULTIPLE_CHOICE_QUESTION,
+    FILL_IN_THE_BLANKS_QUESTION 
+}
