@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { QuestionTypeEnum, MultipleChoiceQuestion } from '@/utils/types'
+import { MultipleChoiceQuestion } from '@/utils/types'
 import { onMounted } from 'vue';
 import { useQuestionStore } from '@/stores/useQuestionModule';
 import MultipleChoiceQuestionComp from '@/components/Questions/MultipleChoiceQuestionComp.vue';
