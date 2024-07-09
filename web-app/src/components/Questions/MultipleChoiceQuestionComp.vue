@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { QuestionTypeEnum } from '@/utils/constants';
+import { QuestionTypeEnum } from '@/utils/types';
 import { shuffleArray } from '@/utils/helpers';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps({
     question: {
         type: Object as () => ({
-            id: String,
+            id: number,
             type: QuestionTypeEnum,
             props: {
                 questionText: String,
@@ -16,6 +16,10 @@ const props = defineProps({
         }),
         required: true,
     },
+});
+
+onMounted(() => {
+    console.log('PROPS:', props.question)
 });
 
 const mergedResponses = computed(() => {

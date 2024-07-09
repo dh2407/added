@@ -10,6 +10,7 @@ declare module 'vue' {
     ForwardButton: typeof import('./src/components/Buttons/ForwardButton.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MultipleChoiceQuestion: typeof import('./src/components/Questions/MultipleChoiceQuestion.vue')['default']
+    MultipleChoiceQuestionComp: typeof import('./src/components/Questions/MultipleChoiceQuestionComp.vue')['default']
     RadioButton: typeof import('./src/components/Buttons/RadioButton.vue')['default']
     RadioResponse: typeof import('./src/components/Responses/RadioResponse.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

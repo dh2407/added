@@ -15,11 +15,11 @@ const props = defineProps({
 		required: true,
 	},
 	subjectId: {
-		type: String,
+		type: Number,
 		required: true,
 	},
 	subSubjectId: {
-		type: String,
+		type: Number,
 		required: true,
 	},
 });
@@ -27,13 +27,12 @@ const props = defineProps({
 const IconComponent = ref(markRaw(props.icon))
 
 const redirectToSubjectDetails = () => {
-	const subSubjectId = props.subSubjectId;
-	if (subSubjectId) {
+	if (props.subSubjectId && props.subjectId) {
 		router.push({
 			name: 'SubSubjectView',
 			params: { 
-				subSubjectId: subSubjectId,
-				subjectId: "1",
+				subSubjectId: props.subSubjectId,
+				subjectId: props.subjectId,
 			}
 		});
 	} else {
