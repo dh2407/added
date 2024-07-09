@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { QuestionTypeEnum } from '@/utils/constants';
 import { shuffleArray } from '@/utils/helpers';
-import { defineProps, computed, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
     question: {

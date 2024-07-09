@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { ref, markRaw } from 'vue'
 import { useRouter } from 'vue-router';
 import ForwardButton from '@/components/Buttons/ForwardButton.vue';

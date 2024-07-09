@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import CrossSvg from '@/assets/svgs/cross-icon.svg'
 
 const props = defineProps({
