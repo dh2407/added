@@ -33,16 +33,18 @@ watch(() => props.isChecked, (newVal) => {
 });
 
 const toggle = () => {
-    isChecked.value = !isChecked.value;
-    emit('update:isChecked', isChecked.value);
+    if (!props.isSubmitted) {
+        isChecked.value = !isChecked.value;
+        emit('update:isChecked', isChecked.value);
+    }
 };
 
 const addScore = computed(() => {
-    return props.isSubmitted && props.isCorrectSubmition && props.isCorrectAnswer
+    return props.isSubmitted && props.isCorrectSubmition && props.isCorrectAnswer;
 });
 
 const substractScore = computed(() => {
-    return props.isSubmitted && !props.isCorrectSubmition
+    return props.isSubmitted && !props.isCorrectSubmition;
 });
 
 </script>

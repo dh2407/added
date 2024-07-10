@@ -21,17 +21,21 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="subject-details-page-container">
+    <div v-if="subjectStore.isLoading" class="loading-spinner">
+        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+    <div class="subject-details-page-container" v-else>
         <div class="subject-details-content-conatiner">
             <div class="title">
                 {{ subjectStore.subject?.title }}
             </div>
-            <div class="description-sub-subjects-container" v-if="subjectStore.subject" >
+            <div class="description-sub-subjects-container" v-if="subjectStore.subject">
                 <div class="description" v-html="subjectStore.subject?.description"></div>
                 <div class="sub-subjects-list-container">
-                    <SubSubjectCard v-for="(subSubject, index) in (subjectStore.subject as SubjectWithChildren).children" :key="index"
-                        :title="subSubject.title" :icon="(ImportantDevicesSvg as Object)" :subSubjectId="subSubject.id"
-                        :subjectId="subjectStore.subject.id" />
+                    <SubSubjectCard
+                        v-for="(subSubject, index) in (subjectStore.subject as SubjectWithChildren).children"
+                        :key="index" :title="subSubject.title" :icon="(ImportantDevicesSvg as Object)"
+                        :subSubjectId="subSubject.id" :subjectId="subjectStore.subject.id" />
                 </div>
             </div>
         </div>
@@ -39,6 +43,14 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
 .subject-details-page-container {
     display: flex;
     flex-direction: column;

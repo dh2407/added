@@ -1,6 +1,6 @@
 export enum QuestionTypeEnum {
-    MULTIPLE_CHOICE_QUESTION,
-    FILL_IN_THE_BLANKS_QUESTION 
+    MULTIPLE_CHOICE_QUESTION = "MULTIPLE_CHOICE_QUESTION",
+    FILL_IN_THE_BLANKS_QUESTION = "FILL_IN_THE_BLANKS_QUESTION"
 }
 
 export interface Subject {
@@ -21,12 +21,14 @@ export interface SubSubject extends Subject {
 export interface Question {
     id: number,
     type: QuestionTypeEnum,
+    props: PropsQuestion
 }
 
-export interface MultipleChoiceQuestion extends Question {
-    props: {
-        questionText: string,
-        wrongResponseChoices: Array<string>,
-        correctResponseChoices: Array<string>,
-    }
+export interface PropsQuestion {
+    questionText: string,
+}
+
+export interface MultipleChoiceQuestion extends PropsQuestion {
+    wrongResponseChoices: Array<string>,
+    correctResponseChoices: Array<string>,
 }

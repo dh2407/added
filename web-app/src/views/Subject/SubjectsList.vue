@@ -11,7 +11,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="subjects-page-container">
+  <div v-if="subjectStore.isLoading" class="loading-spinner">
+    <v-progress-circular indeterminate color="primary"></v-progress-circular>
+  </div>
+  <div v-else class="subjects-page-container">
     <div class="subject-list-container">
       <SubjectCard v-for="subject in subjectStore.subjectList" :key="subject.id" :title="subject.title"
         :icon="ImportantDevicesSvg" :subjectId="subject.id" />
@@ -20,6 +23,14 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
 .subjects-page-container {
   display: flex;
   flex-direction: column;
