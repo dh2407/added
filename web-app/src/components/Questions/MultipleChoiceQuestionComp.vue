@@ -1,51 +1,62 @@
 <script setup lang="ts">
-import { QuestionTypeEnum } from '@/utils/types';
+import { computed, ComputedRef, Ref, ref, watch } from 'vue';
 import { shuffleArray } from '@/utils/helpers';
-import { computed, onMounted, ref } from 'vue';
+import { useQuestionStore } from '@/stores/useQuestionModule';
+import { Question } from '@/utils/types';
 
-const props = defineProps({
-    question: {
-        type: Object as () => ({
-            id: number,
-            type: QuestionTypeEnum,
-            props: {
-                questionText: String,
-                wrongResponseChoices: Array<String>,
-                correctResponseChoices: Array<String>,
-            },
-        }),
-        required: true,
-    },
-});
+const questionStore = useQuestionStore();
 
-onMounted(() => {
-    console.log('PROPS:', props.question)
-});
+const currentQuestion = computed(() => questionStore.currentQuestion);
 
-const mergedResponses = computed(() => {
-    const allResponses = [
-        ...props.question.props.wrongResponseChoices.map(choice => ({ text: choice, isCorrect: false })),
-        ...props.question.props.correctResponseChoices.map(choice => ({ text: choice, isCorrect: true })),
-    ];
-    return shuffleArray(allResponses);
-});
+const mergedResponses: Ref<any[]> = ref([]);
 
-const responseStates = ref(mergedResponses.value.map(response => ({ ...response, isChecked: false, isCorrectSubmition: false })));
+watch(currentQuestion as ComputedRef<Question>, (newQuestion: Question) => {
+    if (newQuestion) {
+        const allResponses = [
+            ...(newQuestion.props as any).wrongResponseChoices.map((choice: any) => ({ text: choice, isCorrect: false })),
+            ...(newQuestion.props as any).correctResponseChoices.map((choice: any) => ({ text: choice, isCorrect: true })),
+        ];
+        mergedResponses.value = shuffleArray(allResponses);
+    }
+}, { immediate: true });
+
+const responseStates: Ref<any[]> = ref([]);
 const isSubmitted = ref(false);
 
+watch(mergedResponses, (responses) => {
+    responseStates.value = responses.map((response: any) => ({ ...response, isChecked: false, isCorrectSubmition: false }));
+}, { immediate: true });
+
 const submitQuestion = () => {
+    if (isSubmitted.value) {
+        questionStore.nextQuestion();
+        isSubmitted.value = false;
+        return;
+    }
+
     responseStates.value = responseStates.value.map(response => ({
         ...response,
         isCorrectSubmition: response.isCorrect ? response.isChecked : !response.isChecked,
     }));
+
+    responseStates.value.forEach(response => {
+        if (response.isCorrectSubmition) {
+            if (response.isCorrect) {
+                questionStore.updateScore(2);
+            } 
+        } else {
+            questionStore.updateScore(-1);
+        }
+    });
+
     isSubmitted.value = true;
 };
 </script>
 
 <template>
-    <div class="multiple-choice-question-content-container">
+    <div class="multiple-choice-question-content-container" v-if="currentQuestion">
         <div class="title">
-            {{ props.question.props.questionText }}
+            {{ currentQuestion.props.questionText }}
         </div>
         <div class="response-list-container">
             <RadioResponse v-for="(response, index) in responseStates" :key="index" :text="response.text"
