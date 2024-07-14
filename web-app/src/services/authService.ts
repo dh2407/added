@@ -45,10 +45,10 @@ export class AuthService {
         }
     }
 
-    async signOut() {
-        const { error } = await supabase.auth.signOut();
-        // router.push({ name: "sign-in" });
-    }
+    // async signOut() {
+    //     const { error } = await supabase.auth.signOut();
+    //     // router.push({ name: "sign-in" });
+    // }
     tryParseJson = (jsonString: any) => {
         try {
             let parsed = JSON.parse(jsonString);
