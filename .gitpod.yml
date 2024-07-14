@@ -2,6 +2,7 @@ tasks:
   - name: web-app-dev
     command: |
       cd web-app
+      cp .env.example .env
       npm install
       npm run dev
   - name: edge-functions-dev
@@ -17,6 +18,8 @@ ports:
     visibility: public
   - name: supabase-studio
     port: 54322
+    visibility: public
   - name: web-app
     port: 3000
+    visibility: public
     onOpen: open-browser

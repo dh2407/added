@@ -1,4 +1,4 @@
-import { getQuestionsOfSubject } from '@/services';
+import { apiService } from '@/services';
 import { Question } from '@/utils/types';
 import { defineStore } from 'pinia';
 
@@ -23,7 +23,7 @@ export const useQuestionStore = defineStore("question-store", {
       this.error = null;
       this.score = 0;
       try {
-        const { data, error } = await getQuestionsOfSubject(subjectId);
+        const { data, error } = await apiService.getQuestionsOfSubject(subjectId);
         if (data.questions) {
           this.questionsList = data.questions;
           this.currentQuestionIndex = 0;
