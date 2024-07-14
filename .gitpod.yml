@@ -17,6 +17,8 @@ ports:
     visibility: public
   - name: supabase-studio
     port: 54322
+    visibility: public
   - name: web-app
     port: 3000
+    visibility: public
     onOpen: open-browser
