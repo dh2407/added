@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getMainSubjects, getSubjectWithChildren } from '@/services';
+import { apiService } from '@/services';
 import { Subject, SubjectWithChildren, SubSubject } from '@/utils/types';
 
 export const useSubjectStore = defineStore("subject-store", {
@@ -19,7 +19,7 @@ export const useSubjectStore = defineStore("subject-store", {
       this.isLoading = true;
       this.error = null;
       try {
-        const { data, error } = await getMainSubjects();
+        const { data, error } = await apiService.getMainSubjects();
         if (data) this.subjectList = data;
         else this.error = error
       } catch (error) {
@@ -32,7 +32,7 @@ export const useSubjectStore = defineStore("subject-store", {
       this.isLoading = true;
       this.error = null;
       try {
-        const { data, error } = await getSubjectWithChildren(parentId);
+        const { data, error } = await apiService.getSubjectWithChildren(parentId);
         if (data) this.subject = data;
         else this.error = error
       } catch (error) {

@@ -2,6 +2,7 @@ tasks:
   - name: web-app-dev
     command: |
       cd web-app
+      cp .env.example .env
       npm install
       npm run dev
   - name: edge-functions-dev
