@@ -63,6 +63,7 @@ const redirectToSubjectDetails = () => {
 	border-bottom: 1px solid #D8D8D8;
 	justify-content: space-between;
 	padding: 12px;
+	min-width: 240px;
 
 	.sub-subject-card-icon-and-title-container {
 		display: flex;

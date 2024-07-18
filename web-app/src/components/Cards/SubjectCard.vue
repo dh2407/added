@@ -54,7 +54,7 @@ const redirectToSubjectDetails = () => {
     align-items: center;
     gap: 17px;
     border: 1px solid #D8D8D8;
-    width: 380px;
+    width: 20rem;
     justify-content: space-between;
     padding: 12px;
     .subject-card-icon-and-title-container {
@@ -72,4 +72,9 @@ const redirectToSubjectDetails = () => {
         }
     }
 }
+@media (max-width: map-get($breakpoints, md)) {
+    .subject-card-container {
+      width: unset;
+    }
+  }
 </style>
