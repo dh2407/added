@@ -62,7 +62,7 @@ const handleRedirectSignIn = () => {
       <div class="btns-container">
         <div class="have-account-container">
           Have an account ?
-          <v-btn :loading="authStore.isLoading" color="primary" @click="handleRedirectSignIn">
+          <v-btn variant="text" :loading="authStore.isLoading" color="primary" @click="handleRedirectSignIn">
             Login
           </v-btn>
         </div>
@@ -98,7 +98,19 @@ const handleRedirectSignIn = () => {
     .have-account-container {
       display: flex;
       align-items: center;
+    }
+  }
+}
+
+@media (max-width: map-get($breakpoints, md)) {
+  .sign-up-page-container {
+    .btns-container {
+      flex-direction: column;
+      align-items: stretch;
       gap: 20px;
+      .have-account-container {
+        justify-content: center;
+      }
     }
   }
 }

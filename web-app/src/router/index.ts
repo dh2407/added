@@ -7,57 +7,62 @@ import SignInView from '@/views/Auth/SignIn.vue'
 import SubjectListView from '@/views/Subject/SubjectsList.vue'
 import SubjectDetailsView from '@/views/Subject/SubjectDetails.vue'
 import SubSubjectView from '@/views/SubSubject/SubSubject.vue'
+import MainLayout from '@/components/Layouts/MainLayout.vue'
 import { storeToRefs } from 'pinia';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: HomeView
-  },
-  {
-    path: '/signup',
-    name: 'SignUpView',
-    component: SignUpView,
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
-    path: '/signin',
-    name: 'SignInView',
-    component: SignInView,
-    meta: {
-      requiresAuth: false,
-    },
-  },
-  {
-    path:
-      '/subject',
-    name: "SubjectListView",
-    component: SubjectListView,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path:
-      '/subject/:id',
-    name: "SubjectDetailsView",
-    component: SubjectDetailsView,
-    props: true,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: '/subject/:subjectId/subSubject/:subSubjectId',
-    name: 'SubSubjectView',
-    component: SubSubjectView,
-    props: true,
-    meta: {
-      requiresAuth: true,
-    },
+    component: MainLayout,
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: HomeView
+      },
+      {
+        path: 'signup',
+        name: 'SignUpView',
+        component: SignUpView,
+        meta: {
+          requiresAuth: false,
+        },
+      },
+      {
+        path: 'signin',
+        name: 'SignInView',
+        component: SignInView,
+        meta: {
+          requiresAuth: false,
+        },
+      },
+      {
+        path: 'subject',
+        name: "SubjectListView",
+        component: SubjectListView,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'subject/:id',
+        name: "SubjectDetailsView",
+        component: SubjectDetailsView,
+        props: true,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'subject/:subjectId/subSubject/:subSubjectId',
+        name: 'SubSubjectView',
+        component: SubSubjectView,
+        props: true,
+        meta: {
+          requiresAuth: true,
+        },
+      }
+    ]
   }
 ]
 
@@ -82,14 +87,6 @@ router.beforeEach(async (to, from, next) => {
     next({ name: 'SubjectListView' })
     return;
   }
-  console.log('to', to)
-  console.log('requiresAuth', requiresAuth)
-  console.log('isLoggedIn', isLoggedIn.value)
-  console.log('currentUser', currentUser.value)
-
-  // if (userTokenFromStorage && !isLoggedIn) {
-
-  // }
 
   if (requiresAuth && !isLoggedIn.value) {
     next({ name: 'SignInView' })

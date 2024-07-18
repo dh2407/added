@@ -84,4 +84,23 @@ onMounted(() => {
         }
     }
 }
+
+@media (max-width: map-get($breakpoints, md)) {
+    .subject-details-page-container {
+        .subject-details-content-conatiner {
+            .description-sub-subjects-container {
+                flex-direction: column;
+        
+                .description {
+                    width: 100%
+                }
+        
+                .sub-subjects-list-container {
+                    width: 100%;
+                    gap: 6px;
+                }
+            }
+        }
+    }
+}
 </style>

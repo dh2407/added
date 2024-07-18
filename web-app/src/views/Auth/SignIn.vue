@@ -77,4 +77,13 @@ const handleRedirectSignUp = () => {
     justify-content: space-between;
   }
 }
+@media (max-width: map-get($breakpoints, md)) {
+  .sign-in-page-container {
+    .btns-container {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 20px;
+    }
+  }
+}
 </style>
