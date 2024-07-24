@@ -11,13 +11,17 @@ tasks:
       brew install supabase/tap/supabase
       supabase start
       supabase functions serve
+  - name: generate-api
+    command: |
+      npm install @openapitools/openapi-generator-cli -g
+      openapi-generator-cli generate -i docs/openapi.yaml -g typescript-axios -o ./generated-api --skip-validate-spec
 
 ports:
   - name: edge-functions-url
     port: 54321
     visibility: public
   - name: supabase-studio
-    port: 54322
+    port: 54323
     visibility: public
   - name: web-app
     port: 3000

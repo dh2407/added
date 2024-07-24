@@ -55,8 +55,11 @@ paths:
                               sound_url:
                                 type: string
                                 example: "https://example.com/sound.mp3"
+                            required:
+                              - text
                         required:
-                          - text
+                          - image_url
+                          - segments
                   is_last:
                     type: boolean
                     example: false
@@ -121,8 +124,11 @@ paths:
                               sound_url:
                                 type: string
                                 example: "https://example.com/sound.mp3"
+                            required:
+                              - text
                         required:
-                          - text
+                          - image_url
+                          - segments
                   is_last:
                     type: boolean
                     example: false
