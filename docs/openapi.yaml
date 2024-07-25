@@ -1,10 +1,57 @@
 openapi: 3.1.0
 info:
-  title: Section API
-  description: API for fetching sections in a learning app.
+  title: E-learning API
+  description: API for E-learning app.
   version: 1.0.0
+components:
+  schemas:
+    SectionResponse:
+      type: object
+      properties:
+        section_id:
+          type: string
+          example: "67890"
+        kind:
+          type: string
+          enum:
+            - STORY
+            - QUESTIONS_GAME
+          example: STORY
+        scenes:
+          type: array
+          items:
+            type: object
+            properties:
+              image_url:
+                type: string
+                example: "https://example.com/image.jpg"
+              segments:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    text:
+                      type: string
+                      example: "Once upon a time..."
+                    sound_url:
+                      type: string
+                      example: "https://example.com/sound.mp3"
+                  required:
+                    - text
+              required:
+                - image_url
+                - segments
+        is_last:
+          type: boolean
+          example: false
+      required:
+        - section_id
+        - kind
+        - scenes
+        - is_last
+
 paths:
-  /section/get_next_section:
+  /section-get_next_section:
     post:
       summary: Retrieve the next section based on the provided section ID.
       requestBody:
@@ -25,55 +72,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  section_id:
-                    type: string
-                    example: "67890"
-                  kind:
-                    type: string
-                    enum:
-                      - STORY
-                      - QUESTIONS_GAME
-                    example: STORY
-                  scenes:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        image_url:
-                          type: string
-                          example: "https://example.com/image.jpg"
-                        segments:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              text:
-                                type: string
-                                example: "Once upon a time..."
-                              sound_url:
-                                type: string
-                                example: "https://example.com/sound.mp3"
-                            required:
-                              - text
-                        required:
-                          - image_url
-                          - segments
-                  is_last:
-                    type: boolean
-                    example: false
-              required:
-                - section_id
-                - kind
-                - scenes
-                - is_last
+                $ref: '#/components/schemas/SectionResponse'
         '400':
           description: Bad request, invalid or missing section_id.
         '500':
           description: Internal server error.
 
-  /section/get_first_section:
+  /section-get_first_section:
     post:
       summary: Retrieve the first section based on the provided subject ID.
       requestBody:
@@ -94,49 +99,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  section_id:
-                    type: string
-                    example: "67890"
-                  kind:
-                    type: string
-                    enum:
-                      - STORY
-                      - QUESTIONS_GAME
-                    example: STORY
-                  scenes:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        image_url:
-                          type: string
-                          example: "https://example.com/image.jpg"
-                        segments:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              text:
-                                type: string
-                                example: "Once upon a time..."
-                              sound_url:
-                                type: string
-                                example: "https://example.com/sound.mp3"
-                            required:
-                              - text
-                        required:
-                          - image_url
-                          - segments
-                  is_last:
-                    type: boolean
-                    example: false
-              required:
-                - section_id
-                - kind
-                - scenes
-                - is_last
+                $ref: '#/components/schemas/SectionResponse'
         '400':
           description: Bad request, invalid or missing subject_id.
         '500':

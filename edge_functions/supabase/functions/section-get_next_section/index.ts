@@ -1,6 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 import { corsHeaders } from '../_shared/cors.ts'
-import type { SectionGetNextSectionPost200Response } from '../../../../generated-api/index.ts'
+import type { SectionResponse } from '../../../../generated-api/index.ts'
 
 const headers = {
   "Access-Control-Allow-Methods": "POST",
@@ -86,7 +86,7 @@ Deno.serve(async (_req) => {
       }
 
 
-      const responseData: SectionGetNextSectionPost200Response = {
+      const responseData: SectionResponse = {
         kind: nextSection.kind,
         scenes: nextSection.scenes,
         section_id: nextSection.id,
