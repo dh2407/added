@@ -1,7 +1,8 @@
-import { SectionResponse } from '../../../../generated-api/index.ts'
+import type { SectionResponse } from "../../../../generated-api/index.ts";
 import { corsHeaders } from '../_shared/cors.ts'
-import { SectionService } from '../domain/section/service.ts'
-import { PgSectionRepository } from '../infra/repository/pg_section_repository.ts'
+import { ApiResponse, ErrorInfo } from "../_shared/types.ts";
+import { SectionService } from './../domain/section/service.ts'
+import { PgSectionRepository } from './../infra/repository/pg_section_repository.ts'
 
 const headers = {
   "Access-Control-Allow-Methods": "POST",
@@ -22,6 +23,7 @@ Deno.serve(async (_req) => {
       });
 
       const { subject_id } = await _req.json();
+
       if (!subject_id) {
         return new Response(JSON.stringify({ error: "Missing subject_id in request" }), {
           status: 400,
@@ -31,14 +33,24 @@ Deno.serve(async (_req) => {
 
       const sectionService = new SectionService(new PgSectionRepository);
 
-      const responseData: SectionResponse | null = await sectionService.getFirstSection(subject_id);
+      const serviceResponse: SectionResponse | ErrorInfo = await sectionService.getFirstSection(subject_id);
 
-      if (responseData === null) {
+      if ((serviceResponse as ErrorInfo).error !== undefined) {
         return new Response(JSON.stringify({ error: "Missing subject_id in request" }), {
           status: 400,
           headers,
         });
       }
+
+      const apiResponse: ApiResponse = {
+        data: serviceResponse,
+        message: "First section successfully retrieved",
+        error: null
+      }
+
+      return new Response(JSON.stringify(apiResponse), {
+        headers,
+      });
     } catch (err) {
       console.error("Error processing request:", err);
       return new Response(JSON.stringify({ message: "Invalid JSON", error: err }), {

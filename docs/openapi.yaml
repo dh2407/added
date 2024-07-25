@@ -5,6 +5,32 @@ info:
   version: 1.0.0
 components:
   schemas:
+    Segment:
+      type: object
+      properties:
+        text:
+          type: string
+          example: "Once upon a time..."
+        sound_url:
+          type: string
+          example: "https://example.com/sound.mp3"
+      required:
+        - text
+    
+    Scene:
+      type: object
+      properties:
+        image_url:
+          type: string
+          example: "https://example.com/image.jpg"
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Segment'
+      required:
+        - image_url
+        - segments
+
     SectionResponse:
       type: object
       properties:
@@ -20,27 +46,7 @@ components:
         scenes:
           type: array
           items:
-            type: object
-            properties:
-              image_url:
-                type: string
-                example: "https://example.com/image.jpg"
-              segments:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    text:
-                      type: string
-                      example: "Once upon a time..."
-                    sound_url:
-                      type: string
-                      example: "https://example.com/sound.mp3"
-                  required:
-                    - text
-              required:
-                - image_url
-                - segments
+            $ref: '#/components/schemas/Scene'
         is_last:
           type: boolean
           example: false

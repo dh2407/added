@@ -15,6 +15,9 @@ supabase start
 ## show supabase services status
 supabase status
 
+## Serve edge functions locally
+supabase functions serve --import-map supabase/functions/import_map.json
+
 ## database commands
 supabase migration new migration_name
 supabase db push
