@@ -3,6 +3,11 @@ info:
   title: E-learning API
   description: API for E-learning app.
   version: 1.0.0
+servers:
+  - url: https://54321-dh2407-added-47x8ownyytf.ws-eu115.gitpod.io/functions/v1
+    description: Development server for internal use
+  - url: https://api.example.com/v1
+    description: Main production server
 components:
   schemas:
     Segment:
@@ -55,11 +60,18 @@ components:
         - kind
         - scenes
         - is_last
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
 paths:
   /section-get_next_section:
     post:
       summary: Retrieve the next section based on the provided section ID.
+      security:
+        - BearerAuth: []
       requestBody:
         description: Section ID to fetch the next section.
         content:
@@ -81,12 +93,16 @@ paths:
                 $ref: '#/components/schemas/SectionResponse'
         '400':
           description: Bad request, invalid or missing section_id.
+        '405':
+          description: Method not allowed for this endpoint.
         '500':
           description: Internal server error.
 
   /section-get_first_section:
     post:
       summary: Retrieve the first section based on the provided subject ID.
+      security:
+        - BearerAuth: []
       requestBody:
         description: Subject ID to fetch the first section.
         content:
@@ -108,5 +124,8 @@ paths:
                 $ref: '#/components/schemas/SectionResponse'
         '400':
           description: Bad request, invalid or missing subject_id.
+        '405':
+          description: Method not allowed for this endpoint.
         '500':
           description: Internal server error.
+
