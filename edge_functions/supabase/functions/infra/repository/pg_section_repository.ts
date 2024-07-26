@@ -4,12 +4,20 @@ import { SectionRepository } from "../../domain/section/repository.ts";
 import { getPostgresPool } from "./pg_repository.ts";
 
 export class PgSectionRepository implements SectionRepository {
-    async getFirstSection(subjectId: string): Promise<SectionResponse | ErrorInfo> {
+    async getFirstSection(subjectId: string): Promise<SectionResponse> {
+        const pool = getPostgresPool();
+        let connection;
         try {
-            const pool = getPostgresPool();
-            const connection = await pool.connect();
-            try {
-                const result = await connection.queryObject`
+            connection = await pool.connect();
+        } catch (error) {
+            throw new ErrorInfo(
+                `[PgSectionRepository.getFirstSection] Database connection error: ${error.message}`,
+                "Unable to connect to the database. Please try again later."
+            );
+        }
+
+        try {
+            const result = await connection.queryObject`
                 WITH first_section AS (
                     SELECT *, ROW_NUMBER() OVER (ORDER BY "order" ASC) as rn
                     FROM "Section"
@@ -27,45 +35,47 @@ export class PgSectionRepository implements SectionRepository {
                 CROSS JOIN total_count tc;
               `;
 
-                const row = result.rows[0];
+            const row = result.rows[0];
 
-                if (!row) {
-                    return {
-                        error: "[PgSectionRepository.getFirstSection] No row found!",
-                        message: "Subject don't have any sections."
-                    };
-                }
-
-                const responseData: SectionResponse = {
-                    kind: row.kind,
-                    scenes: row.scenes,
-                    section_id: row.id.toString(),
-                    is_last: parseInt(row.order) === parseInt(row.total_count)
-                };
-
-                return responseData;
-            } catch (error) {
-                return {
-                    error,
-                    message: "[PgSectionRepository.getFirstSection] Querying database Error!" 
-                };
-            } finally {
-                connection.release();
+            if (!row) {
+                throw new ErrorInfo(
+                    "No row found! Subject doesn't have any sections.",
+                    "No sections found for the given subject."
+                );
             }
-        } catch (error) {
-            return {
-                error,
-                message: "[PgSectionRepository.getFirstSection] Database connection Error!" 
+
+            const responseData: SectionResponse = {
+                kind: row.kind,
+                scenes: row.scenes,
+                section_id: row.id.toString(),
+                is_last: parseInt(row.order) === parseInt(row.total_count)
             };
+
+            return responseData;
+        } catch (error) {
+            throw new ErrorInfo(
+                `[PgSectionRepository.getFirstSection] Querying database error: ${error.message}`,
+                "Error fetching the first section. Please try again later."
+            );
+        } finally {
+            connection.release();
         }
     }
 
-    async getNextSection(sectionId: string): Promise<SectionResponse | ErrorInfo> {
+    async getNextSection(sectionId: string): Promise<SectionResponse> {
+        const pool = getPostgresPool();
+        let connection;
         try {
-            const pool = getPostgresPool();
-            const connection = await pool.connect();
-            try {
-                const result = await connection.queryObject`
+            connection = await pool.connect();
+        } catch (error) {
+            throw new ErrorInfo(
+                `[PgSectionRepository.getNextSection] Database connection error: ${error.message}`,
+                "Unable to connect to the database. Please try again later."
+            );
+        }
+
+        try {
+            const result = await connection.queryObject`
                 WITH current_section AS (
                     SELECT *
                     FROM "Section"
@@ -88,36 +98,30 @@ export class PgSectionRepository implements SectionRepository {
                 CROSS JOIN total_count tc;
               `;
 
-              const row = result.rows[0];
+            const row = result.rows[0];
 
-              if (!row) {
-                    return {
-                        error: "[PgSectionRepository.getNextSection] No row found!",
-                        message: "Section don't have any next sections."
-                    };
-                }
-
-                const responseData: SectionResponse = {
-                    kind: row.kind,
-                    scenes: row.scenes,
-                    section_id: row.id.toString(),
-                    is_last: parseInt(row.order) === parseInt(row.total_count)
-                };
-
-                return responseData;
-            } catch (error) {
-                return {
-                    error,
-                    message: "[PgSectionRepository.getNextSection] Querying database Error!" 
-                };
-            } finally {
-                connection.release();
+            if (!row) {
+                throw new ErrorInfo(
+                    "No row found! Section doesn't have any next sections.",
+                    "No next section found for the given section."
+                );
             }
-        } catch (error) {
-            return {
-                error,
-                message: "[PgSectionRepository.getNextSection] Database connection Error!" 
+
+            const responseData: SectionResponse = {
+                kind: row.kind,
+                scenes: row.scenes,
+                section_id: row.id.toString(),
+                is_last: parseInt(row.order) === parseInt(row.total_count)
             };
+
+            return responseData;
+        } catch (error) {
+            throw new ErrorInfo(
+                `[PgSectionRepository.getNextSection] Querying database error: ${error.message}`,
+                "Error fetching the next section. Please try again later."
+            );
+        } finally {
+            connection.release();
         }
     }
 }
