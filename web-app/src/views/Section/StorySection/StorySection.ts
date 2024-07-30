@@ -94,6 +94,10 @@ export class StorySection {
         return this.storySection.scenes[this._currentSceneNumber - 1].image_url;
     }
 
+    public get currentSegmentSoundSrc(): string | undefined {
+        return this.storySection.scenes[this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].sound_url;
+    }
+
     public get currentSegmentText(): string {
         return this.storySection.scenes[this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].text;
     }
