@@ -4,7 +4,7 @@ info:
   description: API for E-learning app.
   version: 1.0.0
 servers:
-  - url: https://54321-dh2407-added-47x8ownyytf.ws-eu115.gitpod.io/functions/v1
+  - url: https://54321-dh2407-added-ziclbzafpnh.ws-eu115.gitpod.io/functions/v1
     description: Development server for internal use
   - url: https://api.example.com/v1
     description: Main production server

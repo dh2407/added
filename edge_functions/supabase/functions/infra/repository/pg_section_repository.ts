@@ -18,22 +18,44 @@ export class PgSectionRepository implements SectionRepository {
 
         try {
             const result = await connection.queryObject`
-                WITH first_section AS (
-                    SELECT *, ROW_NUMBER() OVER (ORDER BY "order" ASC) as rn
-                    FROM "Section"
-                    WHERE subject_id = ${subjectId}
-                    ORDER BY "order" ASC
-                    LIMIT 1
-                ),
-                total_count AS (
-                    SELECT COUNT(*)::int8 AS total_count
-                    FROM "Section"
-                    WHERE subject_id = ${subjectId}
-                )
-                SELECT fs.*, tc.total_count
-                FROM first_section fs
-                CROSS JOIN total_count tc;
-              `;
+            WITH first_section AS (
+                SELECT *, ROW_NUMBER() OVER (ORDER BY "order" ASC) AS rn
+                FROM "Section"
+                WHERE subject_id = ${subjectId}
+                ORDER BY "order" ASC
+                LIMIT 1
+            ),
+            total_count AS (
+                SELECT COUNT(*)::int8 AS total_count
+                FROM "Section"
+                WHERE subject_id = ${subjectId}
+            ),
+            scenes AS (
+                SELECT s.id as section_id, 
+                    array_agg(json_build_object(
+                        'image_url', i.image_url,
+                        'segments', (
+                            SELECT array_agg(json_build_object(
+                                'text', seg.text,
+                                'sound_url', snd.sound_url
+                            ))
+                            FROM "Segment" seg
+                            LEFT JOIN "Sound" snd ON seg.sound_id = snd.id
+                            WHERE seg.scene_id = sc.id
+                        )
+                    )) AS scenes
+                FROM "Section" s
+                LEFT JOIN "Story" st ON s.id = st.section_id
+                LEFT JOIN "Scene" sc ON st.id = sc.story_id
+                LEFT JOIN "Image" i ON sc.id = i.scene_id
+                WHERE s.subject_id = ${subjectId} AND s.kind = 'STORY'
+                GROUP BY s.id
+            )
+            SELECT fs.*, tc.total_count, CASE WHEN fs.kind = 'STORY' THEN sn.scenes ELSE NULL END AS scenes
+            FROM first_section fs
+            CROSS JOIN total_count tc
+            LEFT JOIN scenes sn ON fs.id = sn.section_id;`;
+
 
             const row = result.rows[0];
 
@@ -92,12 +114,33 @@ export class PgSectionRepository implements SectionRepository {
                     SELECT COUNT(*)::int8 AS total_count
                     FROM "Section"
                     WHERE subject_id = (SELECT subject_id FROM current_section)
+                ),
+                scenes AS (
+                    SELECT s.id as section_id, 
+                        array_agg(json_build_object(
+                            'image_url', i.image_url,
+                            'segments', (
+                                SELECT array_agg(json_build_object(
+                                    'text', seg.text,
+                                    'sound_url', snd.sound_url
+                                ))
+                                FROM "Segment" seg
+                                LEFT JOIN "Sound" snd ON seg.sound_id = snd.id
+                                WHERE seg.scene_id = sc.id
+                            )
+                        )) AS scenes
+                    FROM "Section" s
+                    LEFT JOIN "Story" st ON s.id = st.section_id
+                    LEFT JOIN "Scene" sc ON st.id = sc.story_id
+                    LEFT JOIN "Image" i ON sc.id = i.scene_id
+                    WHERE s.subject_id = (SELECT subject_id FROM current_section) AND s.kind = 'STORY'
+                    GROUP BY s.id
                 )
-                SELECT ns.*, tc.total_count
+                SELECT ns.*, tc.total_count, CASE WHEN ns.kind = 'STORY' THEN sn.scenes ELSE NULL END AS scenes
                 FROM next_section ns
-                CROSS JOIN total_count tc;
-              `;
-
+                CROSS JOIN total_count tc
+                LEFT JOIN scenes sn ON ns.id = sn.section_id;`;
+        
             const row = result.rows[0];
 
             if (!row) {

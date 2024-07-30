@@ -12,12 +12,40 @@ INSERT INTO "public"."ParentChildSubjectsLink" (created_at, updated_at, parent_i
 
 -- Insert sections for SQL subject
 INSERT INTO "public"."Section" (id, created_at, updated_at, subject_id, kind, "order") VALUES
-(1, NOW(), NULL, 2, 'QUESTIONS_GAME', 1),
-(2, NOW(), NULL, 2, 'STORY', 2);
+(1, NOW(), NULL, 2, 'STORY', 1),
+(2, NOW(), NULL, 2, 'QUESTIONS_GAME', 2);
+
+-- Insert Story for section
+INSERT INTO "public"."Story" (id, created_at, updated_at, section_id) VALUES
+(1, NOW(), NULL, 1);
+
+-- Insert scenes for Story
+INSERT INTO "public"."Scene" (id, created_at, updated_at, story_id) VALUES
+(1, NOW(), NULL, 1),
+(2, NOW(), NULL, 1);
+
+-- Insert sounds for segments
+INSERT INTO "public"."Sound" (id, created_at, updated_at, sound_url) VALUES
+(1, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3'),
+(2, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3'),
+(3, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3'),
+(4, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3');
+
+-- Insert images for scenes
+INSERT INTO "public"."Image" (id, created_at, updated_at, image_url, scene_id) VALUES
+(1, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/images/img1.jpg', 1),
+(2, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/images/img2.jpg', 2);
+
+-- Insert segments for scenes
+INSERT INTO "public"."Segment" (id, created_at, updated_at, text, sound_id, scene_id, "order") VALUES
+(1, NOW(), NULL, 'This is the first segment of the first scene.', 1, 1, 1),
+(2, NOW(), NULL, 'This is the second segment of the first scene.', 2, 1, 2),
+(3, NOW(), NULL, 'This is the first segment of the second scene.', 3, 2, 1),
+(4, NOW(), NULL, 'This is the second segment of the second scene.', 4, 2, 2);
 
 -- Insert QuestionsGame for section
 INSERT INTO "public"."QuestionsGame" (id, created_at, updated_at, section_id) VALUES
-(1, NOW(), NULL, 1);
+(1, NOW(), NULL, 2);
 
 -- Insert Question for QuestionsGame section
 INSERT INTO "public"."Question" (id, created_at, updated_at, kind, question_game_id, "order") VALUES
@@ -33,27 +61,3 @@ INSERT INTO "public"."MultipleChoiceQuestionResponse" (id, created_at, updated_a
 (2, NOW(), NULL, 'Simple Query Language', 1, FALSE),
 (3, NOW(), NULL, 'Standard Query Language', 1, FALSE),
 (4, NOW(), NULL, 'Sequential Query Language', 1, FALSE);
-
--- Insert Story for section
-INSERT INTO "public"."Story" (id, created_at, updated_at, section_id) VALUES
-(1, NOW(), NULL, 2);
-
--- Insert scenes for Story
-INSERT INTO "public"."Scene" (id, created_at, updated_at, story_id) VALUES
-(1, NOW(), NULL, 1),
-(2, NOW(), NULL, 1);
-
--- Insert sounds for segments
-INSERT INTO "public"."Sound" (id, created_at, updated_at, sound_url) VALUES
-(1, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3?t=2024-07-24T15%3A04%3A29.590Z'),
-(2, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3?t=2024-07-24T15%3A04%3A29.590Z');
-
--- Insert images for scenes
-INSERT INTO "public"."Image" (id, created_at, updated_at, image_url, scene_id) VALUES
-(1, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/images/test_img.jpg', 1),
-(2, NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/images/test_img.jpg', 2);
-
--- Insert segments for scenes
-INSERT INTO "public"."Segment" (id, created_at, updated_at, text, sound_id, scene_id, "order") VALUES
-(1, NOW(), NULL, 'This is the first segment of the first scene.', 1, 1, 1),
-(2, NOW(), NULL, 'This is the first segment of the second scene.', 2, 2, 1);
