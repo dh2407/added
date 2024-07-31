@@ -4,12 +4,50 @@ info:
   description: API for E-learning app.
   version: 1.0.0
 servers:
-  - url: https://54321-dh2407-added-ziclbzafpnh.ws-eu115.gitpod.io/functions/v1
+  - url: https://54321-dh2407-added-8ol4ts940g5.ws-eu115.gitpod.io/functions/v1
     description: Development server for internal use
   - url: https://api.example.com/v1
     description: Main production server
 components:
   schemas:
+    Action:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
+        next_section_id:
+          type: string
+          example: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
+        label:
+          type: string
+          example: "Accept the Challenge"
+      required:
+        - id
+        - next_section_id
+        - label
+
+    Page:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        html:
+          type: string
+          example: "<p>This is an example page content.</p>"
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+          example:
+            - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
+              next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
+              label: "Accept the Challenge"
+      required:
+        - id
+        - html
+
     Segment:
       type: object
       properties:
@@ -21,7 +59,7 @@ components:
           example: "https://example.com/sound.mp3"
       required:
         - text
-    
+
     Scene:
       type: object
       properties:
@@ -47,19 +85,57 @@ components:
           enum:
             - STORY
             - QUESTIONS_GAME
-          example: STORY
+            - PAGE
+          example: PAGE
         scenes:
           type: array
           items:
             $ref: '#/components/schemas/Scene'
+          nullable: true
+          example: null
+        page:
+          $ref: '#/components/schemas/Page'
         is_last:
           type: boolean
           example: false
       required:
         - section_id
         - kind
-        - scenes
         - is_last
+        - page
+      examples:
+        example1:
+          summary: Example response with kind PAGE
+          value:
+            section_id: "67890"
+            kind: PAGE
+            scenes: null
+            page:
+              id: "12345"
+              html: "<p>This is an example page content.</p>"
+              actions:
+                - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
+                  next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
+                  label: "Accept the Challenge"
+            is_last: false
+        example2:
+          summary: Example response with kind STORY
+          value:
+            section_id: "54321"
+            kind: STORY
+            scenes:
+              - image_url: "https://example.com/story_image1.jpg"
+                segments:
+                  - text: "The story begins..."
+                    sound_url: "https://example.com/story_sound1.mp3"
+                  - text: "And continues..."
+                    sound_url: "https://example.com/story_sound2.mp3"
+              - image_url: "https://example.com/story_image2.jpg"
+                segments:
+                  - text: "The climax of the story."
+                    sound_url: "https://example.com/story_sound3.mp3"
+            page: null
+            is_last: false
   securitySchemes:
     BearerAuth:
       type: http
@@ -91,6 +167,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SectionResponse'
+              examples:
+                example1:
+                  summary: Example response with kind PAGE
+                  value:
+                    section_id: "67890"
+                    kind: PAGE
+                    scenes: null
+                    page:
+                      id: "12345"
+                      html: "<p>This is an example page content.</p>"
+                      actions:
+                        - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
+                          next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
+                          label: "Accept the Challenge"
+                    is_last: false
+                example2:
+                  summary: Example response with kind STORY
+                  value:
+                    section_id: "54321"
+                    kind: STORY
+                    scenes:
+                      - image_url: "https://example.com/story_image1.jpg"
+                        segments:
+                          - text: "The story begins..."
+                            sound_url: "https://example.com/story_sound1.mp3"
+                          - text: "And continues..."
+                            sound_url: "https://example.com/story_sound2.mp3"
+                      - image_url: "https://example.com/story_image2.jpg"
+                        segments:
+                          - text: "The climax of the story."
+                            sound_url: "https://example.com/story_sound3.mp3"
+                    page: null
+                    is_last: false
         '400':
           description: Bad request, invalid or missing section_id.
         '405':
@@ -122,10 +231,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SectionResponse'
+              examples:
+                example1:
+                  summary: Example response with kind PAGE
+                  value:
+                    section_id: "67890"
+                    kind: PAGE
+                    scenes: null
+                    page:
+                      id: "12345"
+                      html: "<p>This is an example page content.</p>"
+                      actions:
+                        - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
+                          next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
+                          label: "Accept the Challenge"
+                    is_last: false
+                example2:
+                  summary: Example response with kind STORY
+                  value:
+                    section_id: "54321"
+                    kind: STORY
+                    scenes:
+                      - image_url: "https://example.com/story_image1.jpg"
+                        segments:
+                          - text: "The story begins..."
+                            sound_url: "https://example.com/story_sound1.mp3"
+                          - text: "And continues..."
+                            sound_url: "https://example.com/story_sound2.mp3"
+                      - image_url: "https://example.com/story_image2.jpg"
+                        segments:
+                          - text: "The climax of the story."
+                            sound_url: "https://example.com/story_sound3.mp3"
+                    page: null
+                    is_last: false
         '400':
           description: Bad request, invalid or missing subject_id.
         '405':
           description: Method not allowed for this endpoint.
         '500':
           description: Internal server error.
-

@@ -32,10 +32,10 @@ export class PgSectionRepository implements SectionRepository {
             ),
             scenes AS (
                 SELECT s.id as section_id, 
-                    array_agg(json_build_object(
+                    json_agg(json_build_object(
                         'image_url', i.image_url,
                         'segments', (
-                            SELECT array_agg(json_build_object(
+                            SELECT json_agg(json_build_object(
                                 'text', seg.text,
                                 'sound_url', snd.sound_url
                             ))
@@ -50,12 +50,44 @@ export class PgSectionRepository implements SectionRepository {
                 LEFT JOIN "Image" i ON sc.id = i.scene_id
                 WHERE s.subject_id = ${subjectId} AND s.kind = 'STORY'
                 GROUP BY s.id
+            ),
+            actions AS (
+                SELECT 
+                    a.page_id,
+                    json_agg(json_build_object(
+                        'id', a.id,
+                        'next_section_id', a.next_section_id,
+                        'label', a.label
+                    )) AS actions
+                FROM "Action" a
+                GROUP BY a.page_id
+            ),
+            pages AS (
+                SELECT 
+                    p.section_id,
+                    json_build_object(
+                        'id', p.id,
+                        'html', p.html,
+                        'actions', COALESCE(a.actions, '[]')  -- Include actions
+                    ) AS page
+                FROM "Page" p
+                LEFT JOIN actions a ON p.id = a.page_id  -- Join actions CTE
             )
-            SELECT fs.*, tc.total_count, CASE WHEN fs.kind = 'STORY' THEN sn.scenes ELSE NULL END AS scenes
+            SELECT 
+                fs.*, 
+                tc.total_count,
+                CASE 
+                    WHEN fs.kind = 'STORY' THEN sn.scenes
+                    ELSE NULL
+                END AS scenes,
+                CASE 
+                    WHEN fs.kind = 'PAGE' THEN pg.page
+                    ELSE NULL
+                END AS page
             FROM first_section fs
             CROSS JOIN total_count tc
-            LEFT JOIN scenes sn ON fs.id = sn.section_id;`;
-
+            LEFT JOIN scenes sn ON fs.id = sn.section_id
+            LEFT JOIN pages pg ON fs.id = pg.section_id;`;
 
             const row = result.rows[0];
 
@@ -69,6 +101,7 @@ export class PgSectionRepository implements SectionRepository {
             const responseData: SectionResponse = {
                 kind: row.kind,
                 scenes: row.scenes,
+                page: row.page,
                 section_id: row.id.toString(),
                 is_last: parseInt(row.order) === parseInt(row.total_count)
             };
@@ -104,7 +137,7 @@ export class PgSectionRepository implements SectionRepository {
                     WHERE id = ${sectionId}
                 ),
                 next_section AS (
-                    SELECT *, ROW_NUMBER() OVER (ORDER BY "order" ASC) as rn
+                    SELECT *, ROW_NUMBER() OVER (ORDER BY "order" ASC) AS rn
                     FROM "Section"
                     WHERE subject_id = (SELECT subject_id FROM current_section)
                     AND "order" = (SELECT "order" FROM current_section) + 1
@@ -116,11 +149,11 @@ export class PgSectionRepository implements SectionRepository {
                     WHERE subject_id = (SELECT subject_id FROM current_section)
                 ),
                 scenes AS (
-                    SELECT s.id as section_id, 
-                        array_agg(json_build_object(
+                    SELECT s.id AS section_id,
+                        json_agg(json_build_object(
                             'image_url', i.image_url,
                             'segments', (
-                                SELECT array_agg(json_build_object(
+                                SELECT json_agg(json_build_object(
                                     'text', seg.text,
                                     'sound_url', snd.sound_url
                                 ))
@@ -135,11 +168,45 @@ export class PgSectionRepository implements SectionRepository {
                     LEFT JOIN "Image" i ON sc.id = i.scene_id
                     WHERE s.subject_id = (SELECT subject_id FROM current_section) AND s.kind = 'STORY'
                     GROUP BY s.id
+                ),
+                actions AS (
+                    SELECT 
+                        a.page_id,
+                        json_agg(json_build_object(
+                            'id', a.id,
+                            'next_section_id', a.next_section_id,
+                            'label', a.label
+                        )) AS actions
+                    FROM "Action" a
+                    GROUP BY a.page_id
+                ),
+                pages AS (
+                    SELECT 
+                        p.section_id,
+                        json_build_object(
+                            'id', p.id,
+                            'html', p.html,
+                            'actions', COALESCE(a.actions, '[]')  -- Include actions
+                        ) AS page
+                    FROM "Page" p
+                    LEFT JOIN actions a ON p.id = a.page_id  -- Join actions CTE
                 )
-                SELECT ns.*, tc.total_count, CASE WHEN ns.kind = 'STORY' THEN sn.scenes ELSE NULL END AS scenes
+                SELECT 
+                    ns.*, 
+                    tc.total_count,
+                    CASE 
+                        WHEN ns.kind = 'STORY' THEN sn.scenes
+                        ELSE NULL
+                    END AS scenes,
+                    CASE 
+                        WHEN ns.kind = 'PAGE' THEN pg.page
+                        ELSE NULL
+                    END AS page
                 FROM next_section ns
                 CROSS JOIN total_count tc
-                LEFT JOIN scenes sn ON ns.id = sn.section_id;`;
+                LEFT JOIN scenes sn ON ns.id = sn.section_id
+                LEFT JOIN pages pg ON ns.id = pg.section_id;
+                `;
         
             const row = result.rows[0];
 
@@ -152,6 +219,7 @@ export class PgSectionRepository implements SectionRepository {
 
             const responseData: SectionResponse = {
                 kind: row.kind,
+                page: row.page,
                 scenes: row.scenes,
                 section_id: row.id.toString(),
                 is_last: parseInt(row.order) === parseInt(row.total_count)
