@@ -3,6 +3,7 @@ tasks:
     command: |
       cd web-app
       cp .env.example .env
+      echo "VITE_EDGE_FUNCTIONS_BASE_URL=$(gp url 54321)/functions/v1" >> .env
       npm install
       npm run dev
   - name: edge-functions-dev
