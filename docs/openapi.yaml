@@ -79,7 +79,7 @@ components:
       properties:
         section_id:
           type: string
-          example: "67890"
+          example: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
         kind:
           type: string
           enum:
@@ -157,7 +157,7 @@ paths:
               properties:
                 section_id:
                   type: string
-                  example: "12345"
+                  example: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
               required:
                 - section_id
       responses:
@@ -171,7 +171,7 @@ paths:
                 example1:
                   summary: Example response with kind PAGE
                   value:
-                    section_id: "67890"
+                    section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
                     kind: PAGE
                     scenes: null
                     page:
@@ -185,7 +185,7 @@ paths:
                 example2:
                   summary: Example response with kind STORY
                   value:
-                    section_id: "54321"
+                    section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
                     kind: STORY
                     scenes:
                       - image_url: "https://example.com/story_image1.jpg"
@@ -221,7 +221,7 @@ paths:
               properties:
                 subject_id:
                   type: string
-                  example: "subject123"
+                  example: "a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1"
               required:
                 - subject_id
       responses:
@@ -235,7 +235,7 @@ paths:
                 example1:
                   summary: Example response with kind PAGE
                   value:
-                    section_id: "67890"
+                    section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
                     kind: PAGE
                     scenes: null
                     page:

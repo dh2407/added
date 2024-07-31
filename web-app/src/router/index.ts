@@ -7,16 +7,23 @@ import HomeView from '@/views/Home.vue'
 // import SubjectListView from '@/views/Subject/SubjectsList.vue'
 // import SubjectDetailsView from '@/views/Subject/SubjectDetails.vue'
 // import SubSubjectView from '@/views/SubSubject/SubSubject.vue'
-import StorySectionView from '@/views/Section/StorySection/StorySection.vue'
+// import StorySectionView from '@/views/Section/StorySection/StorySection.vue'
+import PageSectionView from '@/views/Section/PageSection/PageSection.vue'
 import MainLayout from '@/components/Layouts/MainLayout.vue'
 // import { storeToRefs } from 'pinia';
 
 const routes = [
+  // {
+  //     path: '/story',
+  //     name: 'StorySectionView',
+  //     component: StorySectionView
+  // },
   {
-      path: '/story',
-      name: 'StorySectionView',
-      component: StorySectionView
-  },
+    path: '/page',
+    name: 'PageSectionView',
+    component: PageSectionView
+},
+
   {
     path: '/',
     component: MainLayout,
@@ -79,7 +86,7 @@ export const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.path === '/') {
-    next({ name: 'StorySectionView' })
+    next({ name: 'PageSectionView' })
     return;
   }
   next();
