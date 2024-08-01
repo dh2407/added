@@ -8,8 +8,9 @@ import HomeView from '@/views/Home.vue'
 // import SubjectDetailsView from '@/views/Subject/SubjectDetails.vue'
 // import SubSubjectView from '@/views/SubSubject/SubSubject.vue'
 // import StorySectionView from '@/views/Section/StorySection/StorySection.vue'
-import PageSectionView from '@/views/Section/PageSection/PageSection.vue'
+// import PageSectionView from '@/views/Section/PageSection/PageSection.vue'
 import MainLayout from '@/components/Layouts/MainLayout.vue'
+import SectionHandler from '@/views/Section/SectionHandler.vue'
 // import { storeToRefs } from 'pinia';
 
 const routes = [
@@ -18,12 +19,16 @@ const routes = [
   //     name: 'StorySectionView',
   //     component: StorySectionView
   // },
-  {
-    path: '/page',
-    name: 'PageSectionView',
-    component: PageSectionView
-},
-
+  // {
+  //   path: '/page',
+  //   name: 'PageSectionView',
+  //   component: PageSectionView
+  // },
+  // {
+  //   path: '/questions_game',
+  //   name: 'QuestionsGameSectionView',
+  //   component: QuestionsGameSectionView
+  // },
   {
     path: '/',
     component: MainLayout,
@@ -32,6 +37,12 @@ const routes = [
         path: '',
         name: 'Home',
         component: HomeView
+      },
+      {
+        path: '/subject/:subject_id/section',
+        name: 'SectionHandler',
+        component: SectionHandler,
+        props: true,
       },
       // {
       //   path: 'signup',
@@ -86,7 +97,10 @@ export const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.path === '/') {
-    next({ name: 'PageSectionView' })
+    next({ 
+      name: 'SectionHandler',
+      params: { subject_id: 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1' }
+    })
     return;
   }
   next();

@@ -19,6 +19,7 @@ components:
       type: string
       enum: [PAGE, STORY, QUESTIONS_GAME]
       example: PAGE
+
     ActionModel:
       type: object
       properties:
@@ -186,6 +187,20 @@ components:
         - section_id
         - questions
 
+    StoryModel:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "54321"
+        scenes:
+          type: array
+          items:
+            $ref: '#/components/schemas/SceneModel'
+      required:
+        - id
+        - scenes
+
     SectionResponse:
       type: object
       properties:
@@ -194,12 +209,9 @@ components:
           example: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
         kind:
           $ref: '#/components/schemas/SectionKindEnum'
-        scenes:
-          type: array
-          items:
-            $ref: '#/components/schemas/SceneModel'
+        story:
+          $ref: '#/components/schemas/StoryModel'
           nullable: true
-          example: null
         page:
           $ref: '#/components/schemas/PageModel'
           nullable: true
@@ -219,7 +231,7 @@ components:
           value:
             section_id: "67890"
             kind: PAGE
-            scenes: null
+            story: null
             page:
               id: "12345"
               html: "<p>This is an example page content.</p>"
@@ -234,17 +246,19 @@ components:
           value:
             section_id: "54321"
             kind: STORY
-            scenes:
-              - image_url: "https://example.com/story_image1.jpg"
-                segments:
-                  - text: "The story begins..."
-                    sound_url: "https://example.com/story_sound1.mp3"
-                  - text: "And continues..."
-                    sound_url: "https://example.com/story_sound2.mp3"
-              - image_url: "https://example.com/story_image2.jpg"
-                segments:
-                  - text: "The climax of the story."
-                    sound_url: "https://example.com/story_sound3.mp3"
+            story:
+              id: "54321"
+              story:
+                - image_url: "https://example.com/story_image1.jpg"
+                  segments:
+                    - text: "The story begins..."
+                      sound_url: "https://example.com/story_sound1.mp3"
+                    - text: "And continues..."
+                      sound_url: "https://example.com/story_sound2.mp3"
+                - image_url: "https://example.com/story_image2.jpg"
+                  segments:
+                    - text: "The climax of the story."
+                      sound_url: "https://example.com/story_sound3.mp3"
             page: null
             questions_game: null
             is_last: false
@@ -253,7 +267,7 @@ components:
           value:
             section_id: "78901"
             kind: QUESTIONS_GAME
-            scenes: null
+            story: null
             page: null
             questions_game:
               id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
@@ -321,7 +335,7 @@ paths:
                   value:
                     section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
                     kind: PAGE
-                    scenes: null
+                    story: null
                     page:
                       id: "12345"
                       html: "<p>This is an example page content.</p>"
@@ -336,17 +350,20 @@ paths:
                   value:
                     section_id: "54321"
                     kind: STORY
-                    scenes:
-                      - image_url: "https://example.com/story_image1.jpg"
-                        segments:
-                          - text: "The story begins..."
-                            sound_url: "https://example.com/story_sound1.mp3"
-                          - text: "And continues..."
-                            sound_url: "https://example.com/story_sound2.mp3"
-                      - image_url: "https://example.com/story_image2.jpg"
-                        segments:
-                          - text: "The climax of the story."
-                            sound_url: "https://example.com/story_sound3.mp3"
+                    story:
+                      id: "54321"
+                      story:
+                        - image_url: "https://example.com/story_image1.jpg"
+                          segments:
+                            - text: "The story begins..."
+                              sound_url: "https://example.com/story_sound1.mp3"
+                            - text: "And continues..."
+                              sound_url: "https://example.com/story_sound2.mp3"
+                        - image_url: "https://example.com/story_image2.jpg"
+                          segments:
+                            - text: "The climax of the story."
+                              sound_url: "https://example.com/story_sound3.mp3"
+
                     page: null
                     questions_game: null
                     is_last: false
@@ -355,7 +372,7 @@ paths:
                   value:
                     section_id: "78901"
                     kind: QUESTIONS_GAME
-                    scenes: null
+                    story: null
                     page: null
                     questions_game:
                       id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
@@ -423,7 +440,7 @@ paths:
                   value:
                     section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
                     kind: PAGE
-                    scenes: null
+                    story: null
                     page:
                       id: "12345"
                       html: "<p>This is an example page content.</p>"
@@ -438,17 +455,19 @@ paths:
                   value:
                     section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
                     kind: STORY
-                    scenes:
-                      - image_url: "https://example.com/story_image1.jpg"
-                        segments:
-                          - text: "The story begins..."
-                            sound_url: "https://example.com/story_sound1.mp3"
-                          - text: "And continues..."
-                            sound_url: "https://example.com/story_sound2.mp3"
-                      - image_url: "https://example.com/story_image2.jpg"
-                        segments:
-                          - text: "The climax of the story."
-                            sound_url: "https://example.com/story_sound3.mp3"
+                    story:
+                      id: "54321"
+                      scenes:
+                        - image_url: "https://example.com/story_image1.jpg"
+                          segments:
+                            - text: "The story begins..."
+                              sound_url: "https://example.com/story_sound1.mp3"
+                            - text: "And continues..."
+                              sound_url: "https://example.com/story_sound2.mp3"
+                        - image_url: "https://example.com/story_image2.jpg"
+                          segments:
+                            - text: "The climax of the story."
+                              sound_url: "https://example.com/story_sound3.mp3"
                     page: null
                     questions_game: null
                     is_last: false
@@ -457,7 +476,7 @@ paths:
                   value:
                     section_id: "78901"
                     kind: QUESTIONS_GAME
-                    scenes: null
+                    story: null
                     page: null
                     questions_game:
                       id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"

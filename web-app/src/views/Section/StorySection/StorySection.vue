@@ -1,30 +1,20 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, defineProps, onMounted } from 'vue';
 import { StorySection } from './StorySection';
-import { ApiService } from '@/services/index';
 import LoadingComponent from '@/components/Loading/LoadingComponent.vue';
 import ArrowNextSvg from '@/assets/svgs/arrow-next.svg';
 import ArrowPreviousSvg from '@/assets/svgs/arrow-previous.svg';
 import AudioPlayer from '@/components/AudioPlayer/AudioPlayer.vue';
 
+const props = defineProps<{ sectionInstance: StorySection }>();
+
 const storySection = ref<StorySection | null>(null);
 const isLoading = ref(true);
 
-onMounted(async () => {
-    try {
-        const { data, error } = await ApiService.sectionGetFirstSectionPost({ subject_id: "2" });
-        if (error) {
-            console.error('Error:', error);
-            return;
-        }
-        if (data) {
-            storySection.value = new StorySection(data.data);
-        }
-    } catch (err) {
-        console.error('Fetch error:', err);
-    } finally {
-        isLoading.value = false;
-    }
+onMounted(() => {
+    // Use the injected section instance from props
+    storySection.value = props.sectionInstance;
+    isLoading.value = false;
 });
 
 const handleAudioEnd = () => {

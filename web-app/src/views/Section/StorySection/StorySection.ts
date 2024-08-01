@@ -19,7 +19,7 @@ export class StorySection {
     }
 
     private isLastScene(): boolean {
-        return this._currentSceneNumber === this.storySection.scenes.length;
+        return this._currentSceneNumber === this.storySection.scenes?.length;
     }
 
     private moveToNextScene() {
@@ -43,7 +43,7 @@ export class StorySection {
 
     private moveToPreviousScene() {
         this._currentSceneNumber--;
-        this._currentSegmentNumberInTheCurrentScene = this.storySection.scenes[this._currentSceneNumber - 1].segments.length;
+        this._currentSegmentNumberInTheCurrentScene = this.storySection?.scenes?.[this._currentSceneNumber - 1]?.segments?.length ?? 0; // TODO fix this undefined when refactoring with section handler
         this._currentSegmentNumberInAllScenes--;
     }
 
@@ -53,7 +53,7 @@ export class StorySection {
     }
 
     private get currentSceneTotalNumberOfSegments(): number {
-        return this.storySection.scenes[this._currentSceneNumber - 1].segments.length;
+        return this.storySection?.scenes?.[this._currentSceneNumber - 1]?.segments?.length ?? 0; // TODO fix this undefined when refactoring with section handler
     }
 
     // provided to the view
@@ -87,19 +87,19 @@ export class StorySection {
     }
 
     public get scenesTotalNumberOfSegments(): number {
-        return this.storySection.scenes.reduce((total, scene) => total + scene.segments.length, 0);
+        return this.storySection?.scenes!.reduce((total, scene) => total + scene.segments.length, 0);// TODO fix this undefined when refactoring with section handler
     }
 
     public get currentSceneImageSrc(): string {
-        return this.storySection.scenes[this._currentSceneNumber - 1].image_url;
+        return this.storySection.scenes?.[this._currentSceneNumber - 1].image_url || "";// TODO fix this undefined when refactoring with section handler
     }
 
     public get currentSegmentSoundSrc(): string | undefined {
-        return this.storySection.scenes[this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].sound_url;
+        return this.storySection?.scenes![this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].sound_url;// TODO fix this undefined when refactoring with section handler
     }
 
     public get currentSegmentText(): string {
-        return this.storySection.scenes[this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].text;
+        return this.storySection?.scenes![this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].text;// TODO fix this undefined when refactoring with section handler
     }
 
     public get isNextButtonDisplayed(): boolean {

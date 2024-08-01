@@ -1,9 +1,9 @@
-import { Page, SectionResponse } from '../../../../../generated-api/index'
+import { PageModel } from '../../../../../generated-api/index'
 
 export class PageSection {
-    public page: Page;
+    public page: PageModel;
 
-    constructor(section: SectionResponse) {
-        this.page = section.page;
+    constructor(page: PageModel ) {
+        this.page = page;
     }
 }

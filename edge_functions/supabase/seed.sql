@@ -15,10 +15,10 @@ INSERT INTO "public"."ParentChildSubjectsLink" (created_at, updated_at, parent_i
 
 -- Insert sections for SQL subject
 INSERT INTO "public"."Section" (id, created_at, updated_at, subject_id, kind, "order") VALUES
-('d6e3a8c3-466b-4f12-9b0e-8417fda41a9b', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 1),
-('24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'QUESTIONS_GAME', 2),
+('24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'QUESTIONS_GAME', 1),
+('4cb51ec9-15e5-4d50-9149-6a34b841e481', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'STORY', 2),
 ('e28b8877-bcdf-4c6d-9b24-9fd183a916ff', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 3),
-('4cb51ec9-15e5-4d50-9149-6a34b841e481', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'STORY', 4);
+('d6e3a8c3-466b-4f12-9b0e-8417fda41a9b', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 4);
 
 -- Insert Story for section
 INSERT INTO "public"."Story" (id, created_at, updated_at, section_id) VALUES

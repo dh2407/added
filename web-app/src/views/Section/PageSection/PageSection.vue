@@ -1,30 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, defineProps, onMounted } from 'vue';
 import { PageSection } from './PageSection';
-import { ApiService } from '@/services/index';
 import LoadingComponent from '@/components/Loading/LoadingComponent.vue';
+
+const props = defineProps<{ sectionInstance: PageSection }>();
 
 const pageSection = ref<PageSection | null>(null);
 const isLoading = ref(true);
 
-onMounted(async () => {
-    try {
-        const { data, error } = await ApiService.sectionGetNextSectionPost({ section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b" });
-        if (error) {
-            console.error('Error:', error);
-            return;
-        }
-        if (data) {
-            pageSection.value = new PageSection(data.data);
-            console.log(pageSection.value)
-        }
-    } catch (err) {
-        console.error('Fetch error:', err);
-    } finally {
-        isLoading.value = false;
-    }
+onMounted(() => {
+    // Use the injected section instance from props
+    pageSection.value = props.sectionInstance;
+    isLoading.value = false;
 });
-
 </script>
 
 <template>
