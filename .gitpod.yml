@@ -5,6 +5,7 @@ tasks:
       cp .env.example .env
       echo "VITE_EDGE_FUNCTIONS_BASE_URL=$(gp url 54321)/functions/v1" >> .env
       npm install
+      gp sync-await gen-api
       npm run dev
   - name: edge-functions-dev
     command: |
@@ -16,6 +17,7 @@ tasks:
     command: |
       npm install @openapitools/openapi-generator-cli -g
       openapi-generator-cli generate -i docs/openapi.yaml -g typescript-axios -o ./generated-api --skip-validate-spec
+      gp sync-done gen-api
 
 ports:
   - name: edge-functions-url

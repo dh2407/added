@@ -16,9 +16,9 @@ INSERT INTO "public"."ParentChildSubjectsLink" (created_at, updated_at, parent_i
 -- Insert sections for SQL subject
 INSERT INTO "public"."Section" (id, created_at, updated_at, subject_id, kind, "order") VALUES
 ('d6e3a8c3-466b-4f12-9b0e-8417fda41a9b', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 1),
-('e28b8877-bcdf-4c6d-9b24-9fd183a916ff', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 2),
-('4cb51ec9-15e5-4d50-9149-6a34b841e481', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'STORY', 3),
-('24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'QUESTIONS_GAME', 4);
+('24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'QUESTIONS_GAME', 2),
+('e28b8877-bcdf-4c6d-9b24-9fd183a916ff', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 3),
+('4cb51ec9-15e5-4d50-9149-6a34b841e481', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'STORY', 4);
 
 -- Insert Story for section
 INSERT INTO "public"."Story" (id, created_at, updated_at, section_id) VALUES
@@ -61,11 +61,11 @@ INSERT INTO "public"."MultipleChoiceQuestion" (id, created_at, updated_at, text,
 ('cd789d24-77d8-4269-878d-7b92c8b6f5a8', NOW(), NULL, 'What does SQL stand for?', 'cb1a5b99-1777-43a4-998f-3e5c0e8b6fc0');
 
 -- Insert responses for MultipleChoiceQuestion
-INSERT INTO "public"."MultipleChoiceQuestionResponse" (id, created_at, updated_at, text, multiple_choice_question_id, is_correct) VALUES
-('5a6ed29b-04cc-4c1f-a8d8-c9dfbeb1e2c2', NOW(), NULL, 'Structured Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', TRUE),
-('8d4d8b3e-3f0f-4262-8af3-1b4cbac00dbd', NOW(), NULL, 'Simple Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE),
-('a769a83b-26e8-4f90-8f8f-40a15b7d1b74', NOW(), NULL, 'Standard Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE),
-('b349c1e1-ef68-46b8-afe3-307f95182ff7', NOW(), NULL, 'Sequential Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE);
+INSERT INTO "public"."MultipleChoiceQuestionResponse" (id, created_at, updated_at, text, multiple_choice_question_id, is_correct, selected_score, unselected_score ) VALUES
+('5a6ed29b-04cc-4c1f-a8d8-c9dfbeb1e2c2', NOW(), NULL, 'Structured Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', TRUE, 2, -2),
+('8d4d8b3e-3f0f-4262-8af3-1b4cbac00dbd', NOW(), NULL, 'Simple Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0),
+('a769a83b-26e8-4f90-8f8f-40a15b7d1b74', NOW(), NULL, 'Standard Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0),
+('b349c1e1-ef68-46b8-afe3-307f95182ff7', NOW(), NULL, 'Sequential Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0);
 
 -- Insert Pages for the new sections
 INSERT INTO "public"."Page" (id, section_id, html) VALUES

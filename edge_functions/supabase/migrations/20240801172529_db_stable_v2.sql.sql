@@ -44,7 +44,17 @@ CREATE TYPE "public"."SectionKind" AS ENUM (
 ALTER TYPE "public"."SectionKind" OWNER TO "postgres";
 
 SET default_tablespace = '';
+
 SET default_table_access_method = "heap";
+
+CREATE TABLE IF NOT EXISTS "public"."Action" (
+    "id" "uuid" NOT NULL,
+    "label" character varying(255) NOT NULL,
+    "next_section_id" "uuid" NOT NULL,
+    "page_id" "uuid" NOT NULL
+);
+
+ALTER TABLE "public"."Action" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."FillInTheBlankCorrectResponse" (
     "id" "uuid" NOT NULL,
@@ -114,10 +124,20 @@ CREATE TABLE IF NOT EXISTS "public"."MultipleChoiceQuestionResponse" (
     "text" "text" NOT NULL,
     "multiple_choice_question_id" "uuid" NOT NULL,
     "is_correct" boolean NOT NULL,
-    "explanation" text
+    "explanation" "text",
+    "selected_score" numeric,
+    "unselected_score" numeric
 );
 
 ALTER TABLE "public"."MultipleChoiceQuestionResponse" OWNER TO "postgres";
+
+CREATE TABLE IF NOT EXISTS "public"."Page" (
+    "id" "uuid" NOT NULL,
+    "section_id" "uuid" NOT NULL,
+    "html" "text" NOT NULL
+);
+
+ALTER TABLE "public"."Page" OWNER TO "postgres";
 
 CREATE TABLE IF NOT EXISTS "public"."ParentChildSubjectsLink" (
     "created_at" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -209,22 +229,8 @@ CREATE TABLE IF NOT EXISTS "public"."Subject" (
 
 ALTER TABLE "public"."Subject" OWNER TO "postgres";
 
-CREATE TABLE IF NOT EXISTS "public"."Page" (
-    "id" "uuid" NOT NULL,
-    "section_id" "uuid" NOT NULL,
-    "html" "text" NOT NULL
-);
-
-ALTER TABLE "public"."Page" OWNER TO "postgres";
-
-CREATE TABLE IF NOT EXISTS "public"."Action" (
-    "id" "uuid" NOT NULL,
-    "label" character varying(255) NOT NULL,
-    "next_section_id" "uuid" NOT NULL,
-    "page_id" "uuid" NOT NULL
-);
-
-ALTER TABLE "public"."Action" OWNER TO "postgres";
+ALTER TABLE ONLY "public"."Action"
+    ADD CONSTRAINT "Action_pkey" PRIMARY KEY ("id");
 
 ALTER TABLE ONLY "public"."FillInTheBlankCorrectResponse"
     ADD CONSTRAINT "FillInTheBlankCorrectResponse_pkey" PRIMARY KEY ("id");
@@ -246,6 +252,9 @@ ALTER TABLE ONLY "public"."MultipleChoiceQuestionResponse"
 
 ALTER TABLE ONLY "public"."MultipleChoiceQuestion"
     ADD CONSTRAINT "MultipleChoiceQuestion_pkey" PRIMARY KEY ("id");
+
+ALTER TABLE ONLY "public"."Page"
+    ADD CONSTRAINT "Page_pkey" PRIMARY KEY ("id");
 
 ALTER TABLE ONLY "public"."ParentChildSubjectsLink"
     ADD CONSTRAINT "ParentChildSubjectsLink_pkey" PRIMARY KEY ("parent_id", "child_id");
@@ -277,14 +286,14 @@ ALTER TABLE ONLY "public"."Story"
 ALTER TABLE ONLY "public"."Story"
     ADD CONSTRAINT "Story_section_id_key" UNIQUE ("section_id");
 
-ALTER TABLE ONLY "public"."Page"
-    ADD CONSTRAINT "Page_pkey" PRIMARY KEY ("id");
-
-ALTER TABLE ONLY "public"."Action"
-    ADD CONSTRAINT "Action_pkey" PRIMARY KEY ("id");
-
 ALTER TABLE ONLY "public"."Subject"
     ADD CONSTRAINT "Subject_pkey" PRIMARY KEY ("id");
+
+ALTER TABLE ONLY "public"."Action"
+    ADD CONSTRAINT "Action_next_section_id_foreign" FOREIGN KEY ("next_section_id") REFERENCES "public"."Section"("id");
+
+ALTER TABLE ONLY "public"."Action"
+    ADD CONSTRAINT "Action_page_id_foreign" FOREIGN KEY ("page_id") REFERENCES "public"."Page"("id");
 
 ALTER TABLE ONLY "public"."ParentChildSubjectsLink"
     ADD CONSTRAINT "ParentChildSubjectsLink_child_id_fkey" FOREIGN KEY ("child_id") REFERENCES "public"."Subject"("id");
@@ -313,6 +322,9 @@ ALTER TABLE ONLY "public"."MultipleChoiceQuestion"
 ALTER TABLE ONLY "public"."MultipleChoiceQuestionResponse"
     ADD CONSTRAINT "multiplechoicequestionresponse_multiple_choice_question_id_fore" FOREIGN KEY ("multiple_choice_question_id") REFERENCES "public"."MultipleChoiceQuestion"("id");
 
+ALTER TABLE ONLY "public"."Page"
+    ADD CONSTRAINT "page_section_id_foreign" FOREIGN KEY ("section_id") REFERENCES "public"."Section"("id");
+
 ALTER TABLE ONLY "public"."Question"
     ADD CONSTRAINT "question_question_game_id_foreign" FOREIGN KEY ("question_game_id") REFERENCES "public"."QuestionsGame"("id");
 
@@ -331,15 +343,6 @@ ALTER TABLE ONLY "public"."Segment"
 ALTER TABLE ONLY "public"."Segment"
     ADD CONSTRAINT "segment_sound_id_foreign" FOREIGN KEY ("sound_id") REFERENCES "public"."Sound"("id");
 
-ALTER TABLE ONLY "public"."Page"
-    ADD CONSTRAINT "page_section_id_foreign" FOREIGN KEY ("section_id") REFERENCES "public"."Section"("id");
-
-ALTER TABLE ONLY "public"."Action"
-    ADD CONSTRAINT "Action_next_section_id_foreign" FOREIGN KEY ("next_section_id") REFERENCES "public"."Section"("id");
-
-ALTER TABLE ONLY "public"."Action"
-    ADD CONSTRAINT "Action_page_id_foreign" FOREIGN KEY ("page_id") REFERENCES "public"."Page"("id");
-
 ALTER TABLE ONLY "public"."Story"
     ADD CONSTRAINT "story_section_id_foreign" FOREIGN KEY ("section_id") REFERENCES "public"."Section"("id");
 
@@ -349,6 +352,10 @@ GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
+
+GRANT ALL ON TABLE "public"."Action" TO "anon";
+GRANT ALL ON TABLE "public"."Action" TO "authenticated";
+GRANT ALL ON TABLE "public"."Action" TO "service_role";
 
 GRANT ALL ON TABLE "public"."FillInTheBlankCorrectResponse" TO "anon";
 GRANT ALL ON TABLE "public"."FillInTheBlankCorrectResponse" TO "authenticated";
@@ -377,6 +384,10 @@ GRANT ALL ON TABLE "public"."MultipleChoiceQuestion" TO "service_role";
 GRANT ALL ON TABLE "public"."MultipleChoiceQuestionResponse" TO "anon";
 GRANT ALL ON TABLE "public"."MultipleChoiceQuestionResponse" TO "authenticated";
 GRANT ALL ON TABLE "public"."MultipleChoiceQuestionResponse" TO "service_role";
+
+GRANT ALL ON TABLE "public"."Page" TO "anon";
+GRANT ALL ON TABLE "public"."Page" TO "authenticated";
+GRANT ALL ON TABLE "public"."Page" TO "service_role";
 
 GRANT ALL ON TABLE "public"."ParentChildSubjectsLink" TO "anon";
 GRANT ALL ON TABLE "public"."ParentChildSubjectsLink" TO "authenticated";

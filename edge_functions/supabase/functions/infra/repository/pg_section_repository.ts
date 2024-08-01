@@ -72,6 +72,44 @@ export class PgSectionRepository implements SectionRepository {
                     ) AS page
                 FROM "Page" p
                 LEFT JOIN actions a ON p.id = a.page_id  -- Join actions CTE
+            ),
+            questions_game AS (
+                SELECT 
+                    qg.section_id,
+                    json_build_object(
+                        'id', qg.id,
+                        'questions', (
+                            SELECT json_agg(json_build_object(
+                                'id', q.id,
+                                'kind', q.kind,
+                                'order', q.order,
+                                'fill_in_the_blanks_questions', null,
+                                'multiple_choice_questions', (
+                                    SELECT json_agg(json_build_object(
+                                        'id', mcq.id,
+                                        'text', mcq.text,
+                                        'responses', (
+                                            SELECT json_agg(json_build_object(
+                                                'id', mcr.id,
+                                                'text', mcr.text,
+                                                'is_correct', mcr.is_correct,
+                                                'explanation', mcr.explanation,
+                                                'selected_score', mcr.selected_score,
+                                                'unselected_score', mcr.unselected_score
+                                            ))
+                                            FROM "MultipleChoiceQuestionResponse" mcr
+                                            WHERE mcr.multiple_choice_question_id = mcq.id
+                                        )
+                                    ))
+                                    FROM "MultipleChoiceQuestion" mcq
+                                    WHERE mcq.question_id = q.id
+                                )
+                            ))
+                            FROM "Question" q
+                            WHERE q.question_game_id = qg.id
+                        )
+                    ) AS questions_game
+                FROM "QuestionsGame" qg
             )
             SELECT 
                 fs.*, 
@@ -83,11 +121,16 @@ export class PgSectionRepository implements SectionRepository {
                 CASE 
                     WHEN fs.kind = 'PAGE' THEN pg.page
                     ELSE NULL
-                END AS page
+                END AS page,
+                CASE 
+                    WHEN fs.kind = 'QUESTIONS_GAME' THEN qg.questions_game
+                    ELSE NULL
+                END AS questions_game
             FROM first_section fs
             CROSS JOIN total_count tc
             LEFT JOIN scenes sn ON fs.id = sn.section_id
-            LEFT JOIN pages pg ON fs.id = pg.section_id;`;
+            LEFT JOIN pages pg ON fs.id = pg.section_id
+            LEFT JOIN questions_game qg ON fs.id = qg.section_id;`;
 
             const row = result.rows[0];
 
@@ -103,6 +146,7 @@ export class PgSectionRepository implements SectionRepository {
                 scenes: row.scenes,
                 page: row.page,
                 section_id: row.id.toString(),
+                questions_game: row.questions_game,
                 is_last: parseInt(row.order) === parseInt(row.total_count)
             };
 
@@ -190,6 +234,44 @@ export class PgSectionRepository implements SectionRepository {
                         ) AS page
                     FROM "Page" p
                     LEFT JOIN actions a ON p.id = a.page_id  -- Join actions CTE
+                ),
+                questions_game AS (
+                    SELECT 
+                        qg.section_id,
+                        json_build_object(
+                            'id', qg.id,
+                            'questions', (
+                                SELECT json_agg(json_build_object(
+                                    'id', q.id,
+                                    'kind', q.kind,
+                                    'order', q.order,
+                                    'fill_in_the_blanks_questions', null,
+                                    'multiple_choice_questions', (
+                                        SELECT json_agg(json_build_object(
+                                            'id', mcq.id,
+                                            'text', mcq.text,
+                                            'responses', (
+                                                SELECT json_agg(json_build_object(
+                                                    'id', mcr.id,
+                                                    'text', mcr.text,
+                                                    'is_correct', mcr.is_correct,
+                                                    'explanation', mcr.explanation,
+                                                    'selected_score', mcr.selected_score,
+                                                    'unselected_score', mcr.unselected_score
+                                                ))
+                                                FROM "MultipleChoiceQuestionResponse" mcr
+                                                WHERE mcr.multiple_choice_question_id = mcq.id
+                                            )
+                                        ))
+                                        FROM "MultipleChoiceQuestion" mcq
+                                        WHERE mcq.question_id = q.id
+                                    )
+                                ))
+                                FROM "Question" q
+                                WHERE q.question_game_id = qg.id
+                            )
+                        ) AS questions_game
+                    FROM "QuestionsGame" qg
                 )
                 SELECT 
                     ns.*, 
@@ -201,11 +283,16 @@ export class PgSectionRepository implements SectionRepository {
                     CASE 
                         WHEN ns.kind = 'PAGE' THEN pg.page
                         ELSE NULL
-                    END AS page
+                    END AS page,
+                    CASE 
+                        WHEN ns.kind = 'QUESTIONS_GAME' THEN qg.questions_game
+                        ELSE NULL
+                    END AS questions_game
                 FROM next_section ns
                 CROSS JOIN total_count tc
                 LEFT JOIN scenes sn ON ns.id = sn.section_id
-                LEFT JOIN pages pg ON ns.id = pg.section_id;
+                LEFT JOIN pages pg ON ns.id = pg.section_id
+                LEFT JOIN questions_game qg ON ns.id = qg.section_id;
                 `;
         
             const row = result.rows[0];
@@ -221,6 +308,7 @@ export class PgSectionRepository implements SectionRepository {
                 kind: row.kind,
                 page: row.page,
                 scenes: row.scenes,
+                questions_game: row.questions_game,
                 section_id: row.id.toString(),
                 is_last: parseInt(row.order) === parseInt(row.total_count)
             };

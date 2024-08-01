@@ -4,13 +4,22 @@ info:
   description: API for E-learning app.
   version: 1.0.0
 servers:
-  - url: https://54321-dh2407-added-8ol4ts940g5.ws-eu115.gitpod.io/functions/v1
+  - url: https://54321-dh2407-added-odp6a136gvt.ws-eu115.gitpod.io/functions/v1
     description: Development server for internal use
   - url: https://api.example.com/v1
     description: Main production server
 components:
   schemas:
-    Action:
+    QuestionKindEnum:
+      type: string
+      enum: [FILL_IN_THE_BLANKS_QUESTION, MULTIPLE_CHOICE_QUESTION]
+      example: MULTIPLE_CHOICE_QUESTION
+
+    SectionKindEnum:
+      type: string
+      enum: [PAGE, STORY, QUESTIONS_GAME]
+      example: PAGE
+    ActionModel:
       type: object
       properties:
         id:
@@ -27,7 +36,7 @@ components:
         - next_section_id
         - label
 
-    Page:
+    PageModel:
       type: object
       properties:
         id:
@@ -39,7 +48,7 @@ components:
         actions:
           type: array
           items:
-            $ref: '#/components/schemas/Action'
+            $ref: '#/components/schemas/ActionModel'
           example:
             - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
               next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
@@ -48,7 +57,7 @@ components:
         - id
         - html
 
-    Segment:
+    SegmentModel:
       type: object
       properties:
         text:
@@ -60,7 +69,7 @@ components:
       required:
         - text
 
-    Scene:
+    SceneModel:
       type: object
       properties:
         image_url:
@@ -69,10 +78,113 @@ components:
         segments:
           type: array
           items:
-            $ref: '#/components/schemas/Segment'
+            $ref: '#/components/schemas/SegmentModel'
       required:
         - image_url
         - segments
+
+    MultipleChoiceQuestionResponseModel:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
+        text:
+          type: string
+          example: "Example response text"
+        multiple_choice_question_id:
+          type: string
+          example: "5b62a17e-f343-4a7c-a9b8-7d4d6eb104ec"
+        is_correct:
+          type: boolean
+          example: true
+        explanation:
+          type: string
+          example: "This is why the response is correct."
+        selected_score:
+          type: number
+          format: float
+          example: 10
+        unselected_score:
+          type: number
+          format: float
+          example: -5
+      required:
+        - id
+        - text
+        - multiple_choice_question_id
+        - is_correct
+
+    MultipleChoiceQuestionModel:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+        text:
+          type: string
+          example: "What is the capital of France?"
+        question_id:
+          type: string
+          example: "e6250d3c-9c1d-44b7-8e15-d1f6e340f62e"
+        responses:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultipleChoiceQuestionResponseModel'
+      required:
+        - id
+        - text
+        - question_id
+        - responses
+
+    QuestionModel:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+        kind:
+          $ref: '#/components/schemas/QuestionKindEnum'
+        question_game_id:
+          type: string
+          example: "a3c25bfa-1d38-4d7b-a4f5-6d5c6a6f5d7b"
+        order:
+          type: integer
+          example: 1
+        fill_in_the_blanks_questions:
+          type: array
+          items:
+            type: object
+            properties: {}
+          nullable: true
+          example: null
+        multiple_choice_questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultipleChoiceQuestionModel'
+      required:
+        - id
+        - kind
+        - question_game_id
+        - order
+
+    QuestionsGameModel:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
+        section_id:
+          type: string
+          example: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionModel'
+      required:
+        - id
+        - section_id
+        - questions
 
     SectionResponse:
       type: object
@@ -81,20 +193,19 @@ components:
           type: string
           example: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
         kind:
-          type: string
-          enum:
-            - STORY
-            - QUESTIONS_GAME
-            - PAGE
-          example: PAGE
+          $ref: '#/components/schemas/SectionKindEnum'
         scenes:
           type: array
           items:
-            $ref: '#/components/schemas/Scene'
+            $ref: '#/components/schemas/SceneModel'
           nullable: true
           example: null
         page:
-          $ref: '#/components/schemas/Page'
+          $ref: '#/components/schemas/PageModel'
+          nullable: true
+        questions_game:
+          $ref: '#/components/schemas/QuestionsGameModel'
+          nullable: true
         is_last:
           type: boolean
           example: false
@@ -102,7 +213,6 @@ components:
         - section_id
         - kind
         - is_last
-        - page
       examples:
         example1:
           summary: Example response with kind PAGE
@@ -117,6 +227,7 @@ components:
                 - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
                   next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
                   label: "Accept the Challenge"
+            questions_game: null
             is_last: false
         example2:
           summary: Example response with kind STORY
@@ -135,6 +246,43 @@ components:
                   - text: "The climax of the story."
                     sound_url: "https://example.com/story_sound3.mp3"
             page: null
+            questions_game: null
+            is_last: false
+        example3:
+          summary: Example response with kind QUESTIONS_GAME
+          value:
+            section_id: "78901"
+            kind: QUESTIONS_GAME
+            scenes: null
+            page: null
+            questions_game:
+              id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
+              section_id: "78901"
+              questions:
+                - id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                  kind: MULTIPLE_CHOICE_QUESTION
+                  question_game_id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
+                  order: 1
+                  fill_in_the_blanks_questions: null
+                  multiple_choice_questions:
+                    - id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                      text: "What is the capital of France?"
+                      question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                      responses:
+                        - id: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
+                          text: "Paris"
+                          multiple_choice_question_id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                          is_correct: true
+                          explanation: "Paris is the capital of France."
+                          selected_score: 10
+                          unselected_score: -5
+                        - id: "1f2d3a4b-5c6d-7e8f-9a0b-1c2d3e4f5g6h"
+                          text: "London"
+                          multiple_choice_question_id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                          is_correct: false
+                          explanation: "London is the capital of the UK."
+                          selected_score: -5
+                          unselected_score: 10
             is_last: false
   securitySchemes:
     BearerAuth:
@@ -143,70 +291,6 @@ components:
       bearerFormat: JWT
 
 paths:
-  /section-get_next_section:
-    post:
-      summary: Retrieve the next section based on the provided section ID.
-      security:
-        - BearerAuth: []
-      requestBody:
-        description: Section ID to fetch the next section.
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                section_id:
-                  type: string
-                  example: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
-              required:
-                - section_id
-      responses:
-        '200':
-          description: Successfully retrieved the next section.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SectionResponse'
-              examples:
-                example1:
-                  summary: Example response with kind PAGE
-                  value:
-                    section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
-                    kind: PAGE
-                    scenes: null
-                    page:
-                      id: "12345"
-                      html: "<p>This is an example page content.</p>"
-                      actions:
-                        - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
-                          next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
-                          label: "Accept the Challenge"
-                    is_last: false
-                example2:
-                  summary: Example response with kind STORY
-                  value:
-                    section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
-                    kind: STORY
-                    scenes:
-                      - image_url: "https://example.com/story_image1.jpg"
-                        segments:
-                          - text: "The story begins..."
-                            sound_url: "https://example.com/story_sound1.mp3"
-                          - text: "And continues..."
-                            sound_url: "https://example.com/story_sound2.mp3"
-                      - image_url: "https://example.com/story_image2.jpg"
-                        segments:
-                          - text: "The climax of the story."
-                            sound_url: "https://example.com/story_sound3.mp3"
-                    page: null
-                    is_last: false
-        '400':
-          description: Bad request, invalid or missing section_id.
-        '405':
-          description: Method not allowed for this endpoint.
-        '500':
-          description: Internal server error.
-
   /section-get_first_section:
     post:
       summary: Retrieve the first section based on the provided subject ID.
@@ -245,6 +329,7 @@ paths:
                         - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
                           next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
                           label: "Accept the Challenge"
+                    questions_game: null
                     is_last: false
                 example2:
                   summary: Example response with kind STORY
@@ -263,9 +348,148 @@ paths:
                           - text: "The climax of the story."
                             sound_url: "https://example.com/story_sound3.mp3"
                     page: null
+                    questions_game: null
+                    is_last: false
+                example3:
+                  summary: Example response with kind QUESTIONS_GAME
+                  value:
+                    section_id: "78901"
+                    kind: QUESTIONS_GAME
+                    scenes: null
+                    page: null
+                    questions_game:
+                      id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
+                      section_id: "78901"
+                      questions:
+                        - id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                          kind: MULTIPLE_CHOICE_QUESTION
+                          question_game_id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
+                          order: 1
+                          fill_in_the_blanks_questions: null
+                          multiple_choice_questions:
+                            - id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                              text: "What is the capital of France?"
+                              question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                              responses:
+                                - id: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
+                                  text: "Paris"
+                                  multiple_choice_question_id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                                  is_correct: true
+                                  explanation: "Paris is the capital of France."
+                                  selected_score: 10
+                                  unselected_score: -5
+                                - id: "1f2d3a4b-5c6d-7e8f-9a0b-1c2d3e4f5g6h"
+                                  text: "London"
+                                  multiple_choice_question_id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                                  is_correct: false
+                                  explanation: "London is the capital of the UK."
+                                  selected_score: -5
+                                  unselected_score: 10
                     is_last: false
         '400':
           description: Bad request, invalid or missing subject_id.
+        '405':
+          description: Method not allowed for this endpoint.
+        '500':
+          description: Internal server error.
+
+  /section-get_next_section:
+    post:
+      summary: Retrieve the next section based on the provided section ID.
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: Section ID to fetch the next section.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                section_id:
+                  type: string
+                  example: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
+              required:
+                - section_id
+      responses:
+        '200':
+          description: Successfully retrieved the next section.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectionResponse'
+              examples:
+                example1:
+                  summary: Example response with kind PAGE
+                  value:
+                    section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
+                    kind: PAGE
+                    scenes: null
+                    page:
+                      id: "12345"
+                      html: "<p>This is an example page content.</p>"
+                      actions:
+                        - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
+                          next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
+                          label: "Accept the Challenge"
+                    questions_game: null
+                    is_last: false
+                example2:
+                  summary: Example response with kind STORY
+                  value:
+                    section_id: "d6e3a8c3-466b-4f12-9b0e-8417fda41a9b"
+                    kind: STORY
+                    scenes:
+                      - image_url: "https://example.com/story_image1.jpg"
+                        segments:
+                          - text: "The story begins..."
+                            sound_url: "https://example.com/story_sound1.mp3"
+                          - text: "And continues..."
+                            sound_url: "https://example.com/story_sound2.mp3"
+                      - image_url: "https://example.com/story_image2.jpg"
+                        segments:
+                          - text: "The climax of the story."
+                            sound_url: "https://example.com/story_sound3.mp3"
+                    page: null
+                    questions_game: null
+                    is_last: false
+                example3:
+                  summary: Example response with kind QUESTIONS_GAME
+                  value:
+                    section_id: "78901"
+                    kind: QUESTIONS_GAME
+                    scenes: null
+                    page: null
+                    questions_game:
+                      id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
+                      section_id: "78901"
+                      questions:
+                        - id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                          kind: MULTIPLE_CHOICE_QUESTION
+                          question_game_id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
+                          order: 1
+                          fill_in_the_blanks_questions: null
+                          multiple_choice_questions:
+                            - id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                              text: "What is the capital of France?"
+                              question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                              responses:
+                                - id: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
+                                  text: "Paris"
+                                  multiple_choice_question_id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                                  is_correct: true
+                                  explanation: "Paris is the capital of France."
+                                  selected_score: 10
+                                  unselected_score: -5
+                                - id: "1f2d3a4b-5c6d-7e8f-9a0b-1c2d3e4f5g6h"
+                                  text: "London"
+                                  multiple_choice_question_id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                                  is_correct: false
+                                  explanation: "London is the capital of the UK."
+                                  selected_score: -5
+                                  unselected_score: 10
+                    is_last: false
+        '400':
+          description: Bad request, invalid or missing section_id.
         '405':
           description: Method not allowed for this endpoint.
         '500':
