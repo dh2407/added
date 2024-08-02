@@ -1,17 +1,20 @@
-import { SectionResponse } from '../../../../../generated-api/index'
+import { StoryModel } from '../../../../../generated-api/index'
+import { SectionHandler } from '../SectionHandler';
 
 export class StorySection {
-    public storySection: SectionResponse;
+    public story: StoryModel;
 
+    private _sectionHandler: SectionHandler;
     private _currentSceneNumber: number;
     private _currentSegmentNumberInTheCurrentScene: number;
     private _currentSegmentNumberInAllScenes: number;
 
-    constructor(story: SectionResponse) {
+    constructor(sectionHandler: SectionHandler) {
+        this._sectionHandler = sectionHandler;
         this._currentSceneNumber = 1;
         this._currentSegmentNumberInTheCurrentScene = 1;
         this._currentSegmentNumberInAllScenes = 1;
-        this.storySection = story;
+        this.story = sectionHandler.currentSection.story!;
     }
 
     private isLastSegmentInScene(): boolean {
@@ -19,7 +22,7 @@ export class StorySection {
     }
 
     private isLastScene(): boolean {
-        return this._currentSceneNumber === this.storySection.scenes?.length;
+        return this._currentSceneNumber === this.story.scenes.length;
     }
 
     private moveToNextScene() {
@@ -43,7 +46,7 @@ export class StorySection {
 
     private moveToPreviousScene() {
         this._currentSceneNumber--;
-        this._currentSegmentNumberInTheCurrentScene = this.storySection?.scenes?.[this._currentSceneNumber - 1]?.segments?.length ?? 0; // TODO fix this undefined when refactoring with section handler
+        this._currentSegmentNumberInTheCurrentScene = this.story?.scenes[this._currentSceneNumber - 1].segments.length;
         this._currentSegmentNumberInAllScenes--;
     }
 
@@ -53,7 +56,7 @@ export class StorySection {
     }
 
     private get currentSceneTotalNumberOfSegments(): number {
-        return this.storySection?.scenes?.[this._currentSceneNumber - 1]?.segments?.length ?? 0; // TODO fix this undefined when refactoring with section handler
+        return this.story.scenes[this._currentSceneNumber - 1].segments.length;
     }
 
     // provided to the view
@@ -61,7 +64,7 @@ export class StorySection {
     public goNext() {
         if (this.isLastSegmentInScene()) {
             if (this.isLastScene()) {
-                alert('DONE!!'); // this shouldn't be reached
+                this._sectionHandler.goToNextSection()
             } else {
                 this.moveToNextScene();
             }
@@ -87,23 +90,23 @@ export class StorySection {
     }
 
     public get scenesTotalNumberOfSegments(): number {
-        return this.storySection?.scenes!.reduce((total, scene) => total + scene.segments.length, 0);// TODO fix this undefined when refactoring with section handler
+        return this.story.scenes.reduce((total, scene) => total + scene.segments.length, 0);
     }
 
     public get currentSceneImageSrc(): string {
-        return this.storySection.scenes?.[this._currentSceneNumber - 1].image_url || "";// TODO fix this undefined when refactoring with section handler
+        return this.story.scenes[this._currentSceneNumber - 1].image_url || "";
     }
 
     public get currentSegmentSoundSrc(): string | undefined {
-        return this.storySection?.scenes![this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].sound_url;// TODO fix this undefined when refactoring with section handler
+        return this.story.scenes[this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].sound_url;
     }
 
     public get currentSegmentText(): string {
-        return this.storySection?.scenes![this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].text;// TODO fix this undefined when refactoring with section handler
+        return this.story.scenes[this._currentSceneNumber - 1].segments[this._currentSegmentNumberInTheCurrentScene - 1].text;
     }
 
     public get isNextButtonDisplayed(): boolean {
-        return this.progressionValue < this.scenesTotalNumberOfSegments;
+        return this.progressionValue <= this.scenesTotalNumberOfSegments;
     }
 
     public get isPreviousButtonDisplayed(): boolean {

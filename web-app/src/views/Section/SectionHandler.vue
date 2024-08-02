@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { SectionHandler } from './SectionHandler';
 import { ApiService } from '@/services/index';
@@ -22,25 +22,26 @@ const sectionViewComponentMap: { [key in SectionKindEnum]: SectionViewComponent 
 };
 
 const route = useRoute();
-const sectionHandler = ref<SectionHandler | null>(null);
-const isLoading = ref(true);
+const sectionHandler = reactive({ instance: null as SectionHandler | null });
+const isLoadingBeforeInit = ref(false);
 const sectionViewComponent = ref<SectionViewComponent | null>(null);
+const componentKey = ref<string>("0");
 
 const fetchSection = async (subjectId: string) => {
     try {
+        isLoadingBeforeInit.value = true;
         const { data, error } = await ApiService.sectionGetFirstSectionPost({ subject_id: subjectId });
         if (error) {
             console.error('Error:', error);
             return;
         }
         if (data) {
-            sectionHandler.value = new SectionHandler(data.data);
-            sectionViewComponent.value = sectionViewComponentMap[sectionHandler.value.currentSection.kind];
+            sectionHandler.instance = new SectionHandler(data.data);
         }
     } catch (err) {
         console.error('Fetch error:', err);
     } finally {
-        isLoading.value = false;
+        isLoadingBeforeInit.value = false;
     }
 };
 
@@ -49,16 +50,22 @@ onMounted(() => {
     fetchSection(subjectId);
 });
 
+watch(() => sectionHandler.instance?.currentSectionInstance, (newInstance) => {
+    if (newInstance) {
+        sectionViewComponent.value = sectionViewComponentMap[sectionHandler.instance!.currentSection.kind];
+        componentKey.value = sectionHandler.instance!.currentSection.section_id;
+    }
+});
 </script>
 
 <template>
     <div>
-        <LoadingComponent v-if="isLoading" />
+        <LoadingComponent v-if="isLoadingBeforeInit || sectionHandler.instance?.isLoading" />
         <component
-            v-if="sectionHandler && !isLoading"
+            v-if="sectionHandler.instance && !isLoadingBeforeInit && !sectionHandler.instance.isLoading"
             :is="sectionViewComponent"
-            :section="sectionHandler.currentSection"
-            :sectionInstance="sectionHandler.currentSectionInstance"
+            :key="componentKey"
+            :sectionInstance="sectionHandler.instance.currentSectionInstance"
         />
     </div>
 </template>

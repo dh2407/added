@@ -15,10 +15,10 @@ INSERT INTO "public"."ParentChildSubjectsLink" (created_at, updated_at, parent_i
 
 -- Insert sections for SQL subject
 INSERT INTO "public"."Section" (id, created_at, updated_at, subject_id, kind, "order") VALUES
-('24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'QUESTIONS_GAME', 1),
-('4cb51ec9-15e5-4d50-9149-6a34b841e481', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'STORY', 2),
-('e28b8877-bcdf-4c6d-9b24-9fd183a916ff', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 3),
-('d6e3a8c3-466b-4f12-9b0e-8417fda41a9b', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 4);
+('4cb51ec9-15e5-4d50-9149-6a34b841e481', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'STORY', 1),
+('e28b8877-bcdf-4c6d-9b24-9fd183a916ff', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 2),
+('d6e3a8c3-466b-4f12-9b0e-8417fda41a9b', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'PAGE', 3),
+('24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', NOW(), NULL, 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1', 'QUESTIONS_GAME', 4);
 
 -- Insert Story for section
 INSERT INTO "public"."Story" (id, created_at, updated_at, section_id) VALUES
@@ -31,15 +31,15 @@ INSERT INTO "public"."Scene" (id, created_at, updated_at, story_id) VALUES
 
 -- Insert sounds for segments
 INSERT INTO "public"."Sound" (id, created_at, updated_at, sound_url) VALUES
-('4eb96e70-d283-451e-a3fc-46d5c9e0335a', NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3'),
-('d6b2378a-1e7a-4860-b7b2-9b243f78a33c', NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3'),
-('8949e8d5-f4ff-4d3f-9dc8-69e1bcbe285f', NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3'),
-('7bc19116-8b3d-401a-9f2e-6d7b89a9c8e4', NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/sounds/test_sound.mp3');
+('4eb96e70-d283-451e-a3fc-46d5c9e0335a', NOW(), NULL, 'https://ruiqytetotxoumsvagej.supabase.co/storage/v1/object/public/sounds/sound.mp3'),
+('d6b2378a-1e7a-4860-b7b2-9b243f78a33c', NOW(), NULL, 'https://ruiqytetotxoumsvagej.supabase.co/storage/v1/object/public/sounds/sound.mp3'),
+('8949e8d5-f4ff-4d3f-9dc8-69e1bcbe285f', NOW(), NULL, 'https://ruiqytetotxoumsvagej.supabase.co/storage/v1/object/public/sounds/sound.mp3'),
+('7bc19116-8b3d-401a-9f2e-6d7b89a9c8e4', NOW(), NULL, 'https://ruiqytetotxoumsvagej.supabase.co/storage/v1/object/public/sounds/sound.mp3');
 
 -- Insert images for scenes
 INSERT INTO "public"."Image" (id, created_at, updated_at, image_url, scene_id) VALUES
-('ac0d3c28-814b-4bcf-96d1-b8891b4d5b7e', NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/images/img1.jpg', '843c9a4e-4c0b-4d9a-8d8c-1b4c61049d78'),
-('0e81f460-cdd9-42b8-8098-bb4a90894ef0', NOW(), NULL, 'https://qboeskbhwinhgeigxzpw.supabase.co/storage/v1/object/public/images/img2.jpg', 'b235fa83-d8e7-4c67-9a32-7fddfc4bfa58');
+('ac0d3c28-814b-4bcf-96d1-b8891b4d5b7e', NOW(), NULL, 'https://ruiqytetotxoumsvagej.supabase.co/storage/v1/object/public/images/img1.jpg', '843c9a4e-4c0b-4d9a-8d8c-1b4c61049d78'),
+('0e81f460-cdd9-42b8-8098-bb4a90894ef0', NOW(), NULL, 'https://ruiqytetotxoumsvagej.supabase.co/storage/v1/object/public/images/img2.jpg', 'b235fa83-d8e7-4c67-9a32-7fddfc4bfa58');
 
 -- Insert segments for scenes
 INSERT INTO "public"."Segment" (id, created_at, updated_at, text, sound_id, scene_id, "order") VALUES
@@ -68,11 +68,11 @@ INSERT INTO "public"."MultipleChoiceQuestionResponse" (id, created_at, updated_a
 ('b349c1e1-ef68-46b8-afe3-307f95182ff7', NOW(), NULL, 'Sequential Query Language', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0);
 
 -- Insert Pages for the new sections
-INSERT INTO "public"."Page" (id, section_id, html) VALUES
-('f5a2d34c-52e7-41b5-9a24-8c8a5e60aef3', 'd6e3a8c3-466b-4f12-9b0e-8417fda41a9b', '<p>Would you like to join Sara and Bahi on this exciting adventure? If so, your journey as an SQL developer starts now. </p>'),
-('c4b8c6da-565e-431e-97e5-709073e4fc6e', 'e28b8877-bcdf-4c6d-9b24-9fd183a916ff', '<h1>Interview Questions</h1><p>Welcome to your interview for the position of SQL Developer with Bahi and Sara''s team! This interview is designed to understand your determination, problem-solving skills, and your vision for the future.</p>');
+INSERT INTO "public"."Page" (id, section_id, html, background_color) VALUES
+('f5a2d34c-52e7-41b5-9a24-8c8a5e60aef3', 'd6e3a8c3-466b-4f12-9b0e-8417fda41a9b', '<p>Would you like to join Sara and Bahi on this exciting adventure? If so, your journey as an SQL developer starts now. </p>', '#BDD4C0'),
+('c4b8c6da-565e-431e-97e5-709073e4fc6e', 'e28b8877-bcdf-4c6d-9b24-9fd183a916ff', '<h1>Interview Questions</h1><p>Welcome to your interview for the position of SQL Developer with Bahi and Sara''s team! This interview is designed to understand your determination, problem-solving skills, and your vision for the future.</p>', '#BDD4C0');
 
 -- Insert Actions for the new sections
 INSERT INTO "public"."Action" (id, label, next_section_id, page_id) VALUES
-('9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f', 'Accept the Challenge', 'e28b8877-bcdf-4c6d-9b24-9fd183a916ff', 'f5a2d34c-52e7-41b5-9a24-8c8a5e60aef3'),
-('2b931942-17a3-4f70-8e78-2c75e8e70a4f', 'Let''s get started', '4cb51ec9-15e5-4d50-9149-6a34b841e481', 'c4b8c6da-565e-431e-97e5-709073e4fc6e');
+('9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f', 'Accept the Challenge', '24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', 'f5a2d34c-52e7-41b5-9a24-8c8a5e60aef3'),
+('2b931942-17a3-4f70-8e78-2c75e8e70a4f', 'Let''s get started', 'd6e3a8c3-466b-4f12-9b0e-8417fda41a9b', 'c4b8c6da-565e-431e-97e5-709073e4fc6e');

@@ -2,33 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 // import { useAuthStore } from '@/stores/useAuthModule';
 
 import HomeView from '@/views/Home.vue'
-// import SignUpView from '@/views/Auth/SignUp.vue'
-// import SignInView from '@/views/Auth/SignIn.vue'
-// import SubjectListView from '@/views/Subject/SubjectsList.vue'
-// import SubjectDetailsView from '@/views/Subject/SubjectDetails.vue'
-// import SubSubjectView from '@/views/SubSubject/SubSubject.vue'
-// import StorySectionView from '@/views/Section/StorySection/StorySection.vue'
-// import PageSectionView from '@/views/Section/PageSection/PageSection.vue'
+import SubjectDetailsView from '@/views/Subject/SubjectDetails/SubjectDetails.vue'
 import MainLayout from '@/components/Layouts/MainLayout.vue'
 import SectionHandler from '@/views/Section/SectionHandler.vue'
-// import { storeToRefs } from 'pinia';
-
 const routes = [
-  // {
-  //     path: '/story',
-  //     name: 'StorySectionView',
-  //     component: StorySectionView
-  // },
-  // {
-  //   path: '/page',
-  //   name: 'PageSectionView',
-  //   component: PageSectionView
-  // },
-  // {
-  //   path: '/questions_game',
-  //   name: 'QuestionsGameSectionView',
-  //   component: QuestionsGameSectionView
-  // },
   {
     path: '/',
     component: MainLayout,
@@ -44,14 +21,11 @@ const routes = [
         component: SectionHandler,
         props: true,
       },
-      // {
-      //   path: 'signup',
-      //   name: 'SignUpView',
-      //   component: SignUpView,
-      //   meta: {
-      //     requiresAuth: false,
-      //   },
-      // },
+      {
+        path: '/subject/:subject_id',
+        name: 'SubjectDetailsView',
+        component: SubjectDetailsView,
+      },
       // {
       //   path: 'signin',
       //   name: 'SignInView',
@@ -98,7 +72,7 @@ export const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.path === '/') {
     next({ 
-      name: 'SectionHandler',
+      name: 'SubjectDetailsView',
       params: { subject_id: 'a7c35f87-6b99-4cf4-9f7b-4fef2d7d85e1' }
     })
     return;

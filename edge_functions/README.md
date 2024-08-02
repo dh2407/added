@@ -26,6 +26,7 @@ supabase db diff -f stable1 (to create local db migration file?)
 supabase db pull
 supabase migration up
 supabase migration list
+supabase db reset
 
 ## login with the cli
 supabase login

@@ -19,4 +19,12 @@ export class SectionService {
             throw error
         }
     }
+
+    async getSection(sectionId: string): Promise<SectionResponse> {
+        try {
+            return await this.sectionRepository.getSection(sectionId);
+        } catch (error) {
+            throw error
+        }
+    }
 }
