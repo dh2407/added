@@ -94,9 +94,9 @@ components:
         id:
           type: string
           example: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
-        text:
+        html:
           type: string
-          example: "Example response text"
+          example: "<p>Example response text</p>"
         multiple_choice_question_id:
           type: string
           example: "5b62a17e-f343-4a7c-a9b8-7d4d6eb104ec"
@@ -116,7 +116,7 @@ components:
           example: -5
       required:
         - id
-        - text
+        - html
         - multiple_choice_question_id
         - is_correct
 
@@ -126,9 +126,9 @@ components:
         id:
           type: string
           example: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
-        text:
+        html:
           type: string
-          example: "What is the capital of France?"
+          example: "<p>What is the capital of France?</p>"
         question_id:
           type: string
           example: "e6250d3c-9c1d-44b7-8e15-d1f6e340f62e"
@@ -138,7 +138,7 @@ components:
             $ref: '#/components/schemas/MultipleChoiceQuestionResponseModel'
       required:
         - id
-        - text
+        - html
         - question_id
         - responses
 
@@ -156,17 +156,13 @@ components:
         order:
           type: integer
           example: 1
-        fill_in_the_blanks_questions:
-          type: array
-          items:
-            type: object
-            properties: {}
+        fill_in_the_blanks_question:
+          type: object
           nullable: true
           example: null
-        multiple_choice_questions:
-          type: array
-          items:
-            $ref: '#/components/schemas/MultipleChoiceQuestionModel'
+        multiple_choice_question:
+          $ref: '#/components/schemas/MultipleChoiceQuestionModel'
+          nullable: true
       required:
         - id
         - kind
@@ -282,9 +278,9 @@ components:
                   kind: MULTIPLE_CHOICE_QUESTION
                   question_game_id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
                   order: 1
-                  fill_in_the_blanks_questions: null
-                  multiple_choice_questions:
-                    - id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                  fill_in_the_blanks_question: null
+                  multiple_choice_question:
+                      id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
                       text: "What is the capital of France?"
                       question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
                       responses:
@@ -388,9 +384,9 @@ paths:
                           kind: MULTIPLE_CHOICE_QUESTION
                           question_game_id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
                           order: 1
-                          fill_in_the_blanks_questions: null
-                          multiple_choice_questions:
-                            - id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                          fill_in_the_blanks_question: null
+                          multiple_choice_question:
+                              id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
                               text: "What is the capital of France?"
                               question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
                               responses:
@@ -493,9 +489,9 @@ paths:
                           kind: MULTIPLE_CHOICE_QUESTION
                           question_game_id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
                           order: 1
-                          fill_in_the_blanks_questions: null
-                          multiple_choice_questions:
-                            - id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                          fill_in_the_blanks_question: null
+                          multiple_choice_question:
+                              id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
                               text: "What is the capital of France?"
                               question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
                               responses:
@@ -597,9 +593,9 @@ paths:
                           kind: MULTIPLE_CHOICE_QUESTION
                           question_game_id: "3c4d5e6f-7a8b-9c0d-1e2f-3g4h5i6j7k8l"
                           order: 1
-                          fill_in_the_blanks_questions: null
-                          multiple_choice_questions:
-                            - id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
+                          fill_in_the_blanks_question: null
+                          multiple_choice_question:
+                              id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
                               text: "What is the capital of France?"
                               question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
                               responses:

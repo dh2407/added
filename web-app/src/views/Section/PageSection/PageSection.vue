@@ -16,9 +16,9 @@ onMounted(() => {
 
 <template>
   <div class="page-section-content-container" v-if="state.pageSection"
-    :style="{ backgroundColor: state.pageSection.page.background_color }">
-    <div v-html="state.pageSection.page.html" />
-    <div class="page-actions-container" v-for="action in state.pageSection.page.actions" :key="action.label">
+    :style="{ backgroundColor: state.pageSection.backgroundColor }">
+    <div v-html="state.pageSection.html" />
+    <div class="page-actions-container" v-for="action in state.pageSection.actions" :key="action.label">
       <ForwardButtonWithText :text="action.label"
         :onClick="() => state.pageSection?.goToSection(action.next_section_id)" />
     </div>

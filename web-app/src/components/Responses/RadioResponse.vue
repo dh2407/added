@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
-    text: {
+    html: {
         type: String,
         required: true,
     },
@@ -10,18 +10,6 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    isCorrectSubmition: {
-        type: Boolean,
-        required: true,
-    },
-    isSubmitted: {
-        type: Boolean,
-        required: true,
-    },
-    isCorrectAnswer: {
-        type: Boolean,
-        required: true,
-    }
 });
 
 const emit = defineEmits(['update:isChecked']);
@@ -33,32 +21,17 @@ watch(() => props.isChecked, (newVal) => {
 });
 
 const toggle = () => {
-    if (!props.isSubmitted) {
-        isChecked.value = !isChecked.value;
-        emit('update:isChecked', isChecked.value);
-    }
+    isChecked.value = !isChecked.value;
+    emit('update:isChecked', isChecked.value);
 };
 
-const addScore = computed(() => {
-    return props.isSubmitted && props.isCorrectSubmition && props.isCorrectAnswer;
-});
-
-const substractScore = computed(() => {
-    return props.isSubmitted && !props.isCorrectSubmition;
-});
-
+console.log('props:', props.html)
 </script>
 
 <template>
-    <div class="response-container" :class="{ isCheckedResponse: isChecked, isCorrectAnswer: isCorrectAnswer && isSubmitted }" @click="toggle">
-        <div class="response-text">
-            {{ props.text }}
-        </div>
-        <div class="radio-button-and-score-container">
-            <div v-if="addScore" class="correct score">+2</div>
-            <div v-if="substractScore" class="wrong score">-1</div>
-            <RadioButton :isChecked="props.isChecked" :isWrong="props.isSubmitted && !props.isCorrectSubmition"  />
-        </div>
+    <div class="response-container" :class="{ isCheckedResponse: isChecked }" @click="toggle">
+        <div class="response-text" v-html="props.html" />
+        <RadioButton :isChecked="props.isChecked" :isWrong="false"  />
     </div>
 </template>
 
@@ -68,6 +41,7 @@ const substractScore = computed(() => {
     justify-content: space-between;
     padding: 6px;
     border-bottom: 1px solid #D8D8D8;
+    gap: 20px;
     cursor: pointer;
     .response-text {
         font-size: 16px;

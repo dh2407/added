@@ -15,32 +15,34 @@ export class SectionHandler {
         this.isLoading = false;
     }
 
-    private createSectionInstance() {
+    private createSectionInstance(params?: object) {
         switch (this.currentSection.kind) {
             case 'QUESTIONS_GAME':
-                return new QuestionsGameSection(this);
+                return new QuestionsGameSection(this.currentSection.questions_game!, this.goToNextSection.bind(this));
             case 'STORY':
                 return new StorySection(this);
             case 'PAGE':
-                return new PageSection(this);
+                return new PageSection(this.currentSection.page!, this.goToSection.bind(this), params);
             default:
                 throw new Error(`Unknown section type: ${this.currentSection.kind}`);
         }
     }
 
-    public async goToNextSection() {
+    public async goToNextSection(params?: object) {
         const newSection = await this.fetchNextSection();
         if (newSection) {
             this.currentSection = newSection;
-            this.currentSectionInstance = this.createSectionInstance();
+            this.currentSectionInstance = this.createSectionInstance(params);
+        } else {
+            alert('NO NEXT SECTION')
         }
     }
 
-    public async goToSection(sectionId: string) {
+    public async goToSection(sectionId: string, params?: object) {
         const newSection = await this.fetchSection(sectionId);
         if (newSection) {
             this.currentSection = newSection;
-            this.currentSectionInstance = this.createSectionInstance();
+            this.currentSectionInstance = this.createSectionInstance(params);
         }
     }
 

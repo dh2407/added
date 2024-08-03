@@ -85,15 +85,15 @@ export class PgSectionRepository implements SectionRepository {
                                 'id', q.id,
                                 'kind', q.kind,
                                 'order', q.order,
-                                'fill_in_the_blanks_questions', null,
-                                'multiple_choice_questions', (
-                                    SELECT json_agg(json_build_object(
+                                'fill_in_the_blanks_question', null,
+                                'multiple_choice_question', (
+                                    SELECT json_build_object(
                                         'id', mcq.id,
-                                        'text', mcq.text,
+                                        'html', mcq.html,
                                         'responses', (
                                             SELECT json_agg(json_build_object(
                                                 'id', mcr.id,
-                                                'text', mcr.text,
+                                                'html', mcr.html,
                                                 'is_correct', mcr.is_correct,
                                                 'explanation', mcr.explanation,
                                                 'selected_score', mcr.selected_score,
@@ -102,9 +102,10 @@ export class PgSectionRepository implements SectionRepository {
                                             FROM "MultipleChoiceQuestionResponse" mcr
                                             WHERE mcr.multiple_choice_question_id = mcq.id
                                         )
-                                    ))
+                                    )
                                     FROM "MultipleChoiceQuestion" mcq
                                     WHERE mcq.question_id = q.id
+                                    LIMIT 1
                                 )
                             ))
                             FROM "Question" q
@@ -249,15 +250,15 @@ export class PgSectionRepository implements SectionRepository {
                                     'id', q.id,
                                     'kind', q.kind,
                                     'order', q.order,
-                                    'fill_in_the_blanks_questions', null,
-                                    'multiple_choice_questions', (
-                                        SELECT json_agg(json_build_object(
+                                    'fill_in_the_blanks_question', null,
+                                    'multiple_choice_question', (
+                                        SELECT json_build_object(
                                             'id', mcq.id,
-                                            'text', mcq.text,
+                                            'html', mcq.html,
                                             'responses', (
                                                 SELECT json_agg(json_build_object(
                                                     'id', mcr.id,
-                                                    'text', mcr.text,
+                                                    'html', mcr.html,
                                                     'is_correct', mcr.is_correct,
                                                     'explanation', mcr.explanation,
                                                     'selected_score', mcr.selected_score,
@@ -266,9 +267,10 @@ export class PgSectionRepository implements SectionRepository {
                                                 FROM "MultipleChoiceQuestionResponse" mcr
                                                 WHERE mcr.multiple_choice_question_id = mcq.id
                                             )
-                                        ))
+                                        )
                                         FROM "MultipleChoiceQuestion" mcq
                                         WHERE mcq.question_id = q.id
+                                        LIMIT 1
                                     )
                                 ))
                                 FROM "Question" q
@@ -407,15 +409,15 @@ export class PgSectionRepository implements SectionRepository {
                                     'id', q.id,
                                     'kind', q.kind,
                                     'order', q.order,
-                                    'fill_in_the_blanks_questions', null,
-                                    'multiple_choice_questions', (
-                                        SELECT json_agg(json_build_object(
+                                    'fill_in_the_blanks_question', null,
+                                    'multiple_choice_question', (
+                                        SELECT json_build_object(
                                             'id', mcq.id,
-                                            'text', mcq.text,
+                                            'html', mcq.html,
                                             'responses', (
                                                 SELECT json_agg(json_build_object(
                                                     'id', mcr.id,
-                                                    'text', mcr.text,
+                                                    'html', mcr.html,
                                                     'is_correct', mcr.is_correct,
                                                     'explanation', mcr.explanation,
                                                     'selected_score', mcr.selected_score,
@@ -424,9 +426,10 @@ export class PgSectionRepository implements SectionRepository {
                                                 FROM "MultipleChoiceQuestionResponse" mcr
                                                 WHERE mcr.multiple_choice_question_id = mcq.id
                                             )
-                                        ))
+                                        )
                                         FROM "MultipleChoiceQuestion" mcq
                                         WHERE mcq.question_id = q.id
+                                        LIMIT 1
                                     )
                                 ))
                                 FROM "Question" q
