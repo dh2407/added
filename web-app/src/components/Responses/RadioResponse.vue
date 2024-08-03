@@ -10,6 +10,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    showExplanations: {
+        type: Boolean,
+        required: true,
+    }
 });
 
 const emit = defineEmits(['update:isChecked']);
@@ -24,14 +28,15 @@ const toggle = () => {
     isChecked.value = !isChecked.value;
     emit('update:isChecked', isChecked.value);
 };
-
-console.log('props:', props.html)
 </script>
 
 <template>
     <div class="response-container" :class="{ isCheckedResponse: isChecked }" @click="toggle">
         <div class="response-text" v-html="props.html" />
-        <RadioButton :isChecked="props.isChecked" :isWrong="false"  />
+        <div class="response-radio-btn-and-explanation-container">
+            <div v-if="props.showExplanations">I</div>
+            <RadioButton :isChecked="props.isChecked" :isWrong="false"  />
+        </div>
     </div>
 </template>
 
@@ -48,19 +53,10 @@ console.log('props:', props.html)
         font-weight: 400;
         color: #5C656A;
     }
-    .radio-button-and-score-container {
+    .response-radio-btn-and-explanation-container {
         display: flex;
         gap: 28px;
-        .score {
-            font-size: 23;
-            font-weight: 800;
-        }
-        .correct {
-            color: #039033;
-        }
-        .wrong {
-            color: #C11111;
-        }
+        align-items: center;
     }
 }
 .isCheckedResponse {

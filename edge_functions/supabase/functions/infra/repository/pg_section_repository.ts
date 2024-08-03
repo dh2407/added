@@ -58,7 +58,8 @@ export class PgSectionRepository implements SectionRepository {
                     json_agg(json_build_object(
                         'id', a.id,
                         'next_section_id', a.next_section_id,
-                        'label', a.label
+                        'label', a.label,
+                        'params', a.params
                     )) AS actions
                 FROM "Action" a
                 GROUP BY a.page_id
@@ -223,7 +224,8 @@ export class PgSectionRepository implements SectionRepository {
                         json_agg(json_build_object(
                             'id', a.id,
                             'next_section_id', a.next_section_id,
-                            'label', a.label
+                            'label', a.label,
+                            'params', a.params
                         )) AS actions
                     FROM "Action" a
                     GROUP BY a.page_id
@@ -382,7 +384,8 @@ export class PgSectionRepository implements SectionRepository {
                         json_agg(json_build_object(
                             'id', a.id,
                             'next_section_id', a.next_section_id,
-                            'label', a.label
+                            'label', a.label,
+                            'params', a.params
                         )) AS actions
                     FROM "Action" a
                     GROUP BY a.page_id

@@ -4,17 +4,17 @@ export class PageSection {
     private _html: string;
     private _backgroundColor?: string;
     private _actions?: ActionModel[];
-    private _goToSectionCallback: (sectionId: string) => void;
+    private _goToSectionCallback: (sectionId: string, params?: object) => void;
 
-    constructor(page: PageModel, goToSection: (sectionId: string) => void, params?: object) {
+    constructor(page: PageModel, goToSection: (sectionId: string, params?: object) => void, params?: object) {
         this._goToSectionCallback = goToSection;
         this._html = this._resolveHtmlPlaceholders(page.html, params);
         this._backgroundColor = page.background_color;
         this._actions = page.actions;
     }
 
-    public goToSection(sectionId: string) {
-        this._goToSectionCallback(sectionId)
+    public goToSection(sectionId: string, params?: object) {
+        this._goToSectionCallback(sectionId, params)
     }
 
     private _resolveHtmlPlaceholders(html: string, params?: object): string {

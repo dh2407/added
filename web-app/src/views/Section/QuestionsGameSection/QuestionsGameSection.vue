@@ -20,8 +20,10 @@ onMounted(() => {
   <div class="questions-game-section-content-container" v-if="state.questionsGameSection">
     <div v-html="state.questionsGameSection.currentQuestionStep.questionHtml" />
     <div class="responses-container">
-      <RadioResponse v-for="response in state.questionsGameSection.currentQuestionStep.responses" :html="response.html"
+      <RadioResponse v-for="response in state.questionsGameSection.currentQuestionStep.responses" 
+        :html="response.html"
         :isChecked="response.isSelected"
+        :showExplanations="state.questionsGameSection.showExplanations"
         @update:isChecked="state.questionsGameSection.setSelectedResponse(response.id)" />
     </div>
     <div class="next-button-container" v-if="state.questionsGameSection.isAtLeaseOneResponseSelected">

@@ -32,6 +32,10 @@ components:
         label:
           type: string
           example: "Accept the Challenge"
+        params:
+          type: object
+          nullable: true
+          example: { "showExplanations": true }
       required:
         - id
         - next_section_id
@@ -58,6 +62,7 @@ components:
             - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
               next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
               label: "Accept the Challenge"
+              params: { "showExplanations": true }
       required:
         - id
         - html
@@ -240,6 +245,7 @@ components:
                 - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
                   next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
                   label: "Accept the Challenge"
+                  params: null
             questions_game: null
             is_last: false
         example2:
@@ -345,6 +351,7 @@ paths:
                         - id: "9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f"
                           next_section_id: "e28b8877-bcdf-4c6d-9b24-9fd183a916ff"
                           label: "Accept the Challenge"
+                          params: null
                     questions_game: null
                     is_last: false
                 example2:

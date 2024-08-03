@@ -18,7 +18,7 @@ export class SectionHandler {
     private createSectionInstance(params?: object) {
         switch (this.currentSection.kind) {
             case 'QUESTIONS_GAME':
-                return new QuestionsGameSection(this.currentSection.questions_game!, this.goToNextSection.bind(this));
+                return new QuestionsGameSection(this.currentSection.questions_game!, this.goToNextSection.bind(this), params);
             case 'STORY':
                 return new StorySection(this);
             case 'PAGE':

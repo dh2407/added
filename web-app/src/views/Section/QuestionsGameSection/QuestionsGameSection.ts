@@ -17,8 +17,9 @@ export class QuestionsGameSection {
     private _questionSteps: QuestionStep[];
     private _currentQuestionStepIndex: number;
     private _goToNextSectionCallback: (params?: object) => void;
+    private _showExplanations: boolean;
 
-    constructor(questions_game: QuestionsGameModel, goToNextSection: (params?: object) => void) {
+    constructor(questions_game: QuestionsGameModel, goToNextSection: (params?: object) => void, params?: Record<string, any>) {
         // only multiple choice question for now, TODO: fix this when adding MultipleChoiceQuestion and FillInTheBlankQuestion separtion
         this._questionSteps = questions_game.questions.map((question: QuestionModel) => ({
             questionHtml: question.multiple_choice_question!.html,
@@ -32,10 +33,10 @@ export class QuestionsGameSection {
         }));
         this._goToNextSectionCallback = goToNextSection;
         this._currentQuestionStepIndex = 0;
+        this._showExplanations = params?.showExplanations ?? false;
     }
     
     private get _hasNextStep(): boolean {
-        console.log('this._currentQuestionStepIndex < this._questionSteps.length - 1;', this._currentQuestionStepIndex < this._questionSteps.length - 1)
         return this._currentQuestionStepIndex < this._questionSteps.length - 1;
     }
 
@@ -53,7 +54,7 @@ export class QuestionsGameSection {
             this._goNextQuestionStep();
         } else {
             const params = {
-                score: this._calculateQuestionGameScore()
+                score: this._calculateQuestionGameScore(),
             }
             this._goToNextSectionCallback(params)
         }
@@ -93,5 +94,9 @@ export class QuestionsGameSection {
 
     public get isAtLeaseOneResponseSelected(): boolean {
         return this.currentQuestionStep.responses.some(response => response.isSelected)
+    }
+
+    public get showExplanations(): boolean {
+        return this._showExplanations;
     }
 }
