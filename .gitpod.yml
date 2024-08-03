@@ -6,6 +6,7 @@ tasks:
       echo "VITE_EDGE_FUNCTIONS_BASE_URL=$(gp url 54321)/functions/v1" >> .env
       npm install
       gp sync-await gen-api
+      gp sync-await supabase
       npm run dev
   - name: edge-functions-dev
     command: |
@@ -13,6 +14,7 @@ tasks:
       brew install supabase/tap/supabase
       supabase start
       supabase functions serve
+      gp sync-done supabase
   - name: generate-api
     command: |
       npm install @openapitools/openapi-generator-cli -g
