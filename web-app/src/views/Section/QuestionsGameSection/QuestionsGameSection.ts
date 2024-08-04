@@ -1,112 +1,58 @@
+import { MultipleChoiceQuestion } from '@/components/MultipleChoiceQuestion/MultipleChoiceQuestion';
 import { QuestionModel, QuestionsGameModel } from '../../../../../generated-api';
-
-export interface QuestionResponse {
-    id: string,
-    html: string,
-    isSelected: boolean,
-    isExplanationOpen: boolean,
-    explanation?: string,
-    selectedScore?: number,
-    score?: number,
-}
-export interface QuestionStep {
-    questionHtml: string,
-    responses: QuestionResponse[],
-    openedResponseExplanationId?: string,
-}
+import { ref } from 'vue';
 
 export class QuestionsGameSection {
-    private _questionSteps: QuestionStep[];
-    private _currentQuestionStepIndex: number;
+    public currentQuestionGameInstance = ref<MultipleChoiceQuestion | null>(null);
+
+    private _questions: QuestionModel[];
+    private _currentQuestionIndex: number;
     private _goToNextSectionCallback: (params?: object) => void;
-    private _showExplanations: boolean;
+    private _totalScore: number;
 
     constructor(questions_game: QuestionsGameModel, goToNextSection: (params?: object) => void, params?: Record<string, any>) {
-        // only multiple choice question for now, TODO: fix this when adding MultipleChoiceQuestion and FillInTheBlankQuestion separtion
-        this._questionSteps = questions_game.questions.map((question: QuestionModel) => ({
-            questionHtml: question.multiple_choice_question!.html,
-            responses: question.multiple_choice_question!.responses.map(response => ({ 
-                id: response.id,
-                html: response.html,
-                isSelected: false,
-                isExplanationOpen: false,
-                selectedScore: response.selected_score,
-                explanation: response.explanation,
-            })),
-        }));
+        this._questions = questions_game.questions
         this._goToNextSectionCallback = goToNextSection;
-        this._currentQuestionStepIndex = 0;
-        this._showExplanations = params?.showExplanations ?? false;
-    }
-    
-    private get _hasNextStep(): boolean {
-        return this._currentQuestionStepIndex < this._questionSteps.length - 1;
+        this._currentQuestionIndex = 0;
+        this.currentQuestionGameInstance.value = this._createQuestionGameInstance(params)
+        this._totalScore = 0;
     }
 
-     
-    private _goNextQuestionStep() {
-        if (this._hasNextStep) {
-            this._currentQuestionStepIndex++;
+    private _createQuestionGameInstance(params?: object) {
+        switch (this.currentQuestion.kind) {
+            case 'MULTIPLE_CHOICE_QUESTION':
+                return new MultipleChoiceQuestion(this.currentQuestion.multiple_choice_question!, this.goNext.bind(this), params);
+            default:
+                throw new Error(`Unknown section type: ${this.currentQuestion.kind}`);
+        }
+    }
+
+    private get _hasNextQuestion(): boolean {
+        return this._currentQuestionIndex < this._questions.length - 1;
+    }
+
+    private _goNextQuestion() {
+        if (this._hasNextQuestion) {
+            this._currentQuestionIndex++;
             return;
         }
         throw new Error("No next step")
     }
 
-    public goNext() {
-        if (this._hasNextStep) {
-            this._goNextQuestionStep();
-        } else {
+    public goNext(score: number, params?: Record<string, any>) {
+        this._totalScore += score;
+        if (this._hasNextQuestion) {
+            this._goNextQuestion();
+            this.currentQuestionGameInstance.value = this._createQuestionGameInstance(params)
+    } else {
             const params = {
-                score: this._calculateQuestionGameScore(),
+                score: this._totalScore,
             }
             this._goToNextSectionCallback(params)
         }
     }
 
-    public get currentQuestionStep(): QuestionStep  {
-        return this._questionSteps[this._currentQuestionStepIndex];
-    }
-
-    public setOpenExplanation(responseId: string) {
-        this.currentQuestionStep.responses = this.currentQuestionStep.responses.map((response) => ({
-            ...response,
-            isExplanationOpen: response.id === responseId ? !response.isExplanationOpen : false,
-        }))
-    }
-
-    private _calculateQuestionScore(questionStep: QuestionStep): number {
-        return questionStep.responses.reduce((totalScore, response) => {
-            if (response.isSelected && response.selectedScore !== undefined) {
-                return totalScore + response.selectedScore;
-            }
-            return totalScore;
-        }, 0);
-    }
-
-    private _calculateQuestionGameScore(): number {
-        return this._questionSteps.reduce((totalGameScore, questionStep) => {
-            return totalGameScore + this._calculateQuestionScore(questionStep);
-        }, 0);
-    }
-    
-    public getScore(): number {
-        return this._questionSteps.reduce((totalScore, questionStep) => {
-            return totalScore + this._calculateQuestionScore(questionStep);
-        }, 0);
-    }
-    
-    public setSelectedResponse(responseId: string, newVal: boolean) {
-        this.currentQuestionStep.responses = this.currentQuestionStep.responses.map((response) => ({
-            ...response,
-            isSelected: response.id === responseId ? newVal : response.isSelected,
-        }))
-    }
-
-    public get isAtLeaseOneResponseSelected(): boolean {
-        return this.currentQuestionStep.responses.some(response => response.isSelected)
-    }
-
-    public get showExplanations(): boolean {
-        return this._showExplanations;
+    public get currentQuestion(): QuestionModel  {
+        return this._questions[this._currentQuestionIndex];
     }
 }

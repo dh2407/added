@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import { reactive, defineProps, onMounted } from 'vue';
+import { reactive, watch, ref, onMounted } from 'vue';
+import MultipleChoiceQuestionView from '@/components/MultipleChoiceQuestion/MultipleChoiceQuestion.vue';
+import { QuestionKindEnum } from '../../../../../generated-api';
 import { QuestionsGameSection } from './QuestionsGameSection';
-import RadioResponse from '@/components/Responses/RadioResponse.vue';
+
+type QuestionGameViewComponent =
+  | typeof MultipleChoiceQuestionView
+  | null
+
+const questionGameViewComponentMap: { [key in QuestionKindEnum]: QuestionGameViewComponent } = {
+    MULTIPLE_CHOICE_QUESTION: MultipleChoiceQuestionView,
+    FILL_IN_THE_BLANKS_QUESTION: null,
+};
 
 const props = defineProps<{ sectionInstance: QuestionsGameSection }>();
 
@@ -10,52 +20,30 @@ const state = reactive({
   isLoading: true,
 });
 
+const questionGameViewComponent = ref<QuestionGameViewComponent | null>(null);
+const componentKey = ref<string>("0");
+
 onMounted(() => {
-  // Use the injected section instance from props
-  state.questionsGameSection = props.sectionInstance;
+  state.questionsGameSection = props.sectionInstance as any;
+});
+
+watch(() => state.questionsGameSection?.currentQuestionGameInstance, (newInstance) => {
+    if (newInstance) {
+        questionGameViewComponent.value = questionGameViewComponentMap[state.questionsGameSection!.currentQuestion.kind];
+        componentKey.value = state.questionsGameSection!.currentQuestion.id;
+    }
 });
 
 </script>
 
 <template>
-  <div class="questions-game-section-content-container" v-if="state.questionsGameSection">
-    <div v-html="state.questionsGameSection.currentQuestionStep.questionHtml" />
-    <div class="responses-container">
-      <RadioResponse 
-        v-for="response in state.questionsGameSection.currentQuestionStep.responses" 
-        :key="JSON.stringify(response)"
-        :response="response"
-        :showExplanations="state.questionsGameSection.showExplanations"
-        :onToggle="state.questionsGameSection.setSelectedResponse.bind(state.questionsGameSection)"
-        :onExplanationClicked="state.questionsGameSection.setOpenExplanation.bind(state.questionsGameSection)"
-      />
-    </div>
-    <div class="next-button-container" v-if="state.questionsGameSection.isAtLeaseOneResponseSelected">
-      <ForwardButton :onClick="() => state.questionsGameSection?.goNext()"/>
-    </div>
-  </div>
+  <component
+    v-if="state.questionsGameSection"
+    :is="questionGameViewComponent"
+    :key="state.questionsGameSection.currentQuestion"
+    :questionGameInstance="state.questionsGameSection.currentQuestionGameInstance"
+  />
 </template>
 
 <style lang="scss" scoped>
-.questions-game-section-content-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
-  user-select: none;
-  padding: 20px;
-  gap: 50px;
-
-  .responses-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .next-button-container {
-    margin-top: auto;
-    display: flex;
-    justify-content: flex-end;
-  }
-}
 </style>
