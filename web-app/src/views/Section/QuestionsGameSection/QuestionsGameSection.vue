@@ -14,17 +14,21 @@ onMounted(() => {
   // Use the injected section instance from props
   state.questionsGameSection = props.sectionInstance;
 });
+
 </script>
 
 <template>
   <div class="questions-game-section-content-container" v-if="state.questionsGameSection">
     <div v-html="state.questionsGameSection.currentQuestionStep.questionHtml" />
     <div class="responses-container">
-      <RadioResponse v-for="response in state.questionsGameSection.currentQuestionStep.responses" 
-        :html="response.html"
-        :isChecked="response.isSelected"
+      <RadioResponse 
+        v-for="response in state.questionsGameSection.currentQuestionStep.responses" 
+        :key="JSON.stringify(response)"
+        :response="response"
         :showExplanations="state.questionsGameSection.showExplanations"
-        @update:isChecked="state.questionsGameSection.setSelectedResponse(response.id)" />
+        :onToggle="state.questionsGameSection.setSelectedResponse.bind(state.questionsGameSection)"
+        :onExplanationClicked="state.questionsGameSection.setOpenExplanation.bind(state.questionsGameSection)"
+      />
     </div>
     <div class="next-button-container" v-if="state.questionsGameSection.isAtLeaseOneResponseSelected">
       <ForwardButton :onClick="() => state.questionsGameSection?.goNext()"/>

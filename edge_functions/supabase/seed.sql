@@ -64,15 +64,15 @@ INSERT INTO "public"."MultipleChoiceQuestion" (id, created_at, updated_at, html,
 ('4701b739-da04-4fc4-93f8-3769deec8a72', NOW(), NULL, '<p>What does SQL stand for 2?</p>', 'bc750d3f-12cb-4e54-a85e-fdbe9d5908d8');
 
 -- Insert responses for MultipleChoiceQuestion
-INSERT INTO "public"."MultipleChoiceQuestionResponse" (id, created_at, updated_at, html, multiple_choice_question_id, is_correct, selected_score, unselected_score ) VALUES
-('5a6ed29b-04cc-4c1f-a8d8-c9dfbeb1e2c2', NOW(), NULL, '<p>Structured Query Language</p>', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', TRUE, 2, -2),
-('8d4d8b3e-3f0f-4262-8af3-1b4cbac00dbd', NOW(), NULL, '<p>Simple Query Language</p>', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0),
-('a769a83b-26e8-4f90-8f8f-40a15b7d1b74', NOW(), NULL, '<p>Standard Query Language</p>', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0),
-('b349c1e1-ef68-46b8-afe3-307f95182ff7', NOW(), NULL, '<p>Sequential Query Language</p>', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0),
-('54b61aa0-aa06-4be6-b1fe-9c0e8e5d94d8', NOW(), NULL, '<p>Structured Query Language2</p>', '4701b739-da04-4fc4-93f8-3769deec8a72', TRUE, 2, -2),
-('f8f1c26e-8b22-4a56-8105-3835e90ae6d5', NOW(), NULL, '<p>Simple Query Language2</p>', '4701b739-da04-4fc4-93f8-3769deec8a72', FALSE, -2, 0),
-('408585fc-5324-4733-9d08-d7e1117876b2', NOW(), NULL, '<p>Standard Query Language2</p>', '4701b739-da04-4fc4-93f8-3769deec8a72', FALSE, -2, 0),
-('6885a4db-a359-4965-b340-c8d3b436a5d0', NOW(), NULL, '<p>Sequential Query Language2</p>', '4701b739-da04-4fc4-93f8-3769deec8a72', FALSE, -2, 0);
+INSERT INTO "public"."MultipleChoiceQuestionResponse" (id, created_at, updated_at, html, multiple_choice_question_id, is_correct, selected_score, unselected_score, explanation ) VALUES
+('5a6ed29b-04cc-4c1f-a8d8-c9dfbeb1e2c2', NOW(), NULL, '<p>Structured Query Language</p>', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', TRUE, 2, -2, 'This response shows a lack of persistence, which we seek to avoid in our team'),
+('8d4d8b3e-3f0f-4262-8af3-1b4cbac00dbd', NOW(), NULL, '<p>Simple Query Language</p>', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0, 'Seeking help is a good approach, showing willingness to collaborate and solve problems.'),
+('a769a83b-26e8-4f90-8f8f-40a15b7d1b74', NOW(), NULL, '<p>Standard Query Language</p>', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0, null),
+('b349c1e1-ef68-46b8-afe3-307f95182ff7', NOW(), NULL, '<p>Sequential Query Language</p>', 'cd789d24-77d8-4269-878d-7b92c8b6f5a8', FALSE, -2, 0, null),
+('54b61aa0-aa06-4be6-b1fe-9c0e8e5d94d8', NOW(), NULL, '<p>Structured Query Language2</p>', '4701b739-da04-4fc4-93f8-3769deec8a72', TRUE, 2, -2, 'Seeking help is a good approach, showing willingness to collaborate and solve problems.'),
+('f8f1c26e-8b22-4a56-8105-3835e90ae6d5', NOW(), NULL, '<p>Simple Query Language2</p>', '4701b739-da04-4fc4-93f8-3769deec8a72', FALSE, -2, 0, 'Seeking help is a good approach, showing willingness to collaborate and solve problems.'),
+('408585fc-5324-4733-9d08-d7e1117876b2', NOW(), NULL, '<p>Standard Query Language2</p>', '4701b739-da04-4fc4-93f8-3769deec8a72', FALSE, -2, 0, 'Seeking help is a good approach, showing willingness to collaborate and solve problems.'),
+('6885a4db-a359-4965-b340-c8d3b436a5d0', NOW(), NULL, '<p>Sequential Query Language2</p>', '4701b739-da04-4fc4-93f8-3769deec8a72', FALSE, -2, 0, null);
 
 -- Insert Pages for the new sections
 INSERT INTO "public"."Page" (id, section_id, html, background_color) VALUES

@@ -13,8 +13,8 @@ tasks:
       cd edge_functions
       brew install supabase/tap/supabase
       supabase start
-      supabase functions serve
       gp sync-done supabase
+      supabase functions serve
   - name: generate-api
     command: |
       npm install @openapitools/openapi-generator-cli -g

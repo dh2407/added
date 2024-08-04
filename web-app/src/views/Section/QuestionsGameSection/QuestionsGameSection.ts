@@ -1,15 +1,17 @@
 import { QuestionModel, QuestionsGameModel } from '../../../../../generated-api';
 
-interface QuestionStep {
+export interface QuestionResponse {
+    id: string,
+    html: string,
+    isSelected: boolean,
+    isExplanationOpen: boolean,
+    explanation?: string,
+    selectedScore?: number,
+    score?: number,
+}
+export interface QuestionStep {
     questionHtml: string,
-    responses: {
-        id: string,
-        html: string,
-        isSelected: boolean,
-        explanation?: string,
-        selectedScore?: number,
-        score?: number,
-    }[],
+    responses: QuestionResponse[],
     openedResponseExplanationId?: string,
 }
 
@@ -27,6 +29,7 @@ export class QuestionsGameSection {
                 id: response.id,
                 html: response.html,
                 isSelected: false,
+                isExplanationOpen: false,
                 selectedScore: response.selected_score,
                 explanation: response.explanation,
             })),
@@ -64,6 +67,13 @@ export class QuestionsGameSection {
         return this._questionSteps[this._currentQuestionStepIndex];
     }
 
+    public setOpenExplanation(responseId: string) {
+        this.currentQuestionStep.responses = this.currentQuestionStep.responses.map((response) => ({
+            ...response,
+            isExplanationOpen: response.id === responseId ? !response.isExplanationOpen : false,
+        }))
+    }
+
     private _calculateQuestionScore(questionStep: QuestionStep): number {
         return questionStep.responses.reduce((totalScore, response) => {
             if (response.isSelected && response.selectedScore !== undefined) {
@@ -85,10 +95,10 @@ export class QuestionsGameSection {
         }, 0);
     }
     
-    public setSelectedResponse(responseId: string) {
+    public setSelectedResponse(responseId: string, newVal: boolean) {
         this.currentQuestionStep.responses = this.currentQuestionStep.responses.map((response) => ({
             ...response,
-            isSelected: response.id === responseId ? true : false,
+            isSelected: response.id === responseId ? newVal : response.isSelected,
         }))
     }
 

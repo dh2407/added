@@ -1,41 +1,52 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { PropType, reactive } from 'vue';
+import { QuestionResponse } from "@/views/Section/QuestionsGameSection/QuestionsGameSection";
+import { onMounted } from 'vue';
+import { RadioResponse } from './RadioResponse';
+
+const state = reactive({
+  instance: null as RadioResponse | null,
+});
 
 const props = defineProps({
-    html: {
-        type: String,
-        required: true,
-    },
-    isChecked: {
-        type: Boolean,
+    response: {
+        type: Object as PropType<QuestionResponse>,
         required: true,
     },
     showExplanations: {
         type: Boolean,
         required: true,
-    }
+    },
+    onToggle: {
+        type: Function as PropType<(responseId: string, newVal: boolean) => void>,
+        required: true,
+    },
+    onExplanationClicked: {
+        type: Function as PropType<(responseId: string) => void>,
+        required: true,
+    },
 });
 
-const emit = defineEmits(['update:isChecked']);
+onMounted(() => {
+    state.instance = new RadioResponse(props.response, props.showExplanations, props.onToggle, props.onExplanationClicked)
+})
 
-const isChecked = ref(props.isChecked);
-
-watch(() => props.isChecked, (newVal) => {
-    isChecked.value = newVal;
-});
-
-const toggle = () => {
-    isChecked.value = !isChecked.value;
-    emit('update:isChecked', isChecked.value);
-};
 </script>
 
 <template>
-    <div class="response-container" :class="{ isCheckedResponse: isChecked }" @click="toggle">
-        <div class="response-text" v-html="props.html" />
-        <div class="response-radio-btn-and-explanation-container">
-            <div v-if="props.showExplanations">I</div>
-            <RadioButton :isChecked="props.isChecked" :isWrong="false"  />
+    <div v-if="state.instance">
+        <div class="response-container" :class="{ isCheckedResponse: state.instance.isChecked }" @click="state.instance.toggle">
+            <div class="response-content-container">
+                <div class="response-text" v-html="state.instance.html" />
+                <div class="response-radio-btn-and-explanation-container">
+                    <InfoButton v-if="state.instance.showExplanationButton" :isActive="state.instance.isExplanationOpen" :onClick="state.instance.handleExplanationClicked.bind(state.instance)" />
+                    <RadioButton :isChecked="state.instance.isChecked" :isWrong="false"  />
+                </div>
+            </div>
+            <div class="explanation-container" v-if="state.instance.isExplanationOpen">
+                <div class="explanation-score" :style="{ color: state.instance.selectedScoreColor}">{{ state.instance.selectedScore?.toString() }}</div>
+                <div class="explanation-content">{{ state.instance.explanation }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -43,20 +54,39 @@ const toggle = () => {
 <style lang="scss" scoped>
 .response-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 6px;
     border-bottom: 1px solid #D8D8D8;
-    gap: 20px;
     cursor: pointer;
-    .response-text {
-        font-size: 16px;
-        font-weight: 400;
-        color: #5C656A;
-    }
-    .response-radio-btn-and-explanation-container {
+    .response-content-container {
         display: flex;
-        gap: 28px;
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
+        .response-text {
+            font-size: 16px;
+            font-weight: 400;
+            color: #5C656A;
+        }
+        .response-radio-btn-and-explanation-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+    }
+    .explanation-container {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        .explanation-content {
+            color: #ED7853;
+            font-size: 16px;
+            font-weight: 400;
+        }
+        .explanation-score {
+            font-size: 24;
+            font-weight: 800;
+        }
     }
 }
 .isCheckedResponse {

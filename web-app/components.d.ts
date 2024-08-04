@@ -10,6 +10,7 @@ declare module 'vue' {
     AudioPlayer: typeof import('./src/components/AudioPlayer/AudioPlayer.vue')['default']
     ForwardButton: typeof import('./src/components/Buttons/ForwardButton.vue')['default']
     ForwardButtonWithText: typeof import('./src/components/Buttons/ForwardButtonWithText.vue')['default']
+    InfoButton: typeof import('./src/components/Buttons/InfoButton.vue')['default']
     LoadingComponent: typeof import('./src/components/Loading/LoadingComponent.vue')['default']
     MainLayout: typeof import('./src/components/Layouts/MainLayout.vue')['default']
     MultipleChoiceQuestionComp: typeof import('./src/components/Questions/MultipleChoiceQuestionComp.vue')['default']
