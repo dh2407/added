@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ForwardIcon from '@/assets/svgs/forward-icon.svg'
+import ForwardArrow from '@/assets/svgs/forward-arrow.svg'
 
 const props = defineProps({
     onClick: {
@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
     <v-btn icon outlined color="white" class="circle-btn" @click="props.onClick">
         <v-icon>
-            <ForwardIcon />
+            <ForwardArrow />
         </v-icon>
     </v-btn>
 </template>

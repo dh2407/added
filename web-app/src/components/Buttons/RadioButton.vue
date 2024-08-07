@@ -24,8 +24,8 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .radio-button-container {
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
     border: 1px solid #4A71D2;
     border-radius: 50%;
     cursor: pointer;
@@ -33,6 +33,9 @@ const props = defineProps({
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+    box-sizing: border-box;
     .radio-button-cross-container {
         position: absolute;
         display: flex;

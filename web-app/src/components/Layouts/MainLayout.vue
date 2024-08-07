@@ -22,6 +22,5 @@ main {
   flex-grow: 1;
   overflow-y: auto;
   background: #fff;
-  padding: 1rem;
 }
 </style>

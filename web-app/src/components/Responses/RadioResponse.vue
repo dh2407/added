@@ -1,63 +1,52 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
+import { PropType, reactive } from 'vue';
+import { onMounted } from 'vue';
+import { RadioResponse } from './RadioResponse';
+import { MultipleChoiceQuestionResponse } from '../MultipleChoiceQuestion/MultipleChoiceQuestion';
+
+const state = reactive({
+  instance: null as RadioResponse | null,
+});
 
 const props = defineProps({
-    text: {
-        type: String,
+    response: {
+        type: Object as PropType<MultipleChoiceQuestionResponse>,
         required: true,
     },
-    isChecked: {
+    showExplanations: {
         type: Boolean,
         required: true,
     },
-    isCorrectSubmition: {
-        type: Boolean,
+    onToggle: {
+        type: Function as PropType<(responseId: string, newVal: boolean) => void>,
         required: true,
     },
-    isSubmitted: {
-        type: Boolean,
+    onExplanationClicked: {
+        type: Function as PropType<(responseId: string) => void>,
         required: true,
     },
-    isCorrectAnswer: {
-        type: Boolean,
-        required: true,
-    }
 });
 
-const emit = defineEmits(['update:isChecked']);
-
-const isChecked = ref(props.isChecked);
-
-watch(() => props.isChecked, (newVal) => {
-    isChecked.value = newVal;
-});
-
-const toggle = () => {
-    if (!props.isSubmitted) {
-        isChecked.value = !isChecked.value;
-        emit('update:isChecked', isChecked.value);
-    }
-};
-
-const addScore = computed(() => {
-    return props.isSubmitted && props.isCorrectSubmition && props.isCorrectAnswer;
-});
-
-const substractScore = computed(() => {
-    return props.isSubmitted && !props.isCorrectSubmition;
-});
+onMounted(() => {
+    state.instance = new RadioResponse(props.response, props.showExplanations, props.onToggle, props.onExplanationClicked)
+})
 
 </script>
 
 <template>
-    <div class="response-container" :class="{ isCheckedResponse: isChecked, isCorrectAnswer: isCorrectAnswer && isSubmitted }" @click="toggle">
-        <div class="response-text">
-            {{ props.text }}
-        </div>
-        <div class="radio-button-and-score-container">
-            <div v-if="addScore" class="correct score">+2</div>
-            <div v-if="substractScore" class="wrong score">-1</div>
-            <RadioButton :isChecked="props.isChecked" :isWrong="props.isSubmitted && !props.isCorrectSubmition"  />
+    <div v-if="state.instance">
+        <div class="response-container" :class="{ isCheckedResponse: state.instance.isChecked }" @click="state.instance.toggle">
+            <div class="response-content-container">
+                <div class="response-text" v-html="state.instance.html" />
+                <div class="response-radio-btn-and-explanation-container">
+                    <InfoButton v-if="state.instance.showExplanationButton" :isActive="state.instance.isExplanationOpen" :onClick="state.instance.handleExplanationClicked.bind(state.instance)" />
+                    <RadioButton :isChecked="state.instance.isChecked" :isWrong="false"/>
+                </div>
+            </div>
+            <div class="explanation-container" v-if="state.instance.isExplanationOpen">
+                <div class="explanation-score" :style="{ color: state.instance.selectedScoreColor}">{{ state.instance.selectedScore?.toString() }}</div>
+                <div class="explanation-content">{{ state.instance.explanation }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -65,27 +54,38 @@ const substractScore = computed(() => {
 <style lang="scss" scoped>
 .response-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 6px;
     border-bottom: 1px solid #D8D8D8;
     cursor: pointer;
-    .response-text {
-        font-size: 16px;
-        font-weight: 400;
-        color: #5C656A;
-    }
-    .radio-button-and-score-container {
+    .response-content-container {
         display: flex;
-        gap: 28px;
-        .score {
-            font-size: 23;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .response-text {
+            font-size: 16px;
+            font-weight: 400;
+            color: #5C656A;
+        }
+        .response-radio-btn-and-explanation-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+    }
+    .explanation-container {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        .explanation-content {
+            color: #ED7853;
+            font-size: 16px;
+            font-weight: 400;
+        }
+        .explanation-score {
+            font-size: 24;
             font-weight: 800;
-        }
-        .correct {
-            color: #039033;
-        }
-        .wrong {
-            color: #C11111;
         }
     }
 }

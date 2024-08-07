@@ -3,21 +3,30 @@ tasks:
     command: |
       cd web-app
       cp .env.example .env
+      echo "VITE_EDGE_FUNCTIONS_BASE_URL=$(gp url 54321)/functions/v1" >> .env
       npm install
+      gp sync-await gen-api
+      gp sync-await supabase
       npm run dev
   - name: edge-functions-dev
     command: |
       cd edge_functions
       brew install supabase/tap/supabase
       supabase start
+      gp sync-done supabase
       supabase functions serve
+  - name: generate-api
+    command: |
+      npm install @openapitools/openapi-generator-cli -g
+      ./scripts/generate-api-docs.sh
+      gp sync-done gen-api
 
 ports:
   - name: edge-functions-url
     port: 54321
     visibility: public
   - name: supabase-studio
-    port: 54322
+    port: 54323
     visibility: public
   - name: web-app
     port: 3000
