@@ -27,6 +27,7 @@ supabase db pull
 supabase migration up
 supabase migration list
 supabase db reset
+supabase db reset --linked (resets remote database)
 
 ## login with the cli
 supabase login
