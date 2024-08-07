@@ -36,7 +36,7 @@ const fetchSection = async (subjectId: string) => {
             return;
         }
         if (data) {
-            sectionHandler.instance = new SectionHandler(data.data);
+            sectionHandler.instance = new SectionHandler(data.data) as any;
         }
     } catch (err) {
         console.error('Fetch error:', err);

@@ -7,7 +7,7 @@ export enum SoundStateEnum {
 
 export class SoundHandler {
     private audio: HTMLAudioElement | null = null;
-    private _currentStatus: SoundStateEnum = SoundStateEnum.STOPPED; // not used yet
+    // private _currentStatus: SoundStateEnum = SoundStateEnum.STOPPED; // not used yet
     private onStatusChange: (status: SoundStateEnum) => void;
 
     constructor(onStatusChange: (status: SoundStateEnum) => void) {
@@ -15,7 +15,7 @@ export class SoundHandler {
     }
 
     private updateStatus(newStatus: SoundStateEnum) {
-        this._currentStatus = newStatus;
+        // this._currentStatus = newStatus;
         this.onStatusChange(newStatus);
     }
 

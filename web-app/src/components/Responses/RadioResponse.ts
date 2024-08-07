@@ -28,9 +28,15 @@ export class RadioResponse {
         return true
     }
 
+    private get _isResponseRadioDisabled(): boolean {
+        return this._showExplanations
+    }
+
     public toggle(){
+        if (!this._isResponseRadioDisabled) {
             this._isChecked = !this._isChecked;
             this._onToggleCallback(this._id, this._isChecked)
+        }
     }
 
     public handleExplanationClicked() {

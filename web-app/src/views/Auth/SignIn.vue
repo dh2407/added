@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/useAuthModule';
 import { useRouter } from 'vue-router';
@@ -86,4 +86,4 @@ const handleRedirectSignUp = () => {
     }
   }
 }
-</style>
+</style> -->
