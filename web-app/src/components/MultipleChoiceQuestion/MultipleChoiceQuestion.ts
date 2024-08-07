@@ -1,18 +1,20 @@
 import { MultipleChoiceQuestionModel } from "../../../../generated-api";
 
-export interface QuestionResponse {
+export interface MultipleChoiceQuestionResponse {
     id: string,
     html: string,
     isSelected: boolean,
     isExplanationOpen: boolean,
     explanation?: string,
     selectedScore?: number,
+    unselectedScore?: number,
     score?: number,
 }
 
-export interface QuestionStep {
+interface QuestionStep {
     questionHtml: string,
-    responses: QuestionResponse[],
+    isSingleResponse: boolean,
+    responses: MultipleChoiceQuestionResponse[],
 }
 
 export class MultipleChoiceQuestion {
@@ -24,12 +26,14 @@ export class MultipleChoiceQuestion {
     constructor(question: MultipleChoiceQuestionModel, goNext: (score: number, params?: Record<string, any>) => void, params?: Record<string, any>) {
         this._questionStep = {
             questionHtml: question.html,
+            isSingleResponse: question.is_single_response,
             responses: question.responses.map(response => ({ 
                 id: response.id,
                 html: response.html,
                 isSelected: false,
                 isExplanationOpen: false,
                 selectedScore: response.selected_score,
+                unselectedScore: response.unselected_score,
                 explanation: response.explanation,
             })),
         }
@@ -42,6 +46,8 @@ export class MultipleChoiceQuestion {
         return this._questionStep.responses.reduce((totalScore, response) => {
             if (response.isSelected && response.selectedScore !== undefined) {
                 return totalScore + response.selectedScore;
+            } else if (!response.isSelected && response.unselectedScore !== undefined) {
+                return totalScore + response.unselectedScore;
             }
             return totalScore;
         }, 0);
@@ -55,10 +61,14 @@ export class MultipleChoiceQuestion {
     }
     
     public setSelectedResponse(responseId: string, newVal: boolean) {
-        this._questionStep.responses = this._questionStep.responses.map((response) => ({
-            ...response,
-            isSelected: response.id === responseId ? newVal : response.isSelected,
-        }))
+        this._questionStep.responses = this._questionStep.responses.map((response) => {
+            const newIsSelectedValueBasedBasedOnIsSignleResponse: boolean = this._questionStep.isSingleResponse ? false : response.isSelected
+            const newIsSelectedValue: boolean = response.id === responseId ? newVal : newIsSelectedValueBasedBasedOnIsSignleResponse
+            return {
+                ...response,
+                isSelected: newIsSelectedValue,
+            }
+        })
     }
 
     public get isAtLeaseOneResponseSelected(): boolean {

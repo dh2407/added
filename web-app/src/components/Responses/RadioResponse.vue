@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { PropType, reactive } from 'vue';
-import { QuestionResponse } from "@/views/Section/QuestionsGameSection/QuestionsGameSection";
 import { onMounted } from 'vue';
 import { RadioResponse } from './RadioResponse';
+import { MultipleChoiceQuestionResponse } from '../MultipleChoiceQuestion/MultipleChoiceQuestion';
 
 const state = reactive({
   instance: null as RadioResponse | null,
@@ -10,7 +10,7 @@ const state = reactive({
 
 const props = defineProps({
     response: {
-        type: Object as PropType<QuestionResponse>,
+        type: Object as PropType<MultipleChoiceQuestionResponse>,
         required: true,
     },
     showExplanations: {
@@ -40,7 +40,7 @@ onMounted(() => {
                 <div class="response-text" v-html="state.instance.html" />
                 <div class="response-radio-btn-and-explanation-container">
                     <InfoButton v-if="state.instance.showExplanationButton" :isActive="state.instance.isExplanationOpen" :onClick="state.instance.handleExplanationClicked.bind(state.instance)" />
-                    <RadioButton :isChecked="state.instance.isChecked" :isWrong="false"  />
+                    <RadioButton :isChecked="state.instance.isChecked" :isWrong="false"/>
                 </div>
             </div>
             <div class="explanation-container" v-if="state.instance.isExplanationOpen">

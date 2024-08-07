@@ -59,9 +59,9 @@ INSERT INTO "public"."Question" (id, created_at, updated_at, kind, question_game
 ('bc750d3f-12cb-4e54-a85e-fdbe9d5908d8', NOW(), NULL, 'MULTIPLE_CHOICE_QUESTION', '23d76163-2f21-497a-8ac5-cd1c0f5e6893', 2);
 
 -- Insert MultipleChoiceQuestion related to SQL
-INSERT INTO "public"."MultipleChoiceQuestion" (id, created_at, updated_at, html, question_id) VALUES
-('cd789d24-77d8-4269-878d-7b92c8b6f5a8', NOW(), NULL, '<p>What does SQL stand for?</p>', 'cb1a5b99-1777-43a4-998f-3e5c0e8b6fc0'),
-('4701b739-da04-4fc4-93f8-3769deec8a72', NOW(), NULL, '<p>What does SQL stand for 2?</p>', 'bc750d3f-12cb-4e54-a85e-fdbe9d5908d8');
+INSERT INTO "public"."MultipleChoiceQuestion" (id, created_at, updated_at, html, question_id, is_single_response) VALUES
+('cd789d24-77d8-4269-878d-7b92c8b6f5a8', NOW(), NULL, '<p>What does SQL stand for?</p>', 'cb1a5b99-1777-43a4-998f-3e5c0e8b6fc0', TRUE),
+('4701b739-da04-4fc4-93f8-3769deec8a72', NOW(), NULL, '<p>What does SQL stand for 2?</p>', 'bc750d3f-12cb-4e54-a85e-fdbe9d5908d8', TRUE);
 
 -- Insert responses for MultipleChoiceQuestion
 INSERT INTO "public"."MultipleChoiceQuestionResponse" (id, created_at, updated_at, html, multiple_choice_question_id, is_correct, selected_score, unselected_score, explanation ) VALUES

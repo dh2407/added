@@ -137,6 +137,9 @@ components:
         question_id:
           type: string
           example: "e6250d3c-9c1d-44b7-8e15-d1f6e340f62e"
+        is_single_response:
+          type: boolean
+          example: true
         responses:
           type: array
           items:
@@ -146,6 +149,7 @@ components:
         - html
         - question_id
         - responses
+        - is_single_response
 
     QuestionModel:
       type: object
@@ -289,6 +293,7 @@ components:
                       id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
                       text: "What is the capital of France?"
                       question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                      is_single_response: true
                       responses:
                         - id: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
                           text: "Paris"
@@ -396,6 +401,7 @@ paths:
                               id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
                               text: "What is the capital of France?"
                               question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                              is_single_response: true
                               responses:
                                 - id: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
                                   text: "Paris"
@@ -501,6 +507,7 @@ paths:
                               id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
                               text: "What is the capital of France?"
                               question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                              is_single_response: true
                               responses:
                                 - id: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
                                   text: "Paris"
@@ -605,6 +612,7 @@ paths:
                               id: "15c9b0f3-98c4-4c21-bb7d-3b7bca1e6d35"
                               text: "What is the capital of France?"
                               question_id: "7e5e9d48-d751-4b28-bf1e-6d9d9e85d2c2"
+                              is_single_response: true
                               responses:
                                 - id: "af4b66ba-2b8a-4d7a-bf4c-83c9c2ef93e8"
                                   text: "Paris"

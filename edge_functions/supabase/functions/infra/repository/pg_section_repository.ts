@@ -91,6 +91,7 @@ export class PgSectionRepository implements SectionRepository {
                                     SELECT json_build_object(
                                         'id', mcq.id,
                                         'html', mcq.html,
+                                        'is_single_response', mcq.is_single_response,
                                         'responses', (
                                             SELECT json_agg(json_build_object(
                                                 'id', mcr.id,
@@ -257,6 +258,7 @@ export class PgSectionRepository implements SectionRepository {
                                         SELECT json_build_object(
                                             'id', mcq.id,
                                             'html', mcq.html,
+                                            'is_single_response', mcq.is_single_response,
                                             'responses', (
                                                 SELECT json_agg(json_build_object(
                                                     'id', mcr.id,
@@ -417,6 +419,7 @@ export class PgSectionRepository implements SectionRepository {
                                         SELECT json_build_object(
                                             'id', mcq.id,
                                             'html', mcq.html,
+                                            'is_single_response', mcq.is_single_response,
                                             'responses', (
                                                 SELECT json_agg(json_build_object(
                                                     'id', mcr.id,

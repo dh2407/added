@@ -1,4 +1,4 @@
-import { QuestionResponse } from "@/views/Section/QuestionsGameSection/QuestionsGameSection";
+import { MultipleChoiceQuestionResponse } from "../MultipleChoiceQuestion/MultipleChoiceQuestion";
 
 export class RadioResponse {
     private _id: string;
@@ -11,7 +11,7 @@ export class RadioResponse {
     private _onToggleCallback: (responseId: string, newVal: boolean) => void;
     private _onExplanationClickCallback: (responseId: string) => void;
 
-    constructor(response: QuestionResponse, showExplanations: boolean, onToggle: (responseId: string, newVal: boolean) => void, onExplanationClick: (responseId: string) => void) {
+    constructor(response: MultipleChoiceQuestionResponse, showExplanations: boolean, onToggle: (responseId: string, newVal: boolean) => void, onExplanationClick: (responseId: string) => void) {
         this._id = response.id
         this._html = response.html;
         this._isChecked = response.isSelected;
@@ -29,8 +29,8 @@ export class RadioResponse {
     }
 
     public toggle(){
-        this._isChecked = !this._isChecked;
-        this._onToggleCallback(this._id, this._isChecked)
+            this._isChecked = !this._isChecked;
+            this._onToggleCallback(this._id, this._isChecked)
     }
 
     public handleExplanationClicked() {
