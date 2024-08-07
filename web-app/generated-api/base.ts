@@ -19,7 +19,7 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = "https://54321-dh2407-added-n38an2xrtqa.ws-eu115.gitpod.io/functions/v1".replace(/\/+$/, "");
+export const BASE_PATH = "https://ruiqytetotxoumsvagej.supabase.co/functions/v1".replace(/\/+$/, "");
 
 /**
  *
