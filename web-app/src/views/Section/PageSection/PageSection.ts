@@ -1,4 +1,4 @@
-import { ActionModel, PageModel } from '../../../../../generated-api/index'
+import { ActionModel, PageModel } from '#/index'
 
 export class PageSection {
     private _html: string;

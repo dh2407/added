@@ -1,4 +1,4 @@
-import { StoryModel } from '../../../../../generated-api/index'
+import { StoryModel } from '#/index'
 import { SectionHandler } from '../SectionHandler';
 
 export class StorySection {

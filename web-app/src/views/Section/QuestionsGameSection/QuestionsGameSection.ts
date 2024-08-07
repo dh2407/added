@@ -1,5 +1,5 @@
 import { MultipleChoiceQuestion } from '@/components/MultipleChoiceQuestion/MultipleChoiceQuestion';
-import { QuestionModel, QuestionsGameModel } from '../../../../../generated-api';
+import { QuestionModel, QuestionsGameModel } from '#/index';
 import { ref } from 'vue';
 
 export class QuestionsGameSection {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, defineProps, onMounted, watch } from 'vue';
+import { reactive, onMounted, watch } from 'vue';
 import { SoundHandler, SoundStateEnum } from './SoundHandler';
 import { StorySection } from './StorySection';
 import ArrowNextSvg from '@/assets/svgs/arrow-next.svg';

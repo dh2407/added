@@ -8,7 +8,7 @@ import LoadingComponent from '@/components/Loading/LoadingComponent.vue';
 import QuestionsGameSectionView from './QuestionsGameSection/QuestionsGameSection.vue';
 import StorySectionView from './StorySection/StorySection.vue';
 import PageSectionView from './PageSection/PageSection.vue';
-import { SectionKindEnum } from '../../../../generated-api';
+import { SectionKindEnum } from '#/index';
 
 type SectionViewComponent =
   | typeof QuestionsGameSectionView
@@ -30,9 +30,9 @@ const componentKey = ref<string>("0");
 const fetchSection = async (subjectId: string) => {
     try {
         isLoadingBeforeInit.value = true;
-        const { data, error } = await ApiService.sectionGetFirstSectionPost({ subject_id: subjectId });
-        if (error) {
-            console.error('Error:', error);
+        const { data } = await ApiService.sectionGetFirstSectionPost({ subject_id: subjectId });
+        if (data.error) {
+            console.error('Error:', data.error);
             return;
         }
         if (data) {

@@ -1,7 +1,7 @@
 import { QuestionsGameSection } from './QuestionsGameSection/QuestionsGameSection';
 import { StorySection } from './StorySection/StorySection';
 import { PageSection } from './PageSection/PageSection';
-import { SectionResponse } from '../../../../generated-api';
+import { SectionResponse } from '#/index';
 import { ApiService } from '@/services';
 
 export class SectionHandler {
@@ -50,12 +50,12 @@ export class SectionHandler {
         // TODO: Handle Error here and in fetchNextSection function callers
         try {
             this.isLoading = true;
-            const { data, error } = await ApiService.sectionGetNextSectionPost({ section_id: this.currentSection.section_id });
-            if (error) {
-                console.error('Error:', error);
+            const { data } = await ApiService.sectionGetNextSectionPost({ section_id: this.currentSection.section_id });
+            if (data.error) {
+                console.error('Error:', data.error);
                 return;
             }
-            if (data) {
+            if (data.data) {
                 return data.data;
             }
         } catch (err) {
@@ -69,12 +69,12 @@ export class SectionHandler {
         // TODO: Handle Error here and in sectionGetPost function callers
         try {
             this.isLoading = true;
-            const { data, error } = await ApiService.sectionGetPost({ section_id: sectionId });
-            if (error) {
-                console.error('Error:', error);
+            const { data } = await ApiService.sectionGetPost({ section_id: sectionId });
+            if (data.error) {
+                console.error('Error:', data.error);
                 return;
             }
-            if (data) {
+            if (data.data) {
                 return data.data;
             }
         } catch (err) {

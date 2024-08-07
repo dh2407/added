@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, defineProps, onMounted } from 'vue';
+import { reactive, onMounted } from 'vue';
 import { PageSection } from './PageSection';
 
 const props = defineProps<{ sectionInstance: PageSection }>();

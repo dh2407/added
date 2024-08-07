@@ -1,4 +1,4 @@
-import { MultipleChoiceQuestionModel } from "../../../../generated-api";
+import { MultipleChoiceQuestionModel } from "#/index";
 
 export interface MultipleChoiceQuestionResponse {
     id: string,

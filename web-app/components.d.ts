@@ -7,20 +7,16 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AudioPlayer: typeof import('./src/components/AudioPlayer/AudioPlayer.vue')['default']
     ForwardButton: typeof import('./src/components/Buttons/ForwardButton.vue')['default']
     ForwardButtonWithText: typeof import('./src/components/Buttons/ForwardButtonWithText.vue')['default']
     InfoButton: typeof import('./src/components/Buttons/InfoButton.vue')['default']
     LoadingComponent: typeof import('./src/components/Loading/LoadingComponent.vue')['default']
     MainLayout: typeof import('./src/components/Layouts/MainLayout.vue')['default']
     MultipleChoiceQuestion: typeof import('./src/components/MultipleChoiceQuestion/MultipleChoiceQuestion.vue')['default']
-    MultipleChoiceQuestionComp: typeof import('./src/components/MultipleChoiceQuestion/MultipleChoiceQuestionComp.vue')['default']
     RadioButton: typeof import('./src/components/Buttons/RadioButton.vue')['default']
     RadioResponse: typeof import('./src/components/Responses/RadioResponse.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SubjectCard: typeof import('./src/components/Cards/SubjectCard.vue')['default']
     SubSubjectCard: typeof import('./src/components/Cards/SubSubjectCard.vue')['default']
-    TextButton: typeof import('./src/components/Buttons/TextButton.vue')['default']
   }
 }

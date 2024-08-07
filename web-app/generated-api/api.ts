@@ -57,6 +57,25 @@ export interface ActionModel {
 /**
  * 
  * @export
+ * @interface ApiResponse
+ */
+export interface ApiResponse {
+    /**
+     * 
+     * @type {SectionResponse}
+     * @memberof ApiResponse
+     */
+    'data': SectionResponse;
+    /**
+     * 
+     * @type {object}
+     * @memberof ApiResponse
+     */
+    'error': object;
+}
+/**
+ * 
+ * @export
  * @interface MultipleChoiceQuestionModel
  */
 export interface MultipleChoiceQuestionModel {
@@ -425,10 +444,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication BearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -462,10 +477,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-
-            // authentication BearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -501,10 +512,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication BearerAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -536,7 +543,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest?: SectionGetFirstSectionPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SectionResponse>> {
+        async sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest?: SectionGetFirstSectionPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.sectionGetFirstSectionPost']?.[localVarOperationServerIndex]?.url;
@@ -549,7 +556,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sectionGetNextSectionPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SectionResponse>> {
+        async sectionGetNextSectionPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.sectionGetNextSectionPost(sectionGetNextSectionPostRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.sectionGetNextSectionPost']?.[localVarOperationServerIndex]?.url;
@@ -562,7 +569,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sectionGetPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SectionResponse>> {
+        async sectionGetPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.sectionGetPost(sectionGetNextSectionPostRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.sectionGetPost']?.[localVarOperationServerIndex]?.url;
@@ -585,7 +592,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest?: SectionGetFirstSectionPostRequest, options?: any): AxiosPromise<SectionResponse> {
+        sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest?: SectionGetFirstSectionPostRequest, options?: any): AxiosPromise<ApiResponse> {
             return localVarFp.sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -595,7 +602,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sectionGetNextSectionPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: any): AxiosPromise<SectionResponse> {
+        sectionGetNextSectionPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: any): AxiosPromise<ApiResponse> {
             return localVarFp.sectionGetNextSectionPost(sectionGetNextSectionPostRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -605,7 +612,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sectionGetPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: any): AxiosPromise<SectionResponse> {
+        sectionGetPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: any): AxiosPromise<ApiResponse> {
             return localVarFp.sectionGetPost(sectionGetNextSectionPostRequest, options).then((request) => request(axios, basePath));
         },
     };

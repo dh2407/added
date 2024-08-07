@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, watch, ref, onMounted } from 'vue';
 import MultipleChoiceQuestionView from '@/components/MultipleChoiceQuestion/MultipleChoiceQuestion.vue';
-import { QuestionKindEnum } from '../../../../../generated-api';
+import { QuestionKindEnum } from '#/index';
 import { QuestionsGameSection } from './QuestionsGameSection';
 
 type QuestionGameViewComponent =
