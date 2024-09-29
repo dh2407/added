@@ -44,7 +44,7 @@ export class QuestionsGameSection {
         if (this._hasNextQuestion) {
             this._goNextQuestion();
             this.currentQuestionGameInstance.value = this._createQuestionGameInstance(params)
-    } else {
+        } else {
             const params = {
                 score: this._totalScore,
             }
@@ -52,7 +52,7 @@ export class QuestionsGameSection {
         }
     }
 
-    public get currentQuestion(): QuestionModel  {
+    public get currentQuestion(): QuestionModel {
         return this._questions[this._currentQuestionIndex];
     }
 }

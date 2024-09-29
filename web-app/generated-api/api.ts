@@ -592,7 +592,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest?: SectionGetFirstSectionPostRequest, options?: any): AxiosPromise<ApiResponse> {
+        sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest?: SectionGetFirstSectionPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse> {
             return localVarFp.sectionGetFirstSectionPost(sectionGetFirstSectionPostRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -602,7 +602,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sectionGetNextSectionPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: any): AxiosPromise<ApiResponse> {
+        sectionGetNextSectionPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse> {
             return localVarFp.sectionGetNextSectionPost(sectionGetNextSectionPostRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -612,7 +612,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sectionGetPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: any): AxiosPromise<ApiResponse> {
+        sectionGetPost(sectionGetNextSectionPostRequest?: SectionGetNextSectionPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse> {
             return localVarFp.sectionGetPost(sectionGetNextSectionPostRequest, options).then((request) => request(axios, basePath));
         },
     };

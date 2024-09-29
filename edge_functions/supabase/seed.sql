@@ -84,4 +84,5 @@ INSERT INTO "public"."Page" (id, section_id, html, background_color) VALUES
 INSERT INTO "public"."Action" (id, label, next_section_id, page_id, params) VALUES
 ('9adfd1f0-28fb-4293-bfcb-6e8b3e6e504f', 'Accept the Challenge', '24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', 'f5a2d34c-52e7-41b5-9a24-8c8a5e60aef3', null),
 ('2b931942-17a3-4f70-8e78-2c75e8e70a4f', 'Let''s get started', 'd6e3a8c3-466b-4f12-9b0e-8417fda41a9b', 'c4b8c6da-565e-431e-97e5-709073e4fc6e', null),
-('4acbd1d7-cccb-4b60-b376-2be16dd165bd', 'NEXT', '24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', '3077d65d-fb4f-401e-906e-8e15bea5ee4d', '{"showExplanations": true}');
+('4acbd1d7-cccb-4b60-b376-2be16dd165bd', 'NEXT', '24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', '3077d65d-fb4f-401e-906e-8e15bea5ee4d', '{"showExplanations": true}'),
+('0093edf2-52ca-4c95-b371-6f1e96112c98', 'Restart', '24f8410a-0b83-4a9b-a15f-5d0d8d4ad228', '3077d65d-fb4f-401e-906e-8e15bea5ee4d', null);
